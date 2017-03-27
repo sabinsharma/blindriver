@@ -1,2 +1,0 @@
-# blindriver
-CourseWork
