@@ -1,27 +1,25 @@
-﻿<!DOCTYPE html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
+
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    @*<title>@ViewBag.Title - My ASP.NET Application</title>*@
-    <title>Blind River Hospital</title>
+    <meta charset="utf-8">
+    <title>Blind River Hospital - demo</title>
     <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="~/Content/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="~/Content/style.css" />
-    <link rel="stylesheet" href="~/Content/font-awesome.css" /><!--fontawasome icon-->
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:200,400,700" rel="stylesheet"><!--Google font-->
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-    <script src="~/Scripts/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <link rel="stylesheet" href="css/font-awesome.css" />
+    <!--fontawasome icon-->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:200,400,700" rel="stylesheet">
+    <!--Google font-->
 </head>
+
 <body>
     <div class="page-wrapper">
         <header class="container">
             <div class="row">
                 <div id="header_logo" class="col-md-4">
                     <h1 class="hidden">Blind River Hospital</h1>
-                    <a href="index.html"><img src="~/image/logo.jpg" id="header_logo_img" alt="Blind River logo"></a>
+                    <a href="index.html"><img src="image/logo.jpg" id="header_logo_img" alt="Blind River logo"></a>
                 </div>
                 <!--END header_logo-->
                 <div id="heder_login-box" class="col-md-offset-5 col-md-3">
@@ -43,8 +41,7 @@
                         </div>
                         <div id="header_nav_contents" class="collapse navbar-collapse">
                             <ul id="header_menu" class="nav navbar-nav">
-                                <li class="dropdown">
-                                    <a href="#" data-toggle="dropdown">Patient <span class="caret"></span></a>
+                                <li class="dropdown"><a href="#" data-toggle="dropdown">Patient <span class="caret"></span></a>
                                     <ul class="child dropdown-menu">
                                         <li><a href="#">aaa</a></li>
                                         <li><a href="#">bbb</a></li>
@@ -73,7 +70,6 @@
             </div>
             <!--/.row-->
         </header>
-
         <main class="container">
             <div id="main_breadcrumbs">
                 <ol class="breadcrumb">
@@ -88,7 +84,7 @@
             <section id="main_content">
 
                 <!--PUT YOUR CONTENTS HERE!-->
-                @RenderBody()
+
             </section>
             <!--/#main_content-->
         </main>
@@ -136,10 +132,10 @@
                         <h4>Features</h4>
                         <ul>
                             <li>Contact us
-                            <li>
-                            <li>Donate</li>
-                            <li>Long Time Care</li>
-                            <li>Privacy Policy</li>
+                                <li>
+                                    <li>Donate</li>
+                                    <li>Long Time Care</li>
+                                    <li>Privacy Policy</li>
                         </ul>
                     </div>
                 </div>
@@ -161,8 +157,9 @@
         </footer>
         <!--/footer #container-->
     </div>
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
+    <!--/.page-wrapper-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
 </body>
+
 </html>

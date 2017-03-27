@@ -1,0 +1,1567 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="BlindRiverModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AskBlindRiver">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstName" Type="varchar(max)" Nullable="false" />
+          <Property Name="LastName" Type="varchar(max)" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Question" Type="varchar(max)" Nullable="false" />
+          <Property Name="EnteredDate" Type="date" />
+          <Property Name="Active" Type="bit" />
+        </EntityType>
+        <EntityType Name="Calculator">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PatientCount" Type="int" Nullable="false" />
+          <Property Name="SeverityId" Type="int" Nullable="false" />
+          <Property Name="EnteredDate" Type="date" />
+        </EntityType>
+        <EntityType Name="City">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CityName" Type="varchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Contact">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SenderName" Type="varchar(max)" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Phone" Type="char" MaxLength="10" Nullable="false" />
+          <Property Name="Subject" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="Commment" Type="varchar(max)" Nullable="false" />
+          <Property Name="SubmitDate" Type="date" Nullable="false" />
+          <Property Name="ViewedBy" Type="int" />
+        </EntityType>
+        <EntityType Name="Department">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DepartmentName" Type="varchar(max)" Nullable="false" />
+          <Property Name="EnteredBy" Type="int" />
+          <Property Name="EnteredDate" Type="date" />
+          <Property Name="Active" Type="bit" />
+        </EntityType>
+        <EntityType Name="Doctor">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstName" Type="varchar(max)" Nullable="false" />
+          <Property Name="LastName" Type="varchar(max)" Nullable="false" />
+          <Property Name="DepartmentId" Type="int" Nullable="false" />
+          <Property Name="Gender" Type="varchar(max)" Nullable="false" />
+          <Property Name="Language" Type="varchar(max)" Nullable="false" />
+          <Property Name="YearOfExperience" Type="int" Nullable="false" />
+          <Property Name="Text" Type="varchar(max)" Nullable="false" />
+          <Property Name="Photo" Type="varbinary(max)" Nullable="false" />
+          <Property Name="EnteredDate" Type="date" />
+          <Property Name="EnteredBy" Type="int" />
+          <Property Name="Active" Type="bit" />
+        </EntityType>
+        <EntityType Name="DoctorAppointment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DoctorAvailableTimeId" Type="int" Nullable="false" />
+          <Property Name="MemberId" Type="int" Nullable="false" />
+          <Property Name="BookingDate" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DoctorAvailableDate">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DoctorId" Type="int" Nullable="false" />
+          <Property Name="AvailableDate" Type="date" Nullable="false" />
+          <Property Name="EnteredDate" Type="date" Nullable="false" />
+          <Property Name="EnteredBy" Type="int" />
+          <Property Name="Active" Type="bit" />
+        </EntityType>
+        <EntityType Name="DoctorAvailableTime">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DoctorAvailableDateId" Type="int" Nullable="false" />
+          <Property Name="AvailableFrom" Type="datetime" Nullable="false" />
+          <Property Name="AvailableUntil" Type="datetime" Nullable="false" />
+          <Property Name="Active" Type="bit" />
+        </EntityType>
+        <EntityType Name="Donation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstName" Type="varchar(max)" Nullable="false" />
+          <Property Name="LastName" Type="varchar(max)" Nullable="false" />
+          <Property Name="DonationDate" Type="date" Nullable="false" />
+          <Property Name="DonationAmount" Type="int" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Phone" Type="char" MaxLength="10" Nullable="false" />
+          <Property Name="CityId" Type="int" Nullable="false" />
+          <Property Name="Address" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="PostalCode" Type="char" MaxLength="7" Nullable="false" />
+          <Property Name="Gender" Type="nchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Facility">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FacilityName" Type="varchar(max)" Nullable="false" />
+          <Property Name="Address" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="PostalCode" Type="char" MaxLength="7" />
+          <Property Name="Email" Type="varchar" MaxLength="50" />
+          <Property Name="Phone" Type="char" MaxLength="10" />
+          <Property Name="Photo" Type="varbinary(max)" />
+          <Property Name="UnitNumber" Type="int" />
+          <Property Name="EnteredDate" Type="date" Nullable="false" />
+          <Property Name="EnteredBy" Type="int" />
+          <Property Name="Active" Type="bit" />
+        </EntityType>
+        <EntityType Name="FAQ">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DepartmentId" Type="int" Nullable="false" />
+          <Property Name="Question" Type="varchar(max)" Nullable="false" />
+          <Property Name="Answer" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="EnteredDate" Type="date" />
+          <Property Name="EnteredBy" Type="int" Nullable="false" />
+          <Property Name="Active" Type="bit" />
+        </EntityType>
+        <EntityType Name="Location">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EntranceName" Type="varchar(max)" Nullable="false" />
+          <Property Name="Latitude" Type="decimal" Precision="8" Scale="6" Nullable="false" />
+          <Property Name="Longtitude" Type="decimal" Precision="9" Scale="6" Nullable="false" />
+          <Property Name="EnteredDate" Type="date" />
+          <Property Name="EnteredBy" Type="int" />
+        </EntityType>
+        <EntityType Name="Member">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Username" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="RoleId" Type="int" Nullable="false" />
+          <Property Name="JoinedDay" Type="date" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Gender" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="DOB" Type="date" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Phone" Type="char" MaxLength="10" Nullable="false" />
+          <Property Name="Address" Type="nvarchar(max)" />
+          <Property Name="PostalCode" Type="char" MaxLength="7" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PaymentInfo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PaymentDate" Type="date" Nullable="false" />
+          <Property Name="FirstName" Type="varchar(max)" Nullable="false" />
+          <Property Name="LastName" Type="varchar(max)" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Phone" Type="char" MaxLength="10" Nullable="false" />
+          <Property Name="CityId" Type="int" Nullable="false" />
+          <Property Name="Address" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="PostalCode" Type="char" MaxLength="7" Nullable="false" />
+          <Property Name="Gender" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="ServiceId" Type="int" Nullable="false" />
+          <Property Name="PaymentAmount" Type="int" Nullable="false" />
+          <Property Name="PaymentCode" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RoleName" Type="varchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Service">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ServiceName" Type="varchar(max)" Nullable="false" />
+          <Property Name="EnteredBy" Type="int" Nullable="false" />
+          <Property Name="EnteredDate" Type="date" />
+          <Property Name="Active" Type="bit" />
+        </EntityType>
+        <EntityType Name="Severity">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SeverityName" Type="varchar(max)" Nullable="false" />
+          <Property Name="Minute" Type="int" Nullable="false" />
+          <Property Name="EnteredBy" Type="int" Nullable="false" />
+          <Property Name="EnteredDate" Type="date" />
+          <Property Name="Active" Type="bit" />
+        </EntityType>
+        <EntityType Name="VolunteerInfo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ApplyDate" Type="date" Nullable="false" />
+          <Property Name="FirstName" Type="varchar(max)" Nullable="false" />
+          <Property Name="MiddleName" Type="varchar(max)" />
+          <Property Name="LastName" Type="varchar(max)" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Phone" Type="char" MaxLength="10" Nullable="false" />
+          <Property Name="CityId" Type="int" Nullable="false" />
+          <Property Name="Address" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="PostalCode" Type="char" MaxLength="7" Nullable="false" />
+          <Property Name="Description" Type="varchar(max)" />
+          <Property Name="PublishDate" Type="date" Nullable="false" />
+          <Property Name="VolunteerPostId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="VoluteerPost">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="varchar(max)" Nullable="false" />
+          <Property Name="Content" Type="varchar(max)" Nullable="false" />
+          <Property Name="LastSubmitDate" Type="date" Nullable="false" />
+          <Property Name="PublishDate" Type="date" Nullable="false" />
+          <Property Name="Active" Type="bit" />
+          <Property Name="Published" Type="bit" />
+          <Property Name="EnteredDate" Type="date" />
+          <Property Name="EnteredBy" Type="int" />
+        </EntityType>
+        <Association Name="FK__Facility__Entere__01142BA1">
+          <End Role="Member" Type="Self.Member" Multiplicity="0..1" />
+          <End Role="Facility" Type="Self.Facility" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Facility">
+              <PropertyRef Name="EnteredBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Calculator_Severity">
+          <End Role="Severity" Type="Self.Severity" Multiplicity="1" />
+          <End Role="Calculator" Type="Self.Calculator" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Severity">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Calculator">
+              <PropertyRef Name="SeverityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Contact_Member">
+          <End Role="Member" Type="Self.Member" Multiplicity="0..1" />
+          <End Role="Contact" Type="Self.Contact" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Contact">
+              <PropertyRef Name="ViewedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Doctor_Department">
+          <End Role="Department" Type="Self.Department" Multiplicity="1" />
+          <End Role="Doctor" Type="Self.Doctor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Doctor">
+              <PropertyRef Name="DepartmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Doctor_Member">
+          <End Role="Member" Type="Self.Member" Multiplicity="0..1" />
+          <End Role="Doctor" Type="Self.Doctor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Doctor">
+              <PropertyRef Name="EnteredBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DoctorAppointment_DoctorAvailableDate">
+          <End Role="DoctorAvailableDate" Type="Self.DoctorAvailableDate" Multiplicity="1" />
+          <End Role="DoctorAppointment" Type="Self.DoctorAppointment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DoctorAvailableDate">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DoctorAppointment">
+              <PropertyRef Name="DoctorAvailableTimeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DoctorAvailableDate_Doctor">
+          <End Role="Doctor" Type="Self.Doctor" Multiplicity="1" />
+          <End Role="DoctorAvailableDate" Type="Self.DoctorAvailableDate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Doctor">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DoctorAvailableDate">
+              <PropertyRef Name="DoctorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DoctorAvailableDate_Member">
+          <End Role="Member" Type="Self.Member" Multiplicity="0..1" />
+          <End Role="DoctorAvailableDate" Type="Self.DoctorAvailableDate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DoctorAvailableDate">
+              <PropertyRef Name="EnteredBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DoctorAvailableTime_DoctorAvailableDate">
+          <End Role="DoctorAvailableDate" Type="Self.DoctorAvailableDate" Multiplicity="1" />
+          <End Role="DoctorAvailableTime" Type="Self.DoctorAvailableTime" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DoctorAvailableDate">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DoctorAvailableTime">
+              <PropertyRef Name="DoctorAvailableDateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Donation_City">
+          <End Role="City" Type="Self.City" Multiplicity="1" />
+          <End Role="Donation" Type="Self.Donation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="City">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Donation">
+              <PropertyRef Name="CityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FAQ_Department">
+          <End Role="Department" Type="Self.Department" Multiplicity="1" />
+          <End Role="FAQ" Type="Self.FAQ" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FAQ">
+              <PropertyRef Name="DepartmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FAQ_Member">
+          <End Role="Member" Type="Self.Member" Multiplicity="1" />
+          <End Role="FAQ" Type="Self.FAQ" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FAQ">
+              <PropertyRef Name="EnteredBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Location_Member">
+          <End Role="Member" Type="Self.Member" Multiplicity="0..1" />
+          <End Role="Location" Type="Self.Location" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Location">
+              <PropertyRef Name="EnteredBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Member_Role">
+          <End Role="Role" Type="Self.Role" Multiplicity="1" />
+          <End Role="Member" Type="Self.Member" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Member">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PaymentInfo_City">
+          <End Role="City" Type="Self.City" Multiplicity="1" />
+          <End Role="PaymentInfo" Type="Self.PaymentInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="City">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PaymentInfo">
+              <PropertyRef Name="CityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PaymentInfo_Service">
+          <End Role="Service" Type="Self.Service" Multiplicity="1" />
+          <End Role="PaymentInfo" Type="Self.PaymentInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Service">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PaymentInfo">
+              <PropertyRef Name="ServiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Service_Member">
+          <End Role="Member" Type="Self.Member" Multiplicity="1" />
+          <End Role="Service" Type="Self.Service" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Service">
+              <PropertyRef Name="EnteredBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Severity_Member">
+          <End Role="Member" Type="Self.Member" Multiplicity="1" />
+          <End Role="Severity" Type="Self.Severity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Severity">
+              <PropertyRef Name="EnteredBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VolunteerInfo_City">
+          <End Role="City" Type="Self.City" Multiplicity="1" />
+          <End Role="VolunteerInfo" Type="Self.VolunteerInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="City">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="VolunteerInfo">
+              <PropertyRef Name="CityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VolunteerInfo_VolunteerPost">
+          <End Role="VoluteerPost" Type="Self.VoluteerPost" Multiplicity="1" />
+          <End Role="VolunteerInfo" Type="Self.VolunteerInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VoluteerPost">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="VolunteerInfo">
+              <PropertyRef Name="VolunteerPostId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VolunteerPost_Member">
+          <End Role="Member" Type="Self.Member" Multiplicity="0..1" />
+          <End Role="VoluteerPost" Type="Self.VoluteerPost" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="VoluteerPost">
+              <PropertyRef Name="EnteredBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BlindRiverModelStoreContainer">
+          <EntitySet Name="AskBlindRiver" EntityType="Self.AskBlindRiver" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Calculator" EntityType="Self.Calculator" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="City" EntityType="Self.City" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Contact" EntityType="Self.Contact" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Department" EntityType="Self.Department" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Doctor" EntityType="Self.Doctor" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DoctorAppointment" EntityType="Self.DoctorAppointment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DoctorAvailableDate" EntityType="Self.DoctorAvailableDate" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DoctorAvailableTime" EntityType="Self.DoctorAvailableTime" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Donation" EntityType="Self.Donation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Facility" EntityType="Self.Facility" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FAQ" EntityType="Self.FAQ" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Location" EntityType="Self.Location" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Member" EntityType="Self.Member" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PaymentInfo" EntityType="Self.PaymentInfo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Service" EntityType="Self.Service" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Severity" EntityType="Self.Severity" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="VolunteerInfo" EntityType="Self.VolunteerInfo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="VoluteerPost" EntityType="Self.VoluteerPost" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Facility__Entere__01142BA1" Association="Self.FK__Facility__Entere__01142BA1">
+            <End Role="Member" EntitySet="Member" />
+            <End Role="Facility" EntitySet="Facility" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Calculator_Severity" Association="Self.FK_Calculator_Severity">
+            <End Role="Severity" EntitySet="Severity" />
+            <End Role="Calculator" EntitySet="Calculator" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Contact_Member" Association="Self.FK_Contact_Member">
+            <End Role="Member" EntitySet="Member" />
+            <End Role="Contact" EntitySet="Contact" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Doctor_Department" Association="Self.FK_Doctor_Department">
+            <End Role="Department" EntitySet="Department" />
+            <End Role="Doctor" EntitySet="Doctor" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Doctor_Member" Association="Self.FK_Doctor_Member">
+            <End Role="Member" EntitySet="Member" />
+            <End Role="Doctor" EntitySet="Doctor" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DoctorAppointment_DoctorAvailableDate" Association="Self.FK_DoctorAppointment_DoctorAvailableDate">
+            <End Role="DoctorAvailableDate" EntitySet="DoctorAvailableDate" />
+            <End Role="DoctorAppointment" EntitySet="DoctorAppointment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DoctorAvailableDate_Doctor" Association="Self.FK_DoctorAvailableDate_Doctor">
+            <End Role="Doctor" EntitySet="Doctor" />
+            <End Role="DoctorAvailableDate" EntitySet="DoctorAvailableDate" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DoctorAvailableDate_Member" Association="Self.FK_DoctorAvailableDate_Member">
+            <End Role="Member" EntitySet="Member" />
+            <End Role="DoctorAvailableDate" EntitySet="DoctorAvailableDate" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DoctorAvailableTime_DoctorAvailableDate" Association="Self.FK_DoctorAvailableTime_DoctorAvailableDate">
+            <End Role="DoctorAvailableDate" EntitySet="DoctorAvailableDate" />
+            <End Role="DoctorAvailableTime" EntitySet="DoctorAvailableTime" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Donation_City" Association="Self.FK_Donation_City">
+            <End Role="City" EntitySet="City" />
+            <End Role="Donation" EntitySet="Donation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FAQ_Department" Association="Self.FK_FAQ_Department">
+            <End Role="Department" EntitySet="Department" />
+            <End Role="FAQ" EntitySet="FAQ" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FAQ_Member" Association="Self.FK_FAQ_Member">
+            <End Role="Member" EntitySet="Member" />
+            <End Role="FAQ" EntitySet="FAQ" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Location_Member" Association="Self.FK_Location_Member">
+            <End Role="Member" EntitySet="Member" />
+            <End Role="Location" EntitySet="Location" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Member_Role" Association="Self.FK_Member_Role">
+            <End Role="Role" EntitySet="Role" />
+            <End Role="Member" EntitySet="Member" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PaymentInfo_City" Association="Self.FK_PaymentInfo_City">
+            <End Role="City" EntitySet="City" />
+            <End Role="PaymentInfo" EntitySet="PaymentInfo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PaymentInfo_Service" Association="Self.FK_PaymentInfo_Service">
+            <End Role="Service" EntitySet="Service" />
+            <End Role="PaymentInfo" EntitySet="PaymentInfo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Service_Member" Association="Self.FK_Service_Member">
+            <End Role="Member" EntitySet="Member" />
+            <End Role="Service" EntitySet="Service" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Severity_Member" Association="Self.FK_Severity_Member">
+            <End Role="Member" EntitySet="Member" />
+            <End Role="Severity" EntitySet="Severity" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VolunteerInfo_City" Association="Self.FK_VolunteerInfo_City">
+            <End Role="City" EntitySet="City" />
+            <End Role="VolunteerInfo" EntitySet="VolunteerInfo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VolunteerInfo_VolunteerPost" Association="Self.FK_VolunteerInfo_VolunteerPost">
+            <End Role="VoluteerPost" EntitySet="VoluteerPost" />
+            <End Role="VolunteerInfo" EntitySet="VolunteerInfo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VolunteerPost_Member" Association="Self.FK_VolunteerPost_Member">
+            <End Role="Member" EntitySet="Member" />
+            <End Role="VoluteerPost" EntitySet="VoluteerPost" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="BlindRiverModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="AskBlindRiver">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Question" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="EnteredDate" Type="DateTime" Precision="0" />
+          <Property Name="Active" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="Calculator">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PatientCount" Type="Int32" Nullable="false" />
+          <Property Name="SeverityId" Type="Int32" Nullable="false" />
+          <Property Name="EnteredDate" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Severity" Relationship="Self.FK_Calculator_Severity" FromRole="Calculator" ToRole="Severity" />
+        </EntityType>
+        <EntityType Name="City">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CityName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Donations" Relationship="Self.FK_Donation_City" FromRole="City" ToRole="Donation" />
+          <NavigationProperty Name="PaymentInfoes" Relationship="Self.FK_PaymentInfo_City" FromRole="City" ToRole="PaymentInfo" />
+          <NavigationProperty Name="VolunteerInfoes" Relationship="Self.FK_VolunteerInfo_City" FromRole="City" ToRole="VolunteerInfo" />
+        </EntityType>
+        <EntityType Name="Contact">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SenderName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Phone" Type="String" MaxLength="10" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="Subject" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Commment" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="SubmitDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="ViewedBy" Type="Int32" />
+          <NavigationProperty Name="Member" Relationship="Self.FK_Contact_Member" FromRole="Contact" ToRole="Member" />
+        </EntityType>
+        <EntityType Name="Department">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DepartmentName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="EnteredBy" Type="Int32" />
+          <Property Name="EnteredDate" Type="DateTime" Precision="0" />
+          <Property Name="Active" Type="Boolean" />
+          <NavigationProperty Name="Doctors" Relationship="Self.FK_Doctor_Department" FromRole="Department" ToRole="Doctor" />
+          <NavigationProperty Name="FAQs" Relationship="Self.FK_FAQ_Department" FromRole="Department" ToRole="FAQ" />
+        </EntityType>
+        <EntityType Name="Doctor">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DepartmentId" Type="Int32" Nullable="false" />
+          <Property Name="Gender" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Language" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="YearOfExperience" Type="Int32" Nullable="false" />
+          <Property Name="Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Photo" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
+          <Property Name="EnteredDate" Type="DateTime" Precision="0" />
+          <Property Name="EnteredBy" Type="Int32" />
+          <Property Name="Active" Type="Boolean" />
+          <NavigationProperty Name="Department" Relationship="Self.FK_Doctor_Department" FromRole="Doctor" ToRole="Department" />
+          <NavigationProperty Name="Member" Relationship="Self.FK_Doctor_Member" FromRole="Doctor" ToRole="Member" />
+          <NavigationProperty Name="DoctorAvailableDates" Relationship="Self.FK_DoctorAvailableDate_Doctor" FromRole="Doctor" ToRole="DoctorAvailableDate" />
+        </EntityType>
+        <EntityType Name="DoctorAppointment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DoctorAvailableTimeId" Type="Int32" Nullable="false" />
+          <Property Name="MemberId" Type="Int32" Nullable="false" />
+          <Property Name="BookingDate" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="DoctorAvailableDate" Relationship="Self.FK_DoctorAppointment_DoctorAvailableDate" FromRole="DoctorAppointment" ToRole="DoctorAvailableDate" />
+        </EntityType>
+        <EntityType Name="DoctorAvailableDate">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DoctorId" Type="Int32" Nullable="false" />
+          <Property Name="AvailableDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="EnteredDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="EnteredBy" Type="Int32" />
+          <Property Name="Active" Type="Boolean" />
+          <NavigationProperty Name="Doctor" Relationship="Self.FK_DoctorAvailableDate_Doctor" FromRole="DoctorAvailableDate" ToRole="Doctor" />
+          <NavigationProperty Name="DoctorAppointments" Relationship="Self.FK_DoctorAppointment_DoctorAvailableDate" FromRole="DoctorAvailableDate" ToRole="DoctorAppointment" />
+          <NavigationProperty Name="Member" Relationship="Self.FK_DoctorAvailableDate_Member" FromRole="DoctorAvailableDate" ToRole="Member" />
+          <NavigationProperty Name="DoctorAvailableTimes" Relationship="Self.FK_DoctorAvailableTime_DoctorAvailableDate" FromRole="DoctorAvailableDate" ToRole="DoctorAvailableTime" />
+        </EntityType>
+        <EntityType Name="DoctorAvailableTime">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DoctorAvailableDateId" Type="Int32" Nullable="false" />
+          <Property Name="AvailableFrom" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="AvailableUntil" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Active" Type="Boolean" />
+          <NavigationProperty Name="DoctorAvailableDate" Relationship="Self.FK_DoctorAvailableTime_DoctorAvailableDate" FromRole="DoctorAvailableTime" ToRole="DoctorAvailableDate" />
+        </EntityType>
+        <EntityType Name="Donation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DonationDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="DonationAmount" Type="Int32" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Phone" Type="String" MaxLength="10" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="CityId" Type="Int32" Nullable="false" />
+          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PostalCode" Type="String" MaxLength="7" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="Gender" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="City" Relationship="Self.FK_Donation_City" FromRole="Donation" ToRole="City" />
+        </EntityType>
+        <EntityType Name="Facility">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FacilityName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PostalCode" Type="String" MaxLength="7" FixedLength="true" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Phone" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="Photo" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="UnitNumber" Type="Int32" />
+          <Property Name="EnteredDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="EnteredBy" Type="Int32" />
+          <Property Name="Active" Type="Boolean" />
+          <NavigationProperty Name="Member" Relationship="Self.FK__Facility__Entere__01142BA1" FromRole="Facility" ToRole="Member" />
+        </EntityType>
+        <EntityType Name="FAQ">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DepartmentId" Type="Int32" Nullable="false" />
+          <Property Name="Question" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Answer" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="EnteredDate" Type="DateTime" Precision="0" />
+          <Property Name="EnteredBy" Type="Int32" Nullable="false" />
+          <Property Name="Active" Type="Boolean" />
+          <NavigationProperty Name="Department" Relationship="Self.FK_FAQ_Department" FromRole="FAQ" ToRole="Department" />
+          <NavigationProperty Name="Member" Relationship="Self.FK_FAQ_Member" FromRole="FAQ" ToRole="Member" />
+        </EntityType>
+        <EntityType Name="Location">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EntranceName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Latitude" Type="Decimal" Precision="8" Scale="6" Nullable="false" />
+          <Property Name="Longtitude" Type="Decimal" Precision="9" Scale="6" Nullable="false" />
+          <Property Name="EnteredDate" Type="DateTime" Precision="0" />
+          <Property Name="EnteredBy" Type="Int32" />
+          <NavigationProperty Name="Member" Relationship="Self.FK_Location_Member" FromRole="Location" ToRole="Member" />
+        </EntityType>
+        <EntityType Name="Member">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="RoleId" Type="Int32" Nullable="false" />
+          <Property Name="JoinedDay" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Gender" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="DOB" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Phone" Type="String" MaxLength="10" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PostalCode" Type="String" MaxLength="7" FixedLength="true" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Contacts" Relationship="Self.FK_Contact_Member" FromRole="Member" ToRole="Contact" />
+          <NavigationProperty Name="Doctors" Relationship="Self.FK_Doctor_Member" FromRole="Member" ToRole="Doctor" />
+          <NavigationProperty Name="DoctorAvailableDates" Relationship="Self.FK_DoctorAvailableDate_Member" FromRole="Member" ToRole="DoctorAvailableDate" />
+          <NavigationProperty Name="Facilities" Relationship="Self.FK__Facility__Entere__01142BA1" FromRole="Member" ToRole="Facility" />
+          <NavigationProperty Name="FAQs" Relationship="Self.FK_FAQ_Member" FromRole="Member" ToRole="FAQ" />
+          <NavigationProperty Name="Locations" Relationship="Self.FK_Location_Member" FromRole="Member" ToRole="Location" />
+          <NavigationProperty Name="Role" Relationship="Self.FK_Member_Role" FromRole="Member" ToRole="Role" />
+          <NavigationProperty Name="Services" Relationship="Self.FK_Service_Member" FromRole="Member" ToRole="Service" />
+          <NavigationProperty Name="Severities" Relationship="Self.FK_Severity_Member" FromRole="Member" ToRole="Severity" />
+          <NavigationProperty Name="VoluteerPosts" Relationship="Self.FK_VolunteerPost_Member" FromRole="Member" ToRole="VoluteerPost" />
+        </EntityType>
+        <EntityType Name="PaymentInfo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PaymentDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="FirstName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Phone" Type="String" MaxLength="10" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="CityId" Type="Int32" Nullable="false" />
+          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PostalCode" Type="String" MaxLength="7" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="Gender" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="ServiceId" Type="Int32" Nullable="false" />
+          <Property Name="PaymentAmount" Type="Int32" Nullable="false" />
+          <Property Name="PaymentCode" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="City" Relationship="Self.FK_PaymentInfo_City" FromRole="PaymentInfo" ToRole="City" />
+          <NavigationProperty Name="Service" Relationship="Self.FK_PaymentInfo_Service" FromRole="PaymentInfo" ToRole="Service" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RoleName" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Members" Relationship="Self.FK_Member_Role" FromRole="Role" ToRole="Member" />
+        </EntityType>
+        <EntityType Name="Service">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ServiceName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="EnteredBy" Type="Int32" Nullable="false" />
+          <Property Name="EnteredDate" Type="DateTime" Precision="0" />
+          <Property Name="Active" Type="Boolean" />
+          <NavigationProperty Name="Member" Relationship="Self.FK_Service_Member" FromRole="Service" ToRole="Member" />
+          <NavigationProperty Name="PaymentInfoes" Relationship="Self.FK_PaymentInfo_Service" FromRole="Service" ToRole="PaymentInfo" />
+        </EntityType>
+        <EntityType Name="Severity">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SeverityName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Minute" Type="Int32" Nullable="false" />
+          <Property Name="EnteredBy" Type="Int32" Nullable="false" />
+          <Property Name="EnteredDate" Type="DateTime" Precision="0" />
+          <Property Name="Active" Type="Boolean" />
+          <NavigationProperty Name="Calculators" Relationship="Self.FK_Calculator_Severity" FromRole="Severity" ToRole="Calculator" />
+          <NavigationProperty Name="Member" Relationship="Self.FK_Severity_Member" FromRole="Severity" ToRole="Member" />
+        </EntityType>
+        <EntityType Name="VolunteerInfo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ApplyDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="FirstName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="MiddleName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="LastName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Phone" Type="String" MaxLength="10" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="CityId" Type="Int32" Nullable="false" />
+          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PostalCode" Type="String" MaxLength="7" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="PublishDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="VolunteerPostId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="City" Relationship="Self.FK_VolunteerInfo_City" FromRole="VolunteerInfo" ToRole="City" />
+          <NavigationProperty Name="VoluteerPost" Relationship="Self.FK_VolunteerInfo_VolunteerPost" FromRole="VolunteerInfo" ToRole="VoluteerPost" />
+        </EntityType>
+        <EntityType Name="VoluteerPost">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Content" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LastSubmitDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="PublishDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Active" Type="Boolean" />
+          <Property Name="Published" Type="Boolean" />
+          <Property Name="EnteredDate" Type="DateTime" Precision="0" />
+          <Property Name="EnteredBy" Type="Int32" />
+          <NavigationProperty Name="Member" Relationship="Self.FK_VolunteerPost_Member" FromRole="VoluteerPost" ToRole="Member" />
+          <NavigationProperty Name="VolunteerInfoes" Relationship="Self.FK_VolunteerInfo_VolunteerPost" FromRole="VoluteerPost" ToRole="VolunteerInfo" />
+        </EntityType>
+        <Association Name="FK_Calculator_Severity">
+          <End Role="Severity" Type="Self.Severity" Multiplicity="1" />
+          <End Role="Calculator" Type="Self.Calculator" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Severity">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Calculator">
+              <PropertyRef Name="SeverityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Donation_City">
+          <End Role="City" Type="Self.City" Multiplicity="1" />
+          <End Role="Donation" Type="Self.Donation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="City">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Donation">
+              <PropertyRef Name="CityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PaymentInfo_City">
+          <End Role="City" Type="Self.City" Multiplicity="1" />
+          <End Role="PaymentInfo" Type="Self.PaymentInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="City">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PaymentInfo">
+              <PropertyRef Name="CityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VolunteerInfo_City">
+          <End Role="City" Type="Self.City" Multiplicity="1" />
+          <End Role="VolunteerInfo" Type="Self.VolunteerInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="City">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="VolunteerInfo">
+              <PropertyRef Name="CityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Contact_Member">
+          <End Role="Member" Type="Self.Member" Multiplicity="0..1" />
+          <End Role="Contact" Type="Self.Contact" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Contact">
+              <PropertyRef Name="ViewedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Doctor_Department">
+          <End Role="Department" Type="Self.Department" Multiplicity="1" />
+          <End Role="Doctor" Type="Self.Doctor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Doctor">
+              <PropertyRef Name="DepartmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FAQ_Department">
+          <End Role="Department" Type="Self.Department" Multiplicity="1" />
+          <End Role="FAQ" Type="Self.FAQ" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FAQ">
+              <PropertyRef Name="DepartmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Doctor_Member">
+          <End Role="Member" Type="Self.Member" Multiplicity="0..1" />
+          <End Role="Doctor" Type="Self.Doctor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Doctor">
+              <PropertyRef Name="EnteredBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DoctorAvailableDate_Doctor">
+          <End Role="Doctor" Type="Self.Doctor" Multiplicity="1" />
+          <End Role="DoctorAvailableDate" Type="Self.DoctorAvailableDate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Doctor">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DoctorAvailableDate">
+              <PropertyRef Name="DoctorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DoctorAppointment_DoctorAvailableDate">
+          <End Role="DoctorAvailableDate" Type="Self.DoctorAvailableDate" Multiplicity="1" />
+          <End Role="DoctorAppointment" Type="Self.DoctorAppointment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DoctorAvailableDate">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DoctorAppointment">
+              <PropertyRef Name="DoctorAvailableTimeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DoctorAvailableDate_Member">
+          <End Role="Member" Type="Self.Member" Multiplicity="0..1" />
+          <End Role="DoctorAvailableDate" Type="Self.DoctorAvailableDate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DoctorAvailableDate">
+              <PropertyRef Name="EnteredBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DoctorAvailableTime_DoctorAvailableDate">
+          <End Role="DoctorAvailableDate" Type="Self.DoctorAvailableDate" Multiplicity="1" />
+          <End Role="DoctorAvailableTime" Type="Self.DoctorAvailableTime" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DoctorAvailableDate">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DoctorAvailableTime">
+              <PropertyRef Name="DoctorAvailableDateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Facility__Entere__01142BA1">
+          <End Role="Member" Type="Self.Member" Multiplicity="0..1" />
+          <End Role="Facility" Type="Self.Facility" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Facility">
+              <PropertyRef Name="EnteredBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FAQ_Member">
+          <End Role="Member" Type="Self.Member" Multiplicity="1" />
+          <End Role="FAQ" Type="Self.FAQ" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FAQ">
+              <PropertyRef Name="EnteredBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Location_Member">
+          <End Role="Member" Type="Self.Member" Multiplicity="0..1" />
+          <End Role="Location" Type="Self.Location" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Location">
+              <PropertyRef Name="EnteredBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Member_Role">
+          <End Role="Role" Type="Self.Role" Multiplicity="1" />
+          <End Role="Member" Type="Self.Member" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Member">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Service_Member">
+          <End Role="Member" Type="Self.Member" Multiplicity="1" />
+          <End Role="Service" Type="Self.Service" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Service">
+              <PropertyRef Name="EnteredBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Severity_Member">
+          <End Role="Member" Type="Self.Member" Multiplicity="1" />
+          <End Role="Severity" Type="Self.Severity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Severity">
+              <PropertyRef Name="EnteredBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VolunteerPost_Member">
+          <End Role="Member" Type="Self.Member" Multiplicity="0..1" />
+          <End Role="VoluteerPost" Type="Self.VoluteerPost" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="VoluteerPost">
+              <PropertyRef Name="EnteredBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PaymentInfo_Service">
+          <End Role="Service" Type="Self.Service" Multiplicity="1" />
+          <End Role="PaymentInfo" Type="Self.PaymentInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Service">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PaymentInfo">
+              <PropertyRef Name="ServiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VolunteerInfo_VolunteerPost">
+          <End Role="VoluteerPost" Type="Self.VoluteerPost" Multiplicity="1" />
+          <End Role="VolunteerInfo" Type="Self.VolunteerInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VoluteerPost">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="VolunteerInfo">
+              <PropertyRef Name="VolunteerPostId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BlindRiverContext" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AskBlindRivers" EntityType="Self.AskBlindRiver" />
+          <EntitySet Name="Calculators" EntityType="Self.Calculator" />
+          <EntitySet Name="Cities" EntityType="Self.City" />
+          <EntitySet Name="Contacts" EntityType="Self.Contact" />
+          <EntitySet Name="Departments" EntityType="Self.Department" />
+          <EntitySet Name="Doctors" EntityType="Self.Doctor" />
+          <EntitySet Name="DoctorAppointments" EntityType="Self.DoctorAppointment" />
+          <EntitySet Name="DoctorAvailableDates" EntityType="Self.DoctorAvailableDate" />
+          <EntitySet Name="DoctorAvailableTimes" EntityType="Self.DoctorAvailableTime" />
+          <EntitySet Name="Donations" EntityType="Self.Donation" />
+          <EntitySet Name="Facilities" EntityType="Self.Facility" />
+          <EntitySet Name="FAQs" EntityType="Self.FAQ" />
+          <EntitySet Name="Locations" EntityType="Self.Location" />
+          <EntitySet Name="Members" EntityType="Self.Member" />
+          <EntitySet Name="PaymentInfoes" EntityType="Self.PaymentInfo" />
+          <EntitySet Name="Roles" EntityType="Self.Role" />
+          <EntitySet Name="Services" EntityType="Self.Service" />
+          <EntitySet Name="Severities" EntityType="Self.Severity" />
+          <EntitySet Name="VolunteerInfoes" EntityType="Self.VolunteerInfo" />
+          <EntitySet Name="VoluteerPosts" EntityType="Self.VoluteerPost" />
+          <AssociationSet Name="FK_Calculator_Severity" Association="Self.FK_Calculator_Severity">
+            <End Role="Severity" EntitySet="Severities" />
+            <End Role="Calculator" EntitySet="Calculators" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Donation_City" Association="Self.FK_Donation_City">
+            <End Role="City" EntitySet="Cities" />
+            <End Role="Donation" EntitySet="Donations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PaymentInfo_City" Association="Self.FK_PaymentInfo_City">
+            <End Role="City" EntitySet="Cities" />
+            <End Role="PaymentInfo" EntitySet="PaymentInfoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VolunteerInfo_City" Association="Self.FK_VolunteerInfo_City">
+            <End Role="City" EntitySet="Cities" />
+            <End Role="VolunteerInfo" EntitySet="VolunteerInfoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Contact_Member" Association="Self.FK_Contact_Member">
+            <End Role="Member" EntitySet="Members" />
+            <End Role="Contact" EntitySet="Contacts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Doctor_Department" Association="Self.FK_Doctor_Department">
+            <End Role="Department" EntitySet="Departments" />
+            <End Role="Doctor" EntitySet="Doctors" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FAQ_Department" Association="Self.FK_FAQ_Department">
+            <End Role="Department" EntitySet="Departments" />
+            <End Role="FAQ" EntitySet="FAQs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Doctor_Member" Association="Self.FK_Doctor_Member">
+            <End Role="Member" EntitySet="Members" />
+            <End Role="Doctor" EntitySet="Doctors" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DoctorAvailableDate_Doctor" Association="Self.FK_DoctorAvailableDate_Doctor">
+            <End Role="Doctor" EntitySet="Doctors" />
+            <End Role="DoctorAvailableDate" EntitySet="DoctorAvailableDates" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DoctorAppointment_DoctorAvailableDate" Association="Self.FK_DoctorAppointment_DoctorAvailableDate">
+            <End Role="DoctorAvailableDate" EntitySet="DoctorAvailableDates" />
+            <End Role="DoctorAppointment" EntitySet="DoctorAppointments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DoctorAvailableDate_Member" Association="Self.FK_DoctorAvailableDate_Member">
+            <End Role="Member" EntitySet="Members" />
+            <End Role="DoctorAvailableDate" EntitySet="DoctorAvailableDates" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DoctorAvailableTime_DoctorAvailableDate" Association="Self.FK_DoctorAvailableTime_DoctorAvailableDate">
+            <End Role="DoctorAvailableDate" EntitySet="DoctorAvailableDates" />
+            <End Role="DoctorAvailableTime" EntitySet="DoctorAvailableTimes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Facility__Entere__01142BA1" Association="Self.FK__Facility__Entere__01142BA1">
+            <End Role="Member" EntitySet="Members" />
+            <End Role="Facility" EntitySet="Facilities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FAQ_Member" Association="Self.FK_FAQ_Member">
+            <End Role="Member" EntitySet="Members" />
+            <End Role="FAQ" EntitySet="FAQs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Location_Member" Association="Self.FK_Location_Member">
+            <End Role="Member" EntitySet="Members" />
+            <End Role="Location" EntitySet="Locations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Member_Role" Association="Self.FK_Member_Role">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="Member" EntitySet="Members" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Service_Member" Association="Self.FK_Service_Member">
+            <End Role="Member" EntitySet="Members" />
+            <End Role="Service" EntitySet="Services" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Severity_Member" Association="Self.FK_Severity_Member">
+            <End Role="Member" EntitySet="Members" />
+            <End Role="Severity" EntitySet="Severities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VolunteerPost_Member" Association="Self.FK_VolunteerPost_Member">
+            <End Role="Member" EntitySet="Members" />
+            <End Role="VoluteerPost" EntitySet="VoluteerPosts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PaymentInfo_Service" Association="Self.FK_PaymentInfo_Service">
+            <End Role="Service" EntitySet="Services" />
+            <End Role="PaymentInfo" EntitySet="PaymentInfoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VolunteerInfo_VolunteerPost" Association="Self.FK_VolunteerInfo_VolunteerPost">
+            <End Role="VoluteerPost" EntitySet="VoluteerPosts" />
+            <End Role="VolunteerInfo" EntitySet="VolunteerInfoes" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="BlindRiverModelStoreContainer" CdmEntityContainer="BlindRiverContext">
+          <EntitySetMapping Name="AskBlindRivers">
+            <EntityTypeMapping TypeName="BlindRiverModel.AskBlindRiver">
+              <MappingFragment StoreEntitySet="AskBlindRiver">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Question" ColumnName="Question" />
+                <ScalarProperty Name="EnteredDate" ColumnName="EnteredDate" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Calculators">
+            <EntityTypeMapping TypeName="BlindRiverModel.Calculator">
+              <MappingFragment StoreEntitySet="Calculator">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="PatientCount" ColumnName="PatientCount" />
+                <ScalarProperty Name="SeverityId" ColumnName="SeverityId" />
+                <ScalarProperty Name="EnteredDate" ColumnName="EnteredDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Cities">
+            <EntityTypeMapping TypeName="BlindRiverModel.City">
+              <MappingFragment StoreEntitySet="City">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="CityName" ColumnName="CityName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Contacts">
+            <EntityTypeMapping TypeName="BlindRiverModel.Contact">
+              <MappingFragment StoreEntitySet="Contact">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="SenderName" ColumnName="SenderName" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Subject" ColumnName="Subject" />
+                <ScalarProperty Name="Commment" ColumnName="Commment" />
+                <ScalarProperty Name="SubmitDate" ColumnName="SubmitDate" />
+                <ScalarProperty Name="ViewedBy" ColumnName="ViewedBy" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Departments">
+            <EntityTypeMapping TypeName="BlindRiverModel.Department">
+              <MappingFragment StoreEntitySet="Department">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="DepartmentName" ColumnName="DepartmentName" />
+                <ScalarProperty Name="EnteredBy" ColumnName="EnteredBy" />
+                <ScalarProperty Name="EnteredDate" ColumnName="EnteredDate" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Doctors">
+            <EntityTypeMapping TypeName="BlindRiverModel.Doctor">
+              <MappingFragment StoreEntitySet="Doctor">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="Language" ColumnName="Language" />
+                <ScalarProperty Name="YearOfExperience" ColumnName="YearOfExperience" />
+                <ScalarProperty Name="Text" ColumnName="Text" />
+                <ScalarProperty Name="Photo" ColumnName="Photo" />
+                <ScalarProperty Name="EnteredDate" ColumnName="EnteredDate" />
+                <ScalarProperty Name="EnteredBy" ColumnName="EnteredBy" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DoctorAppointments">
+            <EntityTypeMapping TypeName="BlindRiverModel.DoctorAppointment">
+              <MappingFragment StoreEntitySet="DoctorAppointment">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="DoctorAvailableTimeId" ColumnName="DoctorAvailableTimeId" />
+                <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+                <ScalarProperty Name="BookingDate" ColumnName="BookingDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DoctorAvailableDates">
+            <EntityTypeMapping TypeName="BlindRiverModel.DoctorAvailableDate">
+              <MappingFragment StoreEntitySet="DoctorAvailableDate">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="DoctorId" ColumnName="DoctorId" />
+                <ScalarProperty Name="AvailableDate" ColumnName="AvailableDate" />
+                <ScalarProperty Name="EnteredDate" ColumnName="EnteredDate" />
+                <ScalarProperty Name="EnteredBy" ColumnName="EnteredBy" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DoctorAvailableTimes">
+            <EntityTypeMapping TypeName="BlindRiverModel.DoctorAvailableTime">
+              <MappingFragment StoreEntitySet="DoctorAvailableTime">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="DoctorAvailableDateId" ColumnName="DoctorAvailableDateId" />
+                <ScalarProperty Name="AvailableFrom" ColumnName="AvailableFrom" />
+                <ScalarProperty Name="AvailableUntil" ColumnName="AvailableUntil" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Donations">
+            <EntityTypeMapping TypeName="BlindRiverModel.Donation">
+              <MappingFragment StoreEntitySet="Donation">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="DonationDate" ColumnName="DonationDate" />
+                <ScalarProperty Name="DonationAmount" ColumnName="DonationAmount" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="CityId" ColumnName="CityId" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Facilities">
+            <EntityTypeMapping TypeName="BlindRiverModel.Facility">
+              <MappingFragment StoreEntitySet="Facility">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="FacilityName" ColumnName="FacilityName" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Photo" ColumnName="Photo" />
+                <ScalarProperty Name="UnitNumber" ColumnName="UnitNumber" />
+                <ScalarProperty Name="EnteredDate" ColumnName="EnteredDate" />
+                <ScalarProperty Name="EnteredBy" ColumnName="EnteredBy" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FAQs">
+            <EntityTypeMapping TypeName="BlindRiverModel.FAQ">
+              <MappingFragment StoreEntitySet="FAQ">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
+                <ScalarProperty Name="Question" ColumnName="Question" />
+                <ScalarProperty Name="Answer" ColumnName="Answer" />
+                <ScalarProperty Name="EnteredDate" ColumnName="EnteredDate" />
+                <ScalarProperty Name="EnteredBy" ColumnName="EnteredBy" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Locations">
+            <EntityTypeMapping TypeName="BlindRiverModel.Location">
+              <MappingFragment StoreEntitySet="Location">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="EntranceName" ColumnName="EntranceName" />
+                <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+                <ScalarProperty Name="Longtitude" ColumnName="Longtitude" />
+                <ScalarProperty Name="EnteredDate" ColumnName="EnteredDate" />
+                <ScalarProperty Name="EnteredBy" ColumnName="EnteredBy" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Members">
+            <EntityTypeMapping TypeName="BlindRiverModel.Member">
+              <MappingFragment StoreEntitySet="Member">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="JoinedDay" ColumnName="JoinedDay" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="DOB" ColumnName="DOB" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PaymentInfoes">
+            <EntityTypeMapping TypeName="BlindRiverModel.PaymentInfo">
+              <MappingFragment StoreEntitySet="PaymentInfo">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="PaymentDate" ColumnName="PaymentDate" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="CityId" ColumnName="CityId" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="ServiceId" ColumnName="ServiceId" />
+                <ScalarProperty Name="PaymentAmount" ColumnName="PaymentAmount" />
+                <ScalarProperty Name="PaymentCode" ColumnName="PaymentCode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Roles">
+            <EntityTypeMapping TypeName="BlindRiverModel.Role">
+              <MappingFragment StoreEntitySet="Role">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Services">
+            <EntityTypeMapping TypeName="BlindRiverModel.Service">
+              <MappingFragment StoreEntitySet="Service">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ServiceName" ColumnName="ServiceName" />
+                <ScalarProperty Name="EnteredBy" ColumnName="EnteredBy" />
+                <ScalarProperty Name="EnteredDate" ColumnName="EnteredDate" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Severities">
+            <EntityTypeMapping TypeName="BlindRiverModel.Severity">
+              <MappingFragment StoreEntitySet="Severity">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="SeverityName" ColumnName="SeverityName" />
+                <ScalarProperty Name="Minute" ColumnName="Minute" />
+                <ScalarProperty Name="EnteredBy" ColumnName="EnteredBy" />
+                <ScalarProperty Name="EnteredDate" ColumnName="EnteredDate" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VolunteerInfoes">
+            <EntityTypeMapping TypeName="BlindRiverModel.VolunteerInfo">
+              <MappingFragment StoreEntitySet="VolunteerInfo">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ApplyDate" ColumnName="ApplyDate" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="CityId" ColumnName="CityId" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="PublishDate" ColumnName="PublishDate" />
+                <ScalarProperty Name="VolunteerPostId" ColumnName="VolunteerPostId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VoluteerPosts">
+            <EntityTypeMapping TypeName="BlindRiverModel.VoluteerPost">
+              <MappingFragment StoreEntitySet="VoluteerPost">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Content" ColumnName="Content" />
+                <ScalarProperty Name="LastSubmitDate" ColumnName="LastSubmitDate" />
+                <ScalarProperty Name="PublishDate" ColumnName="PublishDate" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="Published" ColumnName="Published" />
+                <ScalarProperty Name="EnteredDate" ColumnName="EnteredDate" />
+                <ScalarProperty Name="EnteredBy" ColumnName="EnteredBy" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
