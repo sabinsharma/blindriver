@@ -80,7 +80,8 @@ namespace BLINDRIVER_TEAM4.Models
         [Display(Name = "Phone")]
         [Required]
         [DataType(DataType.PhoneNumber)]
-        [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Phone format is not valid.")]
+        //[RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Phone format is not valid.")]
+        [RegularExpression(@"^([0-9]{3})([0-9]{3})([0-9]{4})$", ErrorMessage = "Phone format is not valid.")]
         public string Phone { get; set; }
 
         [Display(Name = "Address")]
