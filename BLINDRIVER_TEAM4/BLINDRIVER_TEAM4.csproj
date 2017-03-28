@@ -151,6 +151,9 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AdminContactsController.cs" />
     <Compile Include="Controllers\ContactsController.cs" />
+    <Compile Include="Controllers\DoctorAppointmentsController.cs" />
+    <Compile Include="Controllers\DoctorAvailableDatesController.cs" />
+    <Compile Include="Controllers\DoctorAvailableTimesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MembersController.cs" />
     <Compile Include="Global.asax.cs">
@@ -332,6 +335,21 @@
     <Content Include="Views\AdminContacts\Details.cshtml" />
     <Content Include="Views\AdminContacts\Edit.cshtml" />
     <Content Include="Views\AdminContacts\Index.cshtml" />
+    <Content Include="Views\DoctorAppointments\Create.cshtml" />
+    <Content Include="Views\DoctorAppointments\Delete.cshtml" />
+    <Content Include="Views\DoctorAppointments\Details.cshtml" />
+    <Content Include="Views\DoctorAppointments\Edit.cshtml" />
+    <Content Include="Views\DoctorAppointments\Index.cshtml" />
+    <Content Include="Views\DoctorAvailableDates\Create.cshtml" />
+    <Content Include="Views\DoctorAvailableDates\Delete.cshtml" />
+    <Content Include="Views\DoctorAvailableDates\Details.cshtml" />
+    <Content Include="Views\DoctorAvailableDates\Edit.cshtml" />
+    <Content Include="Views\DoctorAvailableDates\Index.cshtml" />
+    <Content Include="Views\DoctorAvailableTimes\Create.cshtml" />
+    <Content Include="Views\DoctorAvailableTimes\Delete.cshtml" />
+    <Content Include="Views\DoctorAvailableTimes\Details.cshtml" />
+    <Content Include="Views\DoctorAvailableTimes\Edit.cshtml" />
+    <Content Include="Views\DoctorAvailableTimes\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
