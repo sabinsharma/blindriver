@@ -1,3 +1,29 @@
-﻿@{
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+﻿
+    @{
+        string CurrentName = Convert.ToString(HttpContext.Current.Request.RequestContext.RouteData.Values["Controller"]);
+        dynamic Layout;
+        switch (CurrentName)
+        {
+            case "CPanel":
+                Layout = Layout = "~/Views/Shared/_Admin.cshtml";//Admin layout
+                break;
+            default:
+                Layout = "~/Views/Shared/_Layout.cshtml";
+                break;
+        }
+    }
+@* Source:http://www.c-sharpcorner.com/UploadFile/0c1bb2/change-layout-page-dynamically-in-Asp-Net-mvc-5/
+    Author:	Vithal Wadje
+    Published Date:2015-12-07
+    Viewed on:2017-03-28 *@
+
+
+
+
+
+
+
+
+        
+
+

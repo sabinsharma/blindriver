@@ -1,0 +1,23 @@
+/*CSS FOR ADMIN-PAGES PAGE */
+
+/*FORMATTING NAV*/
+
+#pages_nav{
+	color: blue;
+	padding-left: 0px;
+	}
+	
+	ul {
+  list-style-type: none;
+}
+	
+.messagetoUser{
+	padding-left: 35px;
+	padding-bottom: 30px;
+}
+
+.hjf1, .hjf2, .hjf3, .aqf1, .aqf2, .aqf3, .asf1, .asf2, .asf3, .sjf1, .sjf2, .sjf3, .sbf1, .sbf2, .sbf3, .dcf1, .dcf2, .dcf3  {
+	padding-bottom: 50px;
+}
+
+	
