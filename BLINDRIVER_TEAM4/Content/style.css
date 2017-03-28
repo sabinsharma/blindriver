@@ -29,6 +29,7 @@ main {
 }
 
 footer {
+    margin-top: 50px;   
     color: #fff;
     background-color: #4d0099;
 }
@@ -238,3 +239,6 @@ footer h4 {
     text-align: center;
 }
 
+.btn-lg.btn-primary {
+    color: #fff !important;
+}
