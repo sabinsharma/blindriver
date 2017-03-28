@@ -1,0 +1,117 @@
+﻿@model IEnumerable<BLINDRIVER_TEAM4.Models.Member>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Member List</h2>
+
+@*<p>
+    @Html.ActionLink("Create New", "Create")
+</p>*@
+@using (Html.BeginForm())
+{
+    <p>
+        Search Term: @Html.TextBox("SearchString", null, new { @class = "form-control", style = "display: inline;" })
+        <input class="btn btn-success" type="submit" value="Search" />
+    </p>
+}
+<table class="table">
+    <tr>
+        <th>
+            @*@Html.DisplayNameFor(model => model.Username)*@
+            @Html.ActionLink("User Name", "Index", new { sortOrder = ViewBag.UserNameSortParm })
+        </th>
+        @*<th>
+            @Html.DisplayNameFor(model => model.Password)
+        </th>*@
+        <th>
+            @*@Html.DisplayNameFor(model => model.JoinedDay)*@
+            @Html.ActionLink("Registered Date", "Index", new { sortOrder = ViewBag.DateSortParm })
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.FirstName)*@
+            @Html.ActionLink("First Name", "Index", new { sortOrder = ViewBag.FirstNameSortParm })
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.LastName)*@
+            @Html.ActionLink("Last Name", "Index", new { sortOrder = ViewBag.LastNameSortParm })
+        </th>
+        @*<th>
+            @Html.DisplayNameFor(model => model.Gender)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DOB)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Phone)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Address)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PostalCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MiddleName)
+        </th>*@
+        <th>
+            @*@Html.DisplayNameFor(model => model.Role.RoleName)*@
+            @Html.ActionLink("Role", "Index", new { sortOrder = ViewBag.RoleSortParm })
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Username)
+        </td>
+        @*<td>
+            @Html.DisplayFor(modelItem => item.Password)
+        </td>*@
+        <td>
+            @Html.DisplayFor(modelItem => item.JoinedDay)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FirstName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LastName)
+        </td>
+        @*<td>
+            @Html.DisplayFor(modelItem => item.Gender)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DOB)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Phone)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Address)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PostalCode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MiddleName)
+        </td>*@
+        <td>
+            @Html.DisplayFor(modelItem => item.Role.RoleName)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

@@ -16,8 +16,8 @@ namespace BLINDRIVER_TEAM4.Models
     {
         public int Id { get; set; }
         public int DoctorAvailableDateId { get; set; }
-        public System.DateTime AvailableFrom { get; set; }
-        public System.DateTime AvailableUntil { get; set; }
+        public System.TimeSpan AvailableFrom { get; set; }
+        public System.TimeSpan AvailableUntil { get; set; }
         public Nullable<bool> Active { get; set; }
     
         public virtual DoctorAvailableDate DoctorAvailableDate { get; set; }

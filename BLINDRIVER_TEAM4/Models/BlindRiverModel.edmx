@@ -99,8 +99,8 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="DoctorAvailableDateId" Type="int" Nullable="false" />
-          <Property Name="AvailableFrom" Type="datetime" Nullable="false" />
-          <Property Name="AvailableUntil" Type="datetime" Nullable="false" />
+          <Property Name="AvailableFrom" Type="time" Precision="7" Nullable="false" />
+          <Property Name="AvailableUntil" Type="time" Precision="7" Nullable="false" />
           <Property Name="Active" Type="bit" />
         </EntityType>
         <EntityType Name="Donation">
@@ -169,7 +169,7 @@
           <Property Name="JoinedDay" Type="date" Nullable="false" />
           <Property Name="FirstName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="LastName" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="Gender" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="Gender" Type="nvarchar" MaxLength="15" />
           <Property Name="DOB" Type="date" Nullable="false" />
           <Property Name="Email" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Phone" Type="char" MaxLength="10" Nullable="false" />
@@ -962,8 +962,8 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="DoctorAvailableDateId" Type="Int32" Nullable="false" />
-          <Property Name="AvailableFrom" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="AvailableUntil" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="AvailableFrom" Type="Time" Nullable="false" />
+          <Property Name="AvailableUntil" Type="Time" Nullable="false" />
           <Property Name="Active" Type="Boolean" />
           <NavigationProperty Name="DoctorAvailableDate" Relationship="Self.FK_DoctorAvailableTime_DoctorAvailableDate" FromRole="DoctorAvailableTime" ToRole="DoctorAvailableDate" />
         </EntityType>
@@ -1038,7 +1038,7 @@
           <Property Name="JoinedDay" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Gender" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Gender" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
           <Property Name="DOB" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Phone" Type="String" MaxLength="10" FixedLength="true" Unicode="false" Nullable="false" />
