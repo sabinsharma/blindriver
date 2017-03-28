@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="BlindRiverModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="BlindRiverModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AskBlindRiver">
           <Key>
             <PropertyRef Name="Id" />
@@ -175,6 +175,38 @@
           <Property Name="Phone" Type="char" MaxLength="10" Nullable="false" />
           <Property Name="Address" Type="nvarchar(max)" />
           <Property Name="PostalCode" Type="char" MaxLength="7" Nullable="false" />
+          <Property Name="MiddleName" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="Patient">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstName" Type="varchar(max)" Nullable="false" />
+          <Property Name="MiddleName" Type="varchar(max)" Nullable="false" />
+          <Property Name="LastName" Type="varchar(max)" Nullable="false" />
+          <Property Name="CityId" Type="int" Nullable="false" />
+          <Property Name="Address" Type="nvarchar(max)" />
+          <Property Name="PostalCode" Type="char" MaxLength="7" Nullable="false" />
+          <Property Name="EnteredDate" Type="date" />
+          <Property Name="EnteredBy" Type="int" />
+          <Property Name="Active" Type="bit" />
+        </EntityType>
+        <EntityType Name="PatientVisitingHour">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PatientId" Type="int" Nullable="false" />
+          <Property Name="VisitingDateFrom" Type="date" Nullable="false" />
+          <Property Name="VisitingDateTo" Type="date" Nullable="false" />
+          <Property Name="VisitingHourFrom" Type="datetime" Nullable="false" />
+          <Property Name="VisitingHourTo" Type="datetime" Nullable="false" />
+          <Property Name="MaxTimeSpan" Type="int" Nullable="false" />
+          <Property Name="TimeSpanBetweenVisit" Type="int" Nullable="false" />
+          <Property Name="EnteredDate" Type="date" />
+          <Property Name="EnteredBy" Type="int" />
+          <Property Name="Active" Type="bit" />
         </EntityType>
         <EntityType Name="PaymentInfo">
           <Key>
@@ -193,6 +225,33 @@
           <Property Name="ServiceId" Type="int" Nullable="false" />
           <Property Name="PaymentAmount" Type="int" Nullable="false" />
           <Property Name="PaymentCode" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Review">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ReviewCategoryId" Type="int" Nullable="false" />
+          <Property Name="DoctorId" Type="int" Nullable="false" />
+          <Property Name="Punctuality" Type="int" />
+          <Property Name="Helpfullness" Type="int" />
+          <Property Name="Knowledge" Type="int" />
+          <Property Name="Rate" Type="int" />
+          <Property Name="Pros" Type="text" />
+          <Property Name="Cons" Type="text" />
+          <Property Name="Advice" Type="text" />
+          <Property Name="EnteredDate" Type="date" />
+          <Property Name="ReviewedBy" Type="int" />
+        </EntityType>
+        <EntityType Name="ReviewCategory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CategoryName" Type="varchar(max)" Nullable="false" />
+          <Property Name="EnteredDate" Type="date" />
+          <Property Name="EnteredBy" Type="int" />
+          <Property Name="Active" Type="bit" />
         </EntityType>
         <EntityType Name="Role">
           <Key>
@@ -221,6 +280,17 @@
           <Property Name="EnteredBy" Type="int" Nullable="false" />
           <Property Name="EnteredDate" Type="date" />
           <Property Name="Active" Type="bit" />
+        </EntityType>
+        <EntityType Name="VisitingSchedule">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PatientId" Type="int" Nullable="false" />
+          <Property Name="VisitorId" Type="int" Nullable="false" />
+          <Property Name="BookedFrom" Type="datetime" Nullable="false" />
+          <Property Name="BookedTo" Type="datetime" Nullable="false" />
+          <Property Name="AppointmentDate" Type="date" Nullable="false" />
         </EntityType>
         <EntityType Name="VolunteerInfo">
           <Key>
@@ -422,6 +492,54 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Patient_City">
+          <End Role="City" Type="Self.City" Multiplicity="1" />
+          <End Role="Patient" Type="Self.Patient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="City">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Patient">
+              <PropertyRef Name="CityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Patient_Member">
+          <End Role="Member" Type="Self.Member" Multiplicity="0..1" />
+          <End Role="Patient" Type="Self.Patient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Patient">
+              <PropertyRef Name="EnteredBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PatientVisitingHour_Member">
+          <End Role="Member" Type="Self.Member" Multiplicity="0..1" />
+          <End Role="PatientVisitingHour" Type="Self.PatientVisitingHour" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PatientVisitingHour">
+              <PropertyRef Name="EnteredBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PatientVisitingHour_Patient">
+          <End Role="Patient" Type="Self.Patient" Multiplicity="1" />
+          <End Role="PatientVisitingHour" Type="Self.PatientVisitingHour" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Patient">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PatientVisitingHour">
+              <PropertyRef Name="PatientId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_PaymentInfo_City">
           <End Role="City" Type="Self.City" Multiplicity="1" />
           <End Role="PaymentInfo" Type="Self.PaymentInfo" Multiplicity="*" />
@@ -446,6 +564,54 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Review_Doctor">
+          <End Role="Doctor" Type="Self.Doctor" Multiplicity="1" />
+          <End Role="Review" Type="Self.Review" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Doctor">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Review">
+              <PropertyRef Name="DoctorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Review_Member">
+          <End Role="Member" Type="Self.Member" Multiplicity="0..1" />
+          <End Role="Review" Type="Self.Review" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Review">
+              <PropertyRef Name="ReviewedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Review_ReviewCategory">
+          <End Role="ReviewCategory" Type="Self.ReviewCategory" Multiplicity="1" />
+          <End Role="Review" Type="Self.Review" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ReviewCategory">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Review">
+              <PropertyRef Name="ReviewCategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ReviewCategory_Member">
+          <End Role="Member" Type="Self.Member" Multiplicity="0..1" />
+          <End Role="ReviewCategory" Type="Self.ReviewCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ReviewCategory">
+              <PropertyRef Name="EnteredBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Service_Member">
           <End Role="Member" Type="Self.Member" Multiplicity="1" />
           <End Role="Service" Type="Self.Service" Multiplicity="*" />
@@ -467,6 +633,30 @@
             </Principal>
             <Dependent Role="Severity">
               <PropertyRef Name="EnteredBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VisitingSchedule_Member">
+          <End Role="Member" Type="Self.Member" Multiplicity="1" />
+          <End Role="VisitingSchedule" Type="Self.VisitingSchedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="VisitingSchedule">
+              <PropertyRef Name="VisitorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VisitingSchedule_Patient">
+          <End Role="Patient" Type="Self.Patient" Multiplicity="1" />
+          <End Role="VisitingSchedule" Type="Self.VisitingSchedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Patient">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="VisitingSchedule">
+              <PropertyRef Name="PatientId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -521,10 +711,15 @@
           <EntitySet Name="FAQ" EntityType="Self.FAQ" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Location" EntityType="Self.Location" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Member" EntityType="Self.Member" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Patient" EntityType="Self.Patient" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PatientVisitingHour" EntityType="Self.PatientVisitingHour" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PaymentInfo" EntityType="Self.PaymentInfo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Review" EntityType="Self.Review" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ReviewCategory" EntityType="Self.ReviewCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Service" EntityType="Self.Service" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Severity" EntityType="Self.Severity" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="VisitingSchedule" EntityType="Self.VisitingSchedule" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="VolunteerInfo" EntityType="Self.VolunteerInfo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="VoluteerPost" EntityType="Self.VoluteerPost" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK__Facility__Entere__01142BA1" Association="Self.FK__Facility__Entere__01142BA1">
@@ -583,6 +778,22 @@
             <End Role="Role" EntitySet="Role" />
             <End Role="Member" EntitySet="Member" />
           </AssociationSet>
+          <AssociationSet Name="FK_Patient_City" Association="Self.FK_Patient_City">
+            <End Role="City" EntitySet="City" />
+            <End Role="Patient" EntitySet="Patient" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Patient_Member" Association="Self.FK_Patient_Member">
+            <End Role="Member" EntitySet="Member" />
+            <End Role="Patient" EntitySet="Patient" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PatientVisitingHour_Member" Association="Self.FK_PatientVisitingHour_Member">
+            <End Role="Member" EntitySet="Member" />
+            <End Role="PatientVisitingHour" EntitySet="PatientVisitingHour" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PatientVisitingHour_Patient" Association="Self.FK_PatientVisitingHour_Patient">
+            <End Role="Patient" EntitySet="Patient" />
+            <End Role="PatientVisitingHour" EntitySet="PatientVisitingHour" />
+          </AssociationSet>
           <AssociationSet Name="FK_PaymentInfo_City" Association="Self.FK_PaymentInfo_City">
             <End Role="City" EntitySet="City" />
             <End Role="PaymentInfo" EntitySet="PaymentInfo" />
@@ -591,6 +802,22 @@
             <End Role="Service" EntitySet="Service" />
             <End Role="PaymentInfo" EntitySet="PaymentInfo" />
           </AssociationSet>
+          <AssociationSet Name="FK_Review_Doctor" Association="Self.FK_Review_Doctor">
+            <End Role="Doctor" EntitySet="Doctor" />
+            <End Role="Review" EntitySet="Review" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Review_Member" Association="Self.FK_Review_Member">
+            <End Role="Member" EntitySet="Member" />
+            <End Role="Review" EntitySet="Review" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Review_ReviewCategory" Association="Self.FK_Review_ReviewCategory">
+            <End Role="ReviewCategory" EntitySet="ReviewCategory" />
+            <End Role="Review" EntitySet="Review" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ReviewCategory_Member" Association="Self.FK_ReviewCategory_Member">
+            <End Role="Member" EntitySet="Member" />
+            <End Role="ReviewCategory" EntitySet="ReviewCategory" />
+          </AssociationSet>
           <AssociationSet Name="FK_Service_Member" Association="Self.FK_Service_Member">
             <End Role="Member" EntitySet="Member" />
             <End Role="Service" EntitySet="Service" />
@@ -598,6 +825,14 @@
           <AssociationSet Name="FK_Severity_Member" Association="Self.FK_Severity_Member">
             <End Role="Member" EntitySet="Member" />
             <End Role="Severity" EntitySet="Severity" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VisitingSchedule_Member" Association="Self.FK_VisitingSchedule_Member">
+            <End Role="Member" EntitySet="Member" />
+            <End Role="VisitingSchedule" EntitySet="VisitingSchedule" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VisitingSchedule_Patient" Association="Self.FK_VisitingSchedule_Patient">
+            <End Role="Patient" EntitySet="Patient" />
+            <End Role="VisitingSchedule" EntitySet="VisitingSchedule" />
           </AssociationSet>
           <AssociationSet Name="FK_VolunteerInfo_City" Association="Self.FK_VolunteerInfo_City">
             <End Role="City" EntitySet="City" />
@@ -612,8 +847,7 @@
             <End Role="VoluteerPost" EntitySet="VoluteerPost" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="BlindRiverModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -648,6 +882,7 @@
           <NavigationProperty Name="Donations" Relationship="Self.FK_Donation_City" FromRole="City" ToRole="Donation" />
           <NavigationProperty Name="PaymentInfoes" Relationship="Self.FK_PaymentInfo_City" FromRole="City" ToRole="PaymentInfo" />
           <NavigationProperty Name="VolunteerInfoes" Relationship="Self.FK_VolunteerInfo_City" FromRole="City" ToRole="VolunteerInfo" />
+          <NavigationProperty Name="Patients" Relationship="BlindRiverModel.FK_Patient_City" FromRole="City" ToRole="Patient" />
         </EntityType>
         <EntityType Name="Contact">
           <Key>
@@ -694,6 +929,7 @@
           <NavigationProperty Name="Department" Relationship="Self.FK_Doctor_Department" FromRole="Doctor" ToRole="Department" />
           <NavigationProperty Name="Member" Relationship="Self.FK_Doctor_Member" FromRole="Doctor" ToRole="Member" />
           <NavigationProperty Name="DoctorAvailableDates" Relationship="Self.FK_DoctorAvailableDate_Doctor" FromRole="Doctor" ToRole="DoctorAvailableDate" />
+          <NavigationProperty Name="Reviews" Relationship="BlindRiverModel.FK_Review_Doctor" FromRole="Doctor" ToRole="Review" />
         </EntityType>
         <EntityType Name="DoctorAppointment">
           <Key>
@@ -818,6 +1054,12 @@
           <NavigationProperty Name="Services" Relationship="Self.FK_Service_Member" FromRole="Member" ToRole="Service" />
           <NavigationProperty Name="Severities" Relationship="Self.FK_Severity_Member" FromRole="Member" ToRole="Severity" />
           <NavigationProperty Name="VoluteerPosts" Relationship="Self.FK_VolunteerPost_Member" FromRole="Member" ToRole="VoluteerPost" />
+          <Property Name="MiddleName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Patients" Relationship="BlindRiverModel.FK_Patient_Member" FromRole="Member" ToRole="Patient" />
+          <NavigationProperty Name="PatientVisitingHours" Relationship="BlindRiverModel.FK_PatientVisitingHour_Member" FromRole="Member" ToRole="PatientVisitingHour" />
+          <NavigationProperty Name="Reviews" Relationship="BlindRiverModel.FK_Review_Member" FromRole="Member" ToRole="Review" />
+          <NavigationProperty Name="ReviewCategories" Relationship="BlindRiverModel.FK_ReviewCategory_Member" FromRole="Member" ToRole="ReviewCategory" />
+          <NavigationProperty Name="VisitingSchedules" Relationship="BlindRiverModel.FK_VisitingSchedule_Member" FromRole="Member" ToRole="VisitingSchedule" />
         </EntityType>
         <EntityType Name="PaymentInfo">
           <Key>
@@ -1265,7 +1507,254 @@
             <End Role="VoluteerPost" EntitySet="VoluteerPosts" />
             <End Role="VolunteerInfo" EntitySet="VolunteerInfoes" />
           </AssociationSet>
+          <EntitySet Name="Patients" EntityType="BlindRiverModel.Patient" />
+          <EntitySet Name="PatientVisitingHours" EntityType="BlindRiverModel.PatientVisitingHour" />
+          <EntitySet Name="Reviews" EntityType="BlindRiverModel.Review" />
+          <EntitySet Name="ReviewCategories" EntityType="BlindRiverModel.ReviewCategory" />
+          <EntitySet Name="VisitingSchedules" EntityType="BlindRiverModel.VisitingSchedule" />
+          <AssociationSet Name="FK_Patient_City" Association="BlindRiverModel.FK_Patient_City">
+            <End Role="City" EntitySet="Cities" />
+            <End Role="Patient" EntitySet="Patients" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Review_Doctor" Association="BlindRiverModel.FK_Review_Doctor">
+            <End Role="Doctor" EntitySet="Doctors" />
+            <End Role="Review" EntitySet="Reviews" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Patient_Member" Association="BlindRiverModel.FK_Patient_Member">
+            <End Role="Member" EntitySet="Members" />
+            <End Role="Patient" EntitySet="Patients" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PatientVisitingHour_Member" Association="BlindRiverModel.FK_PatientVisitingHour_Member">
+            <End Role="Member" EntitySet="Members" />
+            <End Role="PatientVisitingHour" EntitySet="PatientVisitingHours" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Review_Member" Association="BlindRiverModel.FK_Review_Member">
+            <End Role="Member" EntitySet="Members" />
+            <End Role="Review" EntitySet="Reviews" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ReviewCategory_Member" Association="BlindRiverModel.FK_ReviewCategory_Member">
+            <End Role="Member" EntitySet="Members" />
+            <End Role="ReviewCategory" EntitySet="ReviewCategories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VisitingSchedule_Member" Association="BlindRiverModel.FK_VisitingSchedule_Member">
+            <End Role="Member" EntitySet="Members" />
+            <End Role="VisitingSchedule" EntitySet="VisitingSchedules" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PatientVisitingHour_Patient" Association="BlindRiverModel.FK_PatientVisitingHour_Patient">
+            <End Role="Patient" EntitySet="Patients" />
+            <End Role="PatientVisitingHour" EntitySet="PatientVisitingHours" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VisitingSchedule_Patient" Association="BlindRiverModel.FK_VisitingSchedule_Patient">
+            <End Role="Patient" EntitySet="Patients" />
+            <End Role="VisitingSchedule" EntitySet="VisitingSchedules" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Review_ReviewCategory" Association="BlindRiverModel.FK_Review_ReviewCategory">
+            <End Role="ReviewCategory" EntitySet="ReviewCategories" />
+            <End Role="Review" EntitySet="Reviews" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="Patient">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="MiddleName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="CityId" Type="Int32" Nullable="false" />
+          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PostalCode" Type="String" Nullable="false" MaxLength="7" FixedLength="true" Unicode="false" />
+          <Property Name="EnteredDate" Type="DateTime" Precision="0" />
+          <Property Name="EnteredBy" Type="Int32" />
+          <Property Name="Active" Type="Boolean" />
+          <NavigationProperty Name="City" Relationship="BlindRiverModel.FK_Patient_City" FromRole="Patient" ToRole="City" />
+          <NavigationProperty Name="Member" Relationship="BlindRiverModel.FK_Patient_Member" FromRole="Patient" ToRole="Member" />
+          <NavigationProperty Name="PatientVisitingHours" Relationship="BlindRiverModel.FK_PatientVisitingHour_Patient" FromRole="Patient" ToRole="PatientVisitingHour" />
+          <NavigationProperty Name="VisitingSchedules" Relationship="BlindRiverModel.FK_VisitingSchedule_Patient" FromRole="Patient" ToRole="VisitingSchedule" />
+        </EntityType>
+        <EntityType Name="PatientVisitingHour">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PatientId" Type="Int32" Nullable="false" />
+          <Property Name="VisitingDateFrom" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="VisitingDateTo" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="VisitingHourFrom" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="VisitingHourTo" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="MaxTimeSpan" Type="Int32" Nullable="false" />
+          <Property Name="TimeSpanBetweenVisit" Type="Int32" Nullable="false" />
+          <Property Name="EnteredDate" Type="DateTime" Precision="0" />
+          <Property Name="EnteredBy" Type="Int32" />
+          <Property Name="Active" Type="Boolean" />
+          <NavigationProperty Name="Member" Relationship="BlindRiverModel.FK_PatientVisitingHour_Member" FromRole="PatientVisitingHour" ToRole="Member" />
+          <NavigationProperty Name="Patient" Relationship="BlindRiverModel.FK_PatientVisitingHour_Patient" FromRole="PatientVisitingHour" ToRole="Patient" />
+        </EntityType>
+        <EntityType Name="Review">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ReviewCategoryId" Type="Int32" Nullable="false" />
+          <Property Name="DoctorId" Type="Int32" Nullable="false" />
+          <Property Name="Punctuality" Type="Int32" />
+          <Property Name="Helpfullness" Type="Int32" />
+          <Property Name="Knowledge" Type="Int32" />
+          <Property Name="Rate" Type="Int32" />
+          <Property Name="Pros" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Cons" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Advice" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="EnteredDate" Type="DateTime" Precision="0" />
+          <Property Name="ReviewedBy" Type="Int32" />
+          <NavigationProperty Name="Doctor" Relationship="BlindRiverModel.FK_Review_Doctor" FromRole="Review" ToRole="Doctor" />
+          <NavigationProperty Name="Member" Relationship="BlindRiverModel.FK_Review_Member" FromRole="Review" ToRole="Member" />
+          <NavigationProperty Name="ReviewCategory" Relationship="BlindRiverModel.FK_Review_ReviewCategory" FromRole="Review" ToRole="ReviewCategory" />
+        </EntityType>
+        <EntityType Name="ReviewCategory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CategoryName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="EnteredDate" Type="DateTime" Precision="0" />
+          <Property Name="EnteredBy" Type="Int32" />
+          <Property Name="Active" Type="Boolean" />
+          <NavigationProperty Name="Member" Relationship="BlindRiverModel.FK_ReviewCategory_Member" FromRole="ReviewCategory" ToRole="Member" />
+          <NavigationProperty Name="Reviews" Relationship="BlindRiverModel.FK_Review_ReviewCategory" FromRole="ReviewCategory" ToRole="Review" />
+        </EntityType>
+        <EntityType Name="VisitingSchedule">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PatientId" Type="Int32" Nullable="false" />
+          <Property Name="VisitorId" Type="Int32" Nullable="false" />
+          <Property Name="BookedFrom" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="BookedTo" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="AppointmentDate" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="Member" Relationship="BlindRiverModel.FK_VisitingSchedule_Member" FromRole="VisitingSchedule" ToRole="Member" />
+          <NavigationProperty Name="Patient" Relationship="BlindRiverModel.FK_VisitingSchedule_Patient" FromRole="VisitingSchedule" ToRole="Patient" />
+        </EntityType>
+        <Association Name="FK_Patient_City">
+          <End Type="BlindRiverModel.City" Role="City" Multiplicity="1" />
+          <End Type="BlindRiverModel.Patient" Role="Patient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="City">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Patient">
+              <PropertyRef Name="CityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Review_Doctor">
+          <End Type="BlindRiverModel.Doctor" Role="Doctor" Multiplicity="1" />
+          <End Type="BlindRiverModel.Review" Role="Review" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Doctor">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Review">
+              <PropertyRef Name="DoctorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Patient_Member">
+          <End Type="BlindRiverModel.Member" Role="Member" Multiplicity="0..1" />
+          <End Type="BlindRiverModel.Patient" Role="Patient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Patient">
+              <PropertyRef Name="EnteredBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PatientVisitingHour_Member">
+          <End Type="BlindRiverModel.Member" Role="Member" Multiplicity="0..1" />
+          <End Type="BlindRiverModel.PatientVisitingHour" Role="PatientVisitingHour" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PatientVisitingHour">
+              <PropertyRef Name="EnteredBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Review_Member">
+          <End Type="BlindRiverModel.Member" Role="Member" Multiplicity="0..1" />
+          <End Type="BlindRiverModel.Review" Role="Review" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Review">
+              <PropertyRef Name="ReviewedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ReviewCategory_Member">
+          <End Type="BlindRiverModel.Member" Role="Member" Multiplicity="0..1" />
+          <End Type="BlindRiverModel.ReviewCategory" Role="ReviewCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ReviewCategory">
+              <PropertyRef Name="EnteredBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VisitingSchedule_Member">
+          <End Type="BlindRiverModel.Member" Role="Member" Multiplicity="1" />
+          <End Type="BlindRiverModel.VisitingSchedule" Role="VisitingSchedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="VisitingSchedule">
+              <PropertyRef Name="VisitorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PatientVisitingHour_Patient">
+          <End Type="BlindRiverModel.Patient" Role="Patient" Multiplicity="1" />
+          <End Type="BlindRiverModel.PatientVisitingHour" Role="PatientVisitingHour" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Patient">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PatientVisitingHour">
+              <PropertyRef Name="PatientId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VisitingSchedule_Patient">
+          <End Type="BlindRiverModel.Patient" Role="Patient" Multiplicity="1" />
+          <End Type="BlindRiverModel.VisitingSchedule" Role="VisitingSchedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Patient">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="VisitingSchedule">
+              <PropertyRef Name="PatientId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Review_ReviewCategory">
+          <End Type="BlindRiverModel.ReviewCategory" Role="ReviewCategory" Multiplicity="1" />
+          <End Type="BlindRiverModel.Review" Role="Review" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ReviewCategory">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Review">
+              <PropertyRef Name="ReviewCategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1441,6 +1930,7 @@
           <EntitySetMapping Name="Members">
             <EntityTypeMapping TypeName="BlindRiverModel.Member">
               <MappingFragment StoreEntitySet="Member">
+                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Username" ColumnName="Username" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
@@ -1538,6 +2028,80 @@
                 <ScalarProperty Name="Published" ColumnName="Published" />
                 <ScalarProperty Name="EnteredDate" ColumnName="EnteredDate" />
                 <ScalarProperty Name="EnteredBy" ColumnName="EnteredBy" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Patients">
+            <EntityTypeMapping TypeName="BlindRiverModel.Patient">
+              <MappingFragment StoreEntitySet="Patient">
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="EnteredBy" ColumnName="EnteredBy" />
+                <ScalarProperty Name="EnteredDate" ColumnName="EnteredDate" />
+                <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="CityId" ColumnName="CityId" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PatientVisitingHours">
+            <EntityTypeMapping TypeName="BlindRiverModel.PatientVisitingHour">
+              <MappingFragment StoreEntitySet="PatientVisitingHour">
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="EnteredBy" ColumnName="EnteredBy" />
+                <ScalarProperty Name="EnteredDate" ColumnName="EnteredDate" />
+                <ScalarProperty Name="TimeSpanBetweenVisit" ColumnName="TimeSpanBetweenVisit" />
+                <ScalarProperty Name="MaxTimeSpan" ColumnName="MaxTimeSpan" />
+                <ScalarProperty Name="VisitingHourTo" ColumnName="VisitingHourTo" />
+                <ScalarProperty Name="VisitingHourFrom" ColumnName="VisitingHourFrom" />
+                <ScalarProperty Name="VisitingDateTo" ColumnName="VisitingDateTo" />
+                <ScalarProperty Name="VisitingDateFrom" ColumnName="VisitingDateFrom" />
+                <ScalarProperty Name="PatientId" ColumnName="PatientId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Reviews">
+            <EntityTypeMapping TypeName="BlindRiverModel.Review">
+              <MappingFragment StoreEntitySet="Review">
+                <ScalarProperty Name="ReviewedBy" ColumnName="ReviewedBy" />
+                <ScalarProperty Name="EnteredDate" ColumnName="EnteredDate" />
+                <ScalarProperty Name="Advice" ColumnName="Advice" />
+                <ScalarProperty Name="Cons" ColumnName="Cons" />
+                <ScalarProperty Name="Pros" ColumnName="Pros" />
+                <ScalarProperty Name="Rate" ColumnName="Rate" />
+                <ScalarProperty Name="Knowledge" ColumnName="Knowledge" />
+                <ScalarProperty Name="Helpfullness" ColumnName="Helpfullness" />
+                <ScalarProperty Name="Punctuality" ColumnName="Punctuality" />
+                <ScalarProperty Name="DoctorId" ColumnName="DoctorId" />
+                <ScalarProperty Name="ReviewCategoryId" ColumnName="ReviewCategoryId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ReviewCategories">
+            <EntityTypeMapping TypeName="BlindRiverModel.ReviewCategory">
+              <MappingFragment StoreEntitySet="ReviewCategory">
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="EnteredBy" ColumnName="EnteredBy" />
+                <ScalarProperty Name="EnteredDate" ColumnName="EnteredDate" />
+                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VisitingSchedules">
+            <EntityTypeMapping TypeName="BlindRiverModel.VisitingSchedule">
+              <MappingFragment StoreEntitySet="VisitingSchedule">
+                <ScalarProperty Name="AppointmentDate" ColumnName="AppointmentDate" />
+                <ScalarProperty Name="BookedTo" ColumnName="BookedTo" />
+                <ScalarProperty Name="BookedFrom" ColumnName="BookedFrom" />
+                <ScalarProperty Name="VisitorId" ColumnName="VisitorId" />
+                <ScalarProperty Name="PatientId" ColumnName="PatientId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
