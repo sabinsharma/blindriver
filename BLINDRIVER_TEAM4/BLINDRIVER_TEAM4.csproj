@@ -213,7 +213,19 @@
     <Compile Include="Models\Member.cs">
       <DependentUpon>BlindRiverModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Patient.cs">
+      <DependentUpon>BlindRiverModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PatientVisitingHour.cs">
+      <DependentUpon>BlindRiverModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\PaymentInfo.cs">
+      <DependentUpon>BlindRiverModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Review.cs">
+      <DependentUpon>BlindRiverModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ReviewCategory.cs">
       <DependentUpon>BlindRiverModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Role.cs">
@@ -223,6 +235,9 @@
       <DependentUpon>BlindRiverModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Severity.cs">
+      <DependentUpon>BlindRiverModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\VisitingSchedule.cs">
       <DependentUpon>BlindRiverModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\VolunteerInfo.cs">

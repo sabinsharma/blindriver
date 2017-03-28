@@ -4,8 +4,8 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="f4bd7a0009fc44c99f37bf95001588be" Name="Diagram1" ZoomLevel="62">
-        <EntityTypeShape EntityType="BlindRiverModel.AskBlindRiver" Width="1.5" PointX="1.25" PointY="10.125" IsExpanded="true" />
+      <Diagram DiagramId="f4bd7a0009fc44c99f37bf95001588be" Name="Diagram1" ZoomLevel="77">
+        <EntityTypeShape EntityType="BlindRiverModel.AskBlindRiver" Width="1.5" PointX="1.25" PointY="9.125" IsExpanded="true" />
         <EntityTypeShape EntityType="BlindRiverModel.Calculator" Width="1.5" PointX="7.5" PointY="30.375" IsExpanded="true" />
         <EntityTypeShape EntityType="BlindRiverModel.City" Width="1.5" PointX="5.25" PointY="38.125" IsExpanded="true" />
         <EntityTypeShape EntityType="BlindRiverModel.Contact" Width="1.5" PointX="5.25" PointY="8.125" IsExpanded="true" />
@@ -18,7 +18,7 @@
         <EntityTypeShape EntityType="BlindRiverModel.Facility" Width="1.5" PointX="5.25" PointY="16.25" IsExpanded="true" />
         <EntityTypeShape EntityType="BlindRiverModel.FAQ" Width="1.5" PointX="5.25" PointY="11.875" IsExpanded="true" />
         <EntityTypeShape EntityType="BlindRiverModel.Location" Width="1.5" PointX="5.25" PointY="23.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="BlindRiverModel.Member" Width="1.5" PointX="3" PointY="15.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="BlindRiverModel.Member" Width="1.5" PointX="2.875" PointY="17.375" IsExpanded="true" />
         <EntityTypeShape EntityType="BlindRiverModel.PaymentInfo" Width="1.5" PointX="7.5" PointY="25.25" IsExpanded="true" />
         <EntityTypeShape EntityType="BlindRiverModel.Role" Width="1.5" PointX="0.75" PointY="17.5" IsExpanded="true" />
         <EntityTypeShape EntityType="BlindRiverModel.Service" Width="1.5" PointX="5.25" PointY="27" IsExpanded="true" />
@@ -46,6 +46,21 @@
         <AssociationConnector Association="BlindRiverModel.FK_VolunteerPost_Member" ManuallyRouted="false" />
         <AssociationConnector Association="BlindRiverModel.FK_PaymentInfo_Service" ManuallyRouted="false" />
         <AssociationConnector Association="BlindRiverModel.FK_VolunteerInfo_VolunteerPost" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="BlindRiverModel.Patient" Width="1.5" PointX="10.5" PointY="26" />
+        <EntityTypeShape EntityType="BlindRiverModel.PatientVisitingHour" Width="1.5" PointX="15.75" PointY="20.875" />
+        <EntityTypeShape EntityType="BlindRiverModel.Review" Width="1.5" PointX="10.5" PointY="20.875" />
+        <EntityTypeShape EntityType="BlindRiverModel.ReviewCategory" Width="1.5" PointX="8.25" PointY="21.625" />
+        <EntityTypeShape EntityType="BlindRiverModel.VisitingSchedule" Width="1.5" PointX="12.75" PointY="22.375" />
+        <AssociationConnector Association="BlindRiverModel.FK_Patient_City" />
+        <AssociationConnector Association="BlindRiverModel.FK_Review_Doctor" />
+        <AssociationConnector Association="BlindRiverModel.FK_Patient_Member" />
+        <AssociationConnector Association="BlindRiverModel.FK_PatientVisitingHour_Member" />
+        <AssociationConnector Association="BlindRiverModel.FK_Review_Member" />
+        <AssociationConnector Association="BlindRiverModel.FK_ReviewCategory_Member" />
+        <AssociationConnector Association="BlindRiverModel.FK_VisitingSchedule_Member" />
+        <AssociationConnector Association="BlindRiverModel.FK_PatientVisitingHour_Patient" />
+        <AssociationConnector Association="BlindRiverModel.FK_VisitingSchedule_Patient" />
+        <AssociationConnector Association="BlindRiverModel.FK_Review_ReviewCategory" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

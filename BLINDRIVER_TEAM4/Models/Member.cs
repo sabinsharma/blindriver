@@ -25,6 +25,11 @@ namespace BLINDRIVER_TEAM4.Models
             this.Services = new HashSet<Service>();
             this.Severities = new HashSet<Severity>();
             this.VoluteerPosts = new HashSet<VoluteerPost>();
+            this.Patients = new HashSet<Patient>();
+            this.PatientVisitingHours = new HashSet<PatientVisitingHour>();
+            this.Reviews = new HashSet<Review>();
+            this.ReviewCategories = new HashSet<ReviewCategory>();
+            this.VisitingSchedules = new HashSet<VisitingSchedule>();
         }
     
         public int Id { get; set; }
@@ -40,6 +45,7 @@ namespace BLINDRIVER_TEAM4.Models
         public string Phone { get; set; }
         public string Address { get; set; }
         public string PostalCode { get; set; }
+        public string MiddleName { get; set; }
     
         public virtual ICollection<Contact> Contacts { get; set; }
         public virtual ICollection<Doctor> Doctors { get; set; }
@@ -51,5 +57,10 @@ namespace BLINDRIVER_TEAM4.Models
         public virtual ICollection<Service> Services { get; set; }
         public virtual ICollection<Severity> Severities { get; set; }
         public virtual ICollection<VoluteerPost> VoluteerPosts { get; set; }
+        public virtual ICollection<Patient> Patients { get; set; }
+        public virtual ICollection<PatientVisitingHour> PatientVisitingHours { get; set; }
+        public virtual ICollection<Review> Reviews { get; set; }
+        public virtual ICollection<ReviewCategory> ReviewCategories { get; set; }
+        public virtual ICollection<VisitingSchedule> VisitingSchedules { get; set; }
     }
 }

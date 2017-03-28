@@ -13,6 +13,7 @@ namespace BLINDRIVER_TEAM4.Controllers
     public class MembersController : Controller
     {
 
+
         private BlindRiverContext db = new BlindRiverContext();
 
         // GET: Members

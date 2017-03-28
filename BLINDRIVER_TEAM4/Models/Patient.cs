@@ -12,30 +12,28 @@ namespace BLINDRIVER_TEAM4.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Doctor
+    public partial class Patient
     {
-        public Doctor()
+        public Patient()
         {
-            this.DoctorAvailableDates = new HashSet<DoctorAvailableDate>();
-            this.Reviews = new HashSet<Review>();
+            this.PatientVisitingHours = new HashSet<PatientVisitingHour>();
+            this.VisitingSchedules = new HashSet<VisitingSchedule>();
         }
     
         public int Id { get; set; }
         public string FirstName { get; set; }
+        public string MiddleName { get; set; }
         public string LastName { get; set; }
-        public int DepartmentId { get; set; }
-        public string Gender { get; set; }
-        public string Language { get; set; }
-        public int YearOfExperience { get; set; }
-        public string Text { get; set; }
-        public byte[] Photo { get; set; }
+        public int CityId { get; set; }
+        public string Address { get; set; }
+        public string PostalCode { get; set; }
         public Nullable<System.DateTime> EnteredDate { get; set; }
         public Nullable<int> EnteredBy { get; set; }
         public Nullable<bool> Active { get; set; }
     
-        public virtual Department Department { get; set; }
+        public virtual City City { get; set; }
         public virtual Member Member { get; set; }
-        public virtual ICollection<DoctorAvailableDate> DoctorAvailableDates { get; set; }
-        public virtual ICollection<Review> Reviews { get; set; }
+        public virtual ICollection<PatientVisitingHour> PatientVisitingHours { get; set; }
+        public virtual ICollection<VisitingSchedule> VisitingSchedules { get; set; }
     }
 }
