@@ -11,7 +11,8 @@ namespace BLINDRIVER_TEAM4.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Member
     {
         public Member()
@@ -33,18 +34,65 @@ namespace BLINDRIVER_TEAM4.Models
         }
     
         public int Id { get; set; }
+
+        [Display(Name = "User Name")]
+        [Required]
         public string Username { get; set; }
+
+        [Display(Name = "Password")]
+        [Required]
+        [MinLength(6)]
         public string Password { get; set; }
+
+        [Display(Name = "Confirm Password")]
+        [Compare(nameof(Password), ErrorMessage = "Passwords don't match.")]
+        public string RepeatPassword { get; set; }
+
         public int RoleId { get; set; }
+
+        [Display(Name = "Registered Date")]
+        [DataType(DataType.Date)]
         public System.DateTime JoinedDay { get; set; }
+
+        [Display(Name = "First Name")]
+        [Required]
         public string FirstName { get; set; }
+
+        [Display(Name = "Last Name")]
+        [Required]
         public string LastName { get; set; }
+
+        [Display(Name = "Gender")]
+        [Required]
         public string Gender { get; set; }
+
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [Display(Name = "DOB")]
+        [Required]
         public System.DateTime DOB { get; set; }
+
+        [Display(Name = "Email")]
+        [Required]
+        [DataType(DataType.EmailAddress, ErrorMessage = "Email address is not valid")]
         public string Email { get; set; }
+
+        [Display(Name = "Phone")]
+        [Required]
+        [DataType(DataType.PhoneNumber)]
+        [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Phone format is not valid.")]
         public string Phone { get; set; }
+
+        [Display(Name = "Address")]
         public string Address { get; set; }
+
+        [Display(Name = "Postal Code")]
+        [Required]
+        [DataType(DataType.PostalCode)]
+        [RegularExpression(@"^([A-Z][0-9][A-Z])[-. ]?([0-9][A-Z][0-9])$", ErrorMessage = "Postal Code is not valid.")]
         public string PostalCode { get; set; }
+
+        [Display(Name = "Middle Name")]
         public string MiddleName { get; set; }
     
         public virtual ICollection<Contact> Contacts { get; set; }

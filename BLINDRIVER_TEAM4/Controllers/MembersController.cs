@@ -17,9 +17,65 @@ namespace BLINDRIVER_TEAM4.Controllers
         private BlindRiverContext db = new BlindRiverContext();
 
         // GET: Members
-        public ActionResult Index()
+        public ActionResult Index(string searchString, string sortOrder)
         {
-            var members = db.Members.Include(m => m.Role);
+            ViewBag.RoleSortParm = String.IsNullOrEmpty(sortOrder) ? "role_desc" : "";
+            ViewBag.FirstNameSortParm = sortOrder == "first_asc" ? "first_desc" : "first_asc";
+            ViewBag.LastNameSortParm = sortOrder == "last_asc" ? "last_desc" : "last_asc";
+            ViewBag.UserNameSortParm = sortOrder == "username_asc" ? "username_desc" : "username_asc";
+            ViewBag.DateSortParm = sortOrder == "date_asc" ? "date_desc" : "date_asc";
+
+            IQueryable<Member> members = null;
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                members = db.Members.Where(m => (m.FirstName.Contains(searchString)
+                                       || m.LastName.Contains(searchString)
+                                       || m.Phone.Contains(searchString)
+                                       || m.Address.Contains(searchString)
+                                       || m.Email.Contains(searchString)
+                                       || m.Gender.Contains(searchString)
+                                       || m.PostalCode.Contains(searchString)
+                                       || m.Role.RoleName.Contains(searchString)) && m.RoleId > 0);
+            }
+            else
+            {
+                members = db.Members.Include(m => m.Role).Where(m => m.RoleId > 0);
+
+            }
+
+            switch (sortOrder)
+            {
+                case "role_desc":
+                    members = members.OrderByDescending(m => m.Role.RoleName);
+                    break;
+                case "first_asc":
+                    members = members.OrderBy(m => m.FirstName);
+                    break;
+                case "first_desc":
+                    members = members.OrderByDescending(m => m.FirstName);
+                    break;
+                case "last_asc":
+                    members = members.OrderBy(m => m.LastName);
+                    break;
+                case "last_desc":
+                    members = members.OrderByDescending(m => m.LastName);
+                    break;
+                case "username_asc":
+                    members = members.OrderBy(m => m.Username);
+                    break;
+                case "username_desc":
+                    members = members.OrderByDescending(m => m.Username);
+                    break;
+                case "date_asc":
+                    members = members.OrderBy(m => m.JoinedDay);
+                    break;
+                case "date_desc":
+                    members = members.OrderByDescending(m => m.JoinedDay);
+                    break;
+                default:
+                    members = members.OrderBy(m => m.Role.RoleName);
+                    break;
+            }
             return View(members.ToList());
         }
 
@@ -50,13 +106,28 @@ namespace BLINDRIVER_TEAM4.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Username,Password,RoleId,JoinedDay,FirstName,LastName,Gender,DOB,Email,Phone,Address,PostalCode")] Member member)
+        public ActionResult Create([Bind(Include = "Id,Username,Password,RepeatPassword,RoleId,JoinedDay,FirstName,MiddleName,LastName,Gender,DOB,Email,Phone,Address,PostalCode")] Member member, string confirmPassword)
         {
             if (ModelState.IsValid)
             {
-                db.Members.Add(member);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                member.JoinedDay = DateTime.Now.Date;
+                Member checkEmail = db.Members.Where(c => c.Email == member.Email).FirstOrDefault();
+                Member checkUsername = db.Members.Where(c => c.Username == member.Username).FirstOrDefault();
+                // to throw a random error to View
+                if (checkUsername != null)
+                {
+                    ModelState.AddModelError("Username", "This username is already existed");
+                }
+                else if (checkEmail != null)
+                {
+                    ModelState.AddModelError("Email", "This email is already registered");
+                }
+                else
+                {
+                    db.Members.Add(member);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
             }
 
             ViewBag.RoleId = new SelectList(db.Roles, "Id", "RoleName", member.RoleId);
@@ -84,11 +155,21 @@ namespace BLINDRIVER_TEAM4.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Username,Password,RoleId,JoinedDay,FirstName,LastName,Gender,DOB,Email,Phone,Address,PostalCode")] Member member)
+        public ActionResult Edit([Bind(Include = "Id,Username,Password,RoleId,JoinedDay,FirstName,MiddleName,LastName,Gender,DOB,Email,Phone,Address,PostalCode")] Member member)
         {
+            // when ModelState got Error because of null "Password" field, we ignore the "Password" element in the array
+            ModelState.Remove("Password");
             if (ModelState.IsValid)
             {
+                // change the State of the Entity to be Modified
                 db.Entry(member).State = EntityState.Modified;
+
+                // set false to fields which you don't want to change
+                db.Entry(member).Property(x => x.Password).IsModified = false;
+                db.Entry(member).Property(x => x.JoinedDay).IsModified = false;
+
+                // set validate false to save possibly
+                db.Configuration.ValidateOnSaveEnabled = false;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -96,6 +177,9 @@ namespace BLINDRIVER_TEAM4.Controllers
             return View(member);
         }
 
+
+
+        /* Normal users can not delete users
         // GET: Members/Delete/5
         public ActionResult Delete(int? id)
         {
@@ -121,6 +205,7 @@ namespace BLINDRIVER_TEAM4.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+        */
 
         protected override void Dispose(bool disposing)
         {
