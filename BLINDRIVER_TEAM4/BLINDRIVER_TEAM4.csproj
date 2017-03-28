@@ -153,7 +153,6 @@
     <Compile Include="Controllers\ContactsController.cs" />
     <Compile Include="Controllers\DoctorAppointmentsController.cs" />
     <Compile Include="Controllers\DoctorAvailableDatesController.cs" />
-    <Compile Include="Controllers\DoctorAvailableTimesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MembersController.cs" />
     <Compile Include="Global.asax.cs">
@@ -345,11 +344,6 @@
     <Content Include="Views\DoctorAvailableDates\Details.cshtml" />
     <Content Include="Views\DoctorAvailableDates\Edit.cshtml" />
     <Content Include="Views\DoctorAvailableDates\Index.cshtml" />
-    <Content Include="Views\DoctorAvailableTimes\Create.cshtml" />
-    <Content Include="Views\DoctorAvailableTimes\Delete.cshtml" />
-    <Content Include="Views\DoctorAvailableTimes\Details.cshtml" />
-    <Content Include="Views\DoctorAvailableTimes\Edit.cshtml" />
-    <Content Include="Views\DoctorAvailableTimes\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
