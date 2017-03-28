@@ -1,0 +1,74 @@
+﻿@model BLINDRIVER_TEAM4.Models.Contact
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Contact</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.SenderName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SenderName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Phone)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Phone)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Subject)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Subject)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Commment)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Commment)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SubmitDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SubmitDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Member.Username)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Member.Username)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

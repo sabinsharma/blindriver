@@ -5,7 +5,7 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="f4bd7a0009fc44c99f37bf95001588be" Name="Diagram1" ZoomLevel="62">
-        <EntityTypeShape EntityType="BlindRiverModel.AskBlindRiver" Width="1.5" PointX="1.25" PointY="9.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="BlindRiverModel.AskBlindRiver" Width="1.5" PointX="1.25" PointY="10.125" IsExpanded="true" />
         <EntityTypeShape EntityType="BlindRiverModel.Calculator" Width="1.5" PointX="7.5" PointY="30.375" IsExpanded="true" />
         <EntityTypeShape EntityType="BlindRiverModel.City" Width="1.5" PointX="5.25" PointY="38.125" IsExpanded="true" />
         <EntityTypeShape EntityType="BlindRiverModel.Contact" Width="1.5" PointX="5.25" PointY="8.125" IsExpanded="true" />

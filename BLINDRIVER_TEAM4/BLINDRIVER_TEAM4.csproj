@@ -149,6 +149,8 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AdminContactsController.cs" />
+    <Compile Include="Controllers\ContactsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MembersController.cs" />
     <Compile Include="Global.asax.cs">
@@ -305,6 +307,16 @@
     <Content Include="Views\Members\Details.cshtml" />
     <Content Include="Views\Members\Edit.cshtml" />
     <Content Include="Views\Members\Index.cshtml" />
+    <Content Include="Views\Contacts\Create.cshtml" />
+    <Content Include="Views\Contacts\Delete.cshtml" />
+    <Content Include="Views\Contacts\Details.cshtml" />
+    <Content Include="Views\Contacts\Edit.cshtml" />
+    <Content Include="Views\Contacts\Index.cshtml" />
+    <Content Include="Views\AdminContacts\Create.cshtml" />
+    <Content Include="Views\AdminContacts\Delete.cshtml" />
+    <Content Include="Views\AdminContacts\Details.cshtml" />
+    <Content Include="Views\AdminContacts\Edit.cshtml" />
+    <Content Include="Views\AdminContacts\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
