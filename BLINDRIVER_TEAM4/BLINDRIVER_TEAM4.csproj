@@ -344,6 +344,7 @@
     <Content Include="Views\MembersAdmin\Details.cshtml" />
     <Content Include="Views\MembersAdmin\Edit.cshtml" />
     <Content Include="Views\MembersAdmin\Index.cshtml" />
+    <Content Include="Views\Shared\_AdminPartialView_Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

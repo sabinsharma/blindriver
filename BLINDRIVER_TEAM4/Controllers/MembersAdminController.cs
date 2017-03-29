@@ -15,64 +15,23 @@ namespace BLINDRIVER_TEAM4.Controllers
         private BlindRiverContext db = new BlindRiverContext();
 
         // GET: MembersAdmin
-        public ActionResult Index(string searchString, string sortOrder)
+        public ActionResult Index()
         {
-            ViewBag.RoleSortParm = String.IsNullOrEmpty(sortOrder) ? "role_desc" : "";
-            ViewBag.FirstNameSortParm = sortOrder == "first_asc" ? "first_desc" : "first_asc";
-            ViewBag.LastNameSortParm = sortOrder == "last_asc" ? "last_desc" : "last_asc";
-            ViewBag.UserNameSortParm = sortOrder == "username_asc" ? "username_desc" : "username_asc";
-            ViewBag.DateSortParm = sortOrder == "date_asc" ? "date_desc" : "date_asc";
+            var members = db.Members.Include(m => m.Role);
+            return View(members.ToList());
+        }
 
-            IQueryable<Member> members = null;
-            if (!String.IsNullOrEmpty(searchString))
-            {
-                members = db.Members.Where(m => m.FirstName.Contains(searchString)
+        public PartialViewResult SearchUsers(string searchString)
+        {
+            List<Member> mem = db.Members.Where(m => (m.FirstName.Contains(searchString)
                                        || m.LastName.Contains(searchString)
                                        || m.Phone.Contains(searchString)
                                        || m.Address.Contains(searchString)
                                        || m.Email.Contains(searchString)
                                        || m.Gender.Contains(searchString)
                                        || m.PostalCode.Contains(searchString)
-                                       || m.Role.RoleName.Contains(searchString));
-            }
-            else
-            {
-                members = db.Members.Include(m => m.Role);
-            }
-            switch (sortOrder)
-            {
-                case "role_desc":
-                    members = members.OrderByDescending(m => m.Role.RoleName);
-                    break;
-                case "first_asc":
-                    members = members.OrderBy(m => m.FirstName);
-                    break;
-                case "first_desc":
-                    members = members.OrderByDescending(m => m.FirstName);
-                    break;
-                case "last_asc":
-                    members = members.OrderBy(m => m.LastName);
-                    break;
-                case "last_desc":
-                    members = members.OrderByDescending(m => m.LastName);
-                    break;
-                case "username_asc":
-                    members = members.OrderBy(m => m.Username);
-                    break;
-                case "username_desc":
-                    members = members.OrderByDescending(m => m.Username);
-                    break;
-                case "date_asc":
-                    members = members.OrderBy(m => m.JoinedDay);
-                    break;
-                case "date_desc":
-                    members = members.OrderByDescending(m => m.JoinedDay);
-                    break;
-                default:
-                    members = members.OrderBy(m => m.Role.RoleName);
-                    break;
-            }
-            return View(members.ToList());
+                                       || m.Role.RoleName.Contains(searchString)) && m.RoleId > 0).ToList();
+            return PartialView("_AdminPartialView_Index", mem);
         }
 
         // GET: MembersAdmin/Details/5
