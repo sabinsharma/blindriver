@@ -63,7 +63,7 @@ namespace BLINDRIVER_TEAM4.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Username,Password,RepeatPassword,RoleId,JoinedDay,FirstName,MiddleName,LastName,Gender,DOB,Email,Phone,Address,PostalCode")] Member member, string confirmPassword)
+        public ActionResult Create([Bind(Include = "Id,Username,Password,RepeatPassword,RoleId,JoinedDay,FirstName,MiddleName,LastName,Gender,DOB,Email,Phone,Address,PostalCode,Photo")] Member member, string confirmPassword)
         {
             if (ModelState.IsValid)
             {
@@ -112,7 +112,7 @@ namespace BLINDRIVER_TEAM4.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Username,FirstName,MiddleName,LastName,Gender,DOB,Email,Phone,Address,PostalCode")] Member member)
+        public ActionResult Edit([Bind(Include = "Id,Username,FirstName,MiddleName,LastName,Gender,DOB,Email,Phone,Address,PostalCode,Photo")] Member member)
         {
             // when ModelState got Error because of null "Password" field, we ignore the "Password" element in the array
             ModelState.Remove("Password");

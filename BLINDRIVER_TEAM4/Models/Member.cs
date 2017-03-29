@@ -95,7 +95,10 @@ namespace BLINDRIVER_TEAM4.Models
 
         [Display(Name = "Middle Name")]
         public string MiddleName { get; set; }
-    
+
+        [Display(Name = "Profile Image")]
+        public string Photo { get; set; }
+
         public virtual ICollection<Contact> Contacts { get; set; }
         public virtual ICollection<Doctor> Doctors { get; set; }
         public virtual ICollection<DoctorAvailableDate> DoctorAvailableDates { get; set; }

@@ -176,6 +176,7 @@
           <Property Name="Address" Type="nvarchar(max)" />
           <Property Name="PostalCode" Type="char" MaxLength="7" Nullable="false" />
           <Property Name="MiddleName" Type="varchar(max)" />
+          <Property Name="Photo" Type="varchar(max)" />
         </EntityType>
         <EntityType Name="Patient">
           <Key>
@@ -962,8 +963,8 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="DoctorAvailableDateId" Type="Int32" Nullable="false" />
-          <Property Name="AvailableFrom" Type="Time" Nullable="false" />
-          <Property Name="AvailableUntil" Type="Time" Nullable="false" />
+          <Property Name="AvailableFrom" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="AvailableUntil" Type="Time" Nullable="false" Precision="7" />
           <Property Name="Active" Type="Boolean" />
           <NavigationProperty Name="DoctorAvailableDate" Relationship="Self.FK_DoctorAvailableTime_DoctorAvailableDate" FromRole="DoctorAvailableTime" ToRole="DoctorAvailableDate" />
         </EntityType>
@@ -1060,6 +1061,7 @@
           <NavigationProperty Name="Reviews" Relationship="BlindRiverModel.FK_Review_Member" FromRole="Member" ToRole="Review" />
           <NavigationProperty Name="ReviewCategories" Relationship="BlindRiverModel.FK_ReviewCategory_Member" FromRole="Member" ToRole="ReviewCategory" />
           <NavigationProperty Name="VisitingSchedules" Relationship="BlindRiverModel.FK_VisitingSchedule_Member" FromRole="Member" ToRole="VisitingSchedule" />
+          <Property Name="Photo" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="PaymentInfo">
           <Key>
@@ -1930,6 +1932,7 @@
           <EntitySetMapping Name="Members">
             <EntityTypeMapping TypeName="BlindRiverModel.Member">
               <MappingFragment StoreEntitySet="Member">
+                <ScalarProperty Name="Photo" ColumnName="Photo" />
                 <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Username" ColumnName="Username" />
