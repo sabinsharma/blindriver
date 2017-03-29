@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'C:\Users\Lenoir\documents\visual studio 2017\Projects\BLINDRIVER_TEAM4\BLINDRIVER_TEAM4\Models\BlindRiverModel.edmx'. 
+﻿// T4 code generation is enabled for model 'C:\Users\siji\Desktop\Dotnet-Project\blindriver\BLINDRIVER_TEAM4\Models\BlindRiverModel.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

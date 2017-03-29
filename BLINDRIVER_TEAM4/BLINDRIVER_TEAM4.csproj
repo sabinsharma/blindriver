@@ -151,8 +151,13 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AdminContactsController.cs" />
     <Compile Include="Controllers\ContactsController.cs" />
+
     <Compile Include="Controllers\CPanelController.cs" />
+
+    <Compile Include="Controllers\DoctorAvailableTimesController.cs" />
+
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MembersAdminController.cs" />
     <Compile Include="Controllers\MembersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -340,9 +345,22 @@
     <Content Include="Views\AdminContacts\Details.cshtml" />
     <Content Include="Views\AdminContacts\Edit.cshtml" />
     <Content Include="Views\AdminContacts\Index.cshtml" />
+
     <Content Include="Views\Shared\_Admin.cshtml" />
     <Content Include="Views\CPanel\Dashboard.cshtml" />
     <Content Include="Views\CPanel\Pages.cshtml" />
+
+    <Content Include="Views\DoctorAvailableTimes\Create.cshtml" />
+    <Content Include="Views\DoctorAvailableTimes\Delete.cshtml" />
+    <Content Include="Views\DoctorAvailableTimes\Details.cshtml" />
+    <Content Include="Views\DoctorAvailableTimes\Edit.cshtml" />
+    <Content Include="Views\DoctorAvailableTimes\Index.cshtml" />
+    <Content Include="Views\MembersAdmin\Create.cshtml" />
+    <Content Include="Views\MembersAdmin\Delete.cshtml" />
+    <Content Include="Views\MembersAdmin\Details.cshtml" />
+    <Content Include="Views\MembersAdmin\Edit.cshtml" />
+    <Content Include="Views\MembersAdmin\Index.cshtml" />
+
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -10,13 +10,11 @@ using BLINDRIVER_TEAM4.Models;
 
 namespace BLINDRIVER_TEAM4.Controllers
 {
-    public class MembersController : Controller
+    public class MembersAdminController : Controller
     {
-
-
         private BlindRiverContext db = new BlindRiverContext();
 
-        // GET: Members
+        // GET: MembersAdmin
         public ActionResult Index(string searchString, string sortOrder)
         {
             ViewBag.RoleSortParm = String.IsNullOrEmpty(sortOrder) ? "role_desc" : "";
@@ -28,21 +26,19 @@ namespace BLINDRIVER_TEAM4.Controllers
             IQueryable<Member> members = null;
             if (!String.IsNullOrEmpty(searchString))
             {
-                members = db.Members.Where(m => (m.FirstName.Contains(searchString)
+                members = db.Members.Where(m => m.FirstName.Contains(searchString)
                                        || m.LastName.Contains(searchString)
                                        || m.Phone.Contains(searchString)
                                        || m.Address.Contains(searchString)
                                        || m.Email.Contains(searchString)
                                        || m.Gender.Contains(searchString)
                                        || m.PostalCode.Contains(searchString)
-                                       || m.Role.RoleName.Contains(searchString)) && m.RoleId > 0);
+                                       || m.Role.RoleName.Contains(searchString));
             }
             else
             {
-                members = db.Members.Include(m => m.Role).Where(m => m.RoleId > 0);
-
+                members = db.Members.Include(m => m.Role);
             }
-
             switch (sortOrder)
             {
                 case "role_desc":
@@ -79,7 +75,7 @@ namespace BLINDRIVER_TEAM4.Controllers
             return View(members.ToList());
         }
 
-        // GET: Members/Details/5
+        // GET: MembersAdmin/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -94,47 +90,35 @@ namespace BLINDRIVER_TEAM4.Controllers
             return View(member);
         }
 
-        // GET: Members/Create
+        /* Admin can't create user
+        // GET: MembersAdmin/Create
         public ActionResult Create()
         {
             ViewBag.RoleId = new SelectList(db.Roles, "Id", "RoleName");
             return View();
         }
 
-        // POST: Members/Create
+       
+        // POST: MembersAdmin/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Username,Password,RepeatPassword,RoleId,JoinedDay,FirstName,MiddleName,LastName,Gender,DOB,Email,Phone,Address,PostalCode")] Member member, string confirmPassword)
+        public ActionResult Create([Bind(Include = "Id,Username,Password,RoleId,JoinedDay,FirstName,LastName,Gender,DOB,Email,Phone,Address,PostalCode,MiddleName")] Member member)
         {
             if (ModelState.IsValid)
             {
-                member.JoinedDay = DateTime.Now.Date;
-                Member checkEmail = db.Members.Where(c => c.Email == member.Email).FirstOrDefault();
-                Member checkUsername = db.Members.Where(c => c.Username == member.Username).FirstOrDefault();
-                // to throw a random error to View
-                if (checkUsername != null)
-                {
-                    ModelState.AddModelError("Username", "This username is already existed");
-                }
-                else if (checkEmail != null)
-                {
-                    ModelState.AddModelError("Email", "This email is already registered");
-                }
-                else
-                {
-                    db.Members.Add(member);
-                    db.SaveChanges();
-                    return RedirectToAction("Index");
-                }
+                db.Members.Add(member);
+                db.SaveChanges();
+                return RedirectToAction("Index");
             }
 
             ViewBag.RoleId = new SelectList(db.Roles, "Id", "RoleName", member.RoleId);
             return View(member);
         }
+        */
 
-        // GET: Members/Edit/5
+        // GET: MembersAdmin/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -150,24 +134,19 @@ namespace BLINDRIVER_TEAM4.Controllers
             return View(member);
         }
 
-        // POST: Members/Edit/5
+        // POST: MembersAdmin/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Username,FirstName,MiddleName,LastName,Gender,DOB,Email,Phone,Address,PostalCode")] Member member)
+        public ActionResult Edit([Bind(Include = "Id,Username,Password,RoleId,JoinedDay,FirstName,LastName,Gender,DOB,Email,Phone,Address,PostalCode,MiddleName")] Member member)
         {
-            // when ModelState got Error because of null "Password" field, we ignore the "Password" element in the array
             ModelState.Remove("Password");
             if (ModelState.IsValid)
             {
-                // change the State of the Entity to be Modified
                 db.Entry(member).State = EntityState.Modified;
-
-                // set false to fields which you don't want to change
                 db.Entry(member).Property(x => x.Password).IsModified = false;
                 db.Entry(member).Property(x => x.JoinedDay).IsModified = false;
-
                 // set validate false to save possibly
                 db.Configuration.ValidateOnSaveEnabled = false;
                 db.SaveChanges();
@@ -177,10 +156,7 @@ namespace BLINDRIVER_TEAM4.Controllers
             return View(member);
         }
 
-
-
-        /* Normal users can not delete users
-        // GET: Members/Delete/5
+        // GET: MembersAdmin/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -195,7 +171,7 @@ namespace BLINDRIVER_TEAM4.Controllers
             return View(member);
         }
 
-        // POST: Members/Delete/5
+        // POST: MembersAdmin/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
@@ -205,7 +181,6 @@ namespace BLINDRIVER_TEAM4.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
-        */
 
         protected override void Dispose(bool disposing)
         {
