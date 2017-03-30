@@ -37,6 +37,7 @@ namespace BLINDRIVER_TEAM4.Models
 
         [Display(Name = "User Name")]
         [Required]
+        //[System.Web.Mvc.Remote("IsUserExists", "Members", HttpMethod = "POST", ErrorMessage = "User name already exists. Please enter a different user name.")]
         public string Username { get; set; }
 
         [Display(Name = "Password")]

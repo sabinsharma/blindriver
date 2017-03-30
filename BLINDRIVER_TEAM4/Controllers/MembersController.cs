@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using BLINDRIVER_TEAM4.Models;
+using System.IO;
 
 namespace BLINDRIVER_TEAM4.Controllers
 {
@@ -19,7 +20,7 @@ namespace BLINDRIVER_TEAM4.Controllers
         // GET: Members
         public ActionResult Index()
         {
-            var members = db.Members.Include(m => m.Role).Where(m => m.RoleId > 0);           
+            var members = db.Members.Include(m => m.Role).Where(m => m.RoleId > 0).OrderByDescending(m => m.RoleId);           
             return View(members.ToList());
         }
 
@@ -32,9 +33,15 @@ namespace BLINDRIVER_TEAM4.Controllers
                                        || m.Email.Contains(searchString)
                                        || m.Gender.Contains(searchString)
                                        || m.PostalCode.Contains(searchString)
-                                       || m.Role.RoleName.Contains(searchString)) && m.RoleId > 0).ToList();
+                                       || m.Role.RoleName.Contains(searchString)) && m.RoleId > 0).OrderByDescending(m => m.RoleId).ToList();
             return PartialView("_AdminPartialView_Index", mem);
         }
+
+        //[HttpPost]
+        //public JsonResult IsUserExists(string UserName)
+        //{  
+        //    return Json(!db.Members.Any(x => x.Username == UserName), JsonRequestBehavior.AllowGet);
+        //}
 
         // GET: Members/Details/5
         public ActionResult Details(int? id)
@@ -63,7 +70,7 @@ namespace BLINDRIVER_TEAM4.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Username,Password,RepeatPassword,RoleId,JoinedDay,FirstName,MiddleName,LastName,Gender,DOB,Email,Phone,Address,PostalCode,Photo")] Member member, string confirmPassword)
+        public ActionResult Create([Bind(Include = "Id,Username,Password,RepeatPassword,RoleId,JoinedDay,FirstName,MiddleName,LastName,Gender,DOB,Email,Phone,Address,PostalCode,Photo")] Member member, string confirmPassword, HttpPostedFileBase image)
         {
             if (ModelState.IsValid)
             {
@@ -81,6 +88,14 @@ namespace BLINDRIVER_TEAM4.Controllers
                 }
                 else
                 {
+                    if (image != null && image.ContentLength > 0)
+                    {
+                        var fileName = Path.GetFileName(image.FileName).ToLower();
+                        member.Photo = fileName.Replace(fileName.Substring(0, fileName.IndexOf(".")), member.Username);
+                        var path = Path.Combine(Server.MapPath("/image/UserImage/"), member.Photo);
+                        image.SaveAs(path);
+                    }
+
                     db.Members.Add(member);
                     db.SaveChanges();
                     return RedirectToAction("Index");
@@ -112,10 +127,12 @@ namespace BLINDRIVER_TEAM4.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Username,FirstName,MiddleName,LastName,Gender,DOB,Email,Phone,Address,PostalCode,Photo")] Member member)
+        public ActionResult Edit([Bind(Include = "Id,Username,FirstName,MiddleName,LastName,Gender,DOB,Email,Phone,Address,PostalCode,Photo")] Member member, HttpPostedFileBase image)
         {
             // when ModelState got Error because of null "Password" field, we ignore the "Password" element in the array
             ModelState.Remove("Password");
+            ModelState.Remove("Username");
+            ModelState.Remove("Email");
             if (ModelState.IsValid)
             {
                 // change the State of the Entity to be Modified
@@ -124,9 +141,20 @@ namespace BLINDRIVER_TEAM4.Controllers
                 // set false to fields which you don't want to change
                 db.Entry(member).Property(x => x.Password).IsModified = false;
                 db.Entry(member).Property(x => x.JoinedDay).IsModified = false;
-
+                db.Entry(member).Property(x => x.Username).IsModified = false;
+                db.Entry(member).Property(x => x.Email).IsModified = false;
+                db.Entry(member).Property(x => x.RoleId).IsModified = false;
                 // set validate false to save possibly
                 db.Configuration.ValidateOnSaveEnabled = false;
+
+                if (image != null && image.ContentLength > 0)
+                {
+                    var fileName = Path.GetFileName(image.FileName).ToLower();
+                    member.Photo = fileName.Replace(fileName.Substring(0, fileName.IndexOf(".")), member.Username);
+                    var path = Path.Combine(Server.MapPath("/image/UserImage/"), member.Photo);
+                    image.SaveAs(path);
+                }
+
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }

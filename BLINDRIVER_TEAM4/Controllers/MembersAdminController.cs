@@ -17,7 +17,7 @@ namespace BLINDRIVER_TEAM4.Controllers
         // GET: MembersAdmin
         public ActionResult Index()
         {
-            var members = db.Members.Include(m => m.Role);
+            var members = db.Members.Include(m => m.Role).OrderByDescending(m => m.RoleId);
             return View(members.ToList());
         }
 
@@ -30,7 +30,7 @@ namespace BLINDRIVER_TEAM4.Controllers
                                        || m.Email.Contains(searchString)
                                        || m.Gender.Contains(searchString)
                                        || m.PostalCode.Contains(searchString)
-                                       || m.Role.RoleName.Contains(searchString)) && m.RoleId > 0).ToList();
+                                       || m.Role.RoleName.Contains(searchString)) && m.RoleId > 0).OrderByDescending(m => m.RoleId).ToList();
             return PartialView("_AdminPartialView_Index", mem);
         }
 

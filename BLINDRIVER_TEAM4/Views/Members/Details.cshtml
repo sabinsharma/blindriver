@@ -107,6 +107,24 @@
             @Html.DisplayFor(model => model.Role.RoleName)
         </dd>
 
+        <dt>
+            @Html.DisplayNameFor(model => model.Photo)
+        </dt>
+
+        <dd>
+            <div style="position:absolute;top:25em;right:25em;" class="well">
+                @if (Model.Photo != null)
+                {
+                    <img src="~/image/UserImage/@Html.DisplayFor(model => model.Photo)" width="200" />
+                }
+                else
+                {
+                    <img src="~/image/UserImage/unavailable.png" width="200" />
+                }
+
+            </div>
+        </dd>
+
     </dl>
 </div>
 <p>

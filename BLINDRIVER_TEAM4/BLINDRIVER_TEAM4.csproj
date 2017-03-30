@@ -267,6 +267,12 @@
     <Content Include="Content\Site.css" />
     <Content Include="image\logo.jpg" />
     <Content Include="image\OLDlogo.png" />
+    <Content Include="image\UserImage\angel.jpg" />
+    <Content Include="image\UserImage\duc.jpg" />
+    <Content Include="image\UserImage\john.png" />
+    <Content Include="image\UserImage\lenoir.jpg" />
+    <Content Include="image\UserImage\leonel_messi.jpg" />
+    <Content Include="image\UserImage\unavailable.png" />
     <Content Include="Models\BlindRiverModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>BlindRiverModel.Context.cs</LastGenOutput>
@@ -359,7 +365,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="image\UserImage\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
