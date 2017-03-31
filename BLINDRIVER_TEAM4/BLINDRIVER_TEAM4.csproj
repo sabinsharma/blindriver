@@ -249,6 +249,7 @@
     <Compile Include="Models\VoluteerPost.cs">
       <DependentUpon>BlindRiverModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="MyUserProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -362,6 +363,7 @@
     <Content Include="Views\MembersAdmin\Edit.cshtml" />
     <Content Include="Views\MembersAdmin\Index.cshtml" />
     <Content Include="Views\Shared\_AdminPartialView_Index.cshtml" />
+    <Content Include="Views\Members\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

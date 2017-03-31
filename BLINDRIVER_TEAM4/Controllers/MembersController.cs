@@ -8,15 +8,16 @@ using System.Web;
 using System.Web.Mvc;
 using BLINDRIVER_TEAM4.Models;
 using System.IO;
+using System.Web.Security;
 
 namespace BLINDRIVER_TEAM4.Controllers
 {
     public class MembersController : Controller
     {
-
-
         private BlindRiverContext db = new BlindRiverContext();
 
+        [HttpGet]
+        [AllowAnonymous]
         // GET: Members
         public ActionResult Index()
         {
@@ -35,6 +36,43 @@ namespace BLINDRIVER_TEAM4.Controllers
                                        || m.PostalCode.Contains(searchString)
                                        || m.Role.RoleName.Contains(searchString)) && m.RoleId > 0).OrderByDescending(m => m.RoleId).ToList();
             return PartialView("_AdminPartialView_Index", mem);
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public ActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Login(Member user)
+        {
+            // compared user input with db
+            // check if username and password exist
+            int count = db.Members.Where(u => u.Username == user.Username && u.Password == user.Password).Count();
+            if (count == 0)
+            {
+                ViewBag.Message = "Invalid login";
+                return View();
+            }
+            else
+            {
+                FormsAuthentication.SetAuthCookie(user.Username, false);
+                return RedirectToAction("Index", "Members"); // go to the index of the Users Controller when logging successfully
+            }
+        }
+
+        public ActionResult Logout()
+        {
+            string returnUrl = Request.QueryString["ReturnUrl"];
+            FormsAuthentication.SignOut();
+            if (returnUrl != null)
+            {
+                return Redirect(returnUrl);
+            }
+            ViewBag.Message = "You have been successfully logged out";
+            return RedirectToAction("Index");
         }
 
         //[HttpPost]
@@ -58,6 +96,7 @@ namespace BLINDRIVER_TEAM4.Controllers
             return View(member);
         }
 
+        [Authorize(Roles = "Admin, Staff")]
         // GET: Members/Create
         public ActionResult Create()
         {
@@ -106,6 +145,7 @@ namespace BLINDRIVER_TEAM4.Controllers
             return View(member);
         }
 
+        [Authorize(Roles = "Admin, Staff")]
         // GET: Members/Edit/5
         public ActionResult Edit(int? id)
         {
