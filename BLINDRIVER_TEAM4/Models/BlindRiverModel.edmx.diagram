@@ -46,21 +46,20 @@
         <AssociationConnector Association="BlindRiverModel.FK_VolunteerPost_Member" ManuallyRouted="false" />
         <AssociationConnector Association="BlindRiverModel.FK_PaymentInfo_Service" ManuallyRouted="false" />
         <AssociationConnector Association="BlindRiverModel.FK_VolunteerInfo_VolunteerPost" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="BlindRiverModel.Patient" Width="1.5" PointX="10.5" PointY="26" />
         <EntityTypeShape EntityType="BlindRiverModel.PatientVisitingHour" Width="1.5" PointX="15.75" PointY="20.875" />
         <EntityTypeShape EntityType="BlindRiverModel.Review" Width="1.5" PointX="10.5" PointY="20.875" />
         <EntityTypeShape EntityType="BlindRiverModel.ReviewCategory" Width="1.5" PointX="8.25" PointY="21.625" />
         <EntityTypeShape EntityType="BlindRiverModel.VisitingSchedule" Width="1.5" PointX="12.75" PointY="22.375" />
-        <AssociationConnector Association="BlindRiverModel.FK_Patient_City" />
         <AssociationConnector Association="BlindRiverModel.FK_Review_Doctor" />
-        <AssociationConnector Association="BlindRiverModel.FK_Patient_Member" />
         <AssociationConnector Association="BlindRiverModel.FK_PatientVisitingHour_Member" />
         <AssociationConnector Association="BlindRiverModel.FK_Review_Member" />
         <AssociationConnector Association="BlindRiverModel.FK_ReviewCategory_Member" />
         <AssociationConnector Association="BlindRiverModel.FK_VisitingSchedule_Member" />
+        <AssociationConnector Association="BlindRiverModel.FK_Review_ReviewCategory" />
+        <EntityTypeShape EntityType="BlindRiverModel.Patient" Width="1.5" PointX="5.125" PointY="3.125" />
+        <AssociationConnector Association="BlindRiverModel.FK_Patient_Member" />
         <AssociationConnector Association="BlindRiverModel.FK_PatientVisitingHour_Patient" />
         <AssociationConnector Association="BlindRiverModel.FK_VisitingSchedule_Patient" />
-        <AssociationConnector Association="BlindRiverModel.FK_Review_ReviewCategory" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

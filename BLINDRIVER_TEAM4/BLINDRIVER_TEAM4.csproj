@@ -151,11 +151,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AdminContactsController.cs" />
     <Compile Include="Controllers\ContactsController.cs" />
-
-    <Compile Include="Controllers\CPanelController.cs" />
-
     <Compile Include="Controllers\DoctorAvailableTimesController.cs" />
-
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MembersAdminController.cs" />
     <Compile Include="Controllers\MembersController.cs" />
@@ -222,6 +218,7 @@
     <Compile Include="Models\Patient.cs">
       <DependentUpon>BlindRiverModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\PatientViewModel.cs" />
     <Compile Include="Models\PatientVisitingHour.cs">
       <DependentUpon>BlindRiverModel.tt</DependentUpon>
     </Compile>
@@ -280,6 +277,7 @@
       <DependentUpon>BlindRiverModel.edmx</DependentUpon>
       <LastGenOutput>BlindRiverModel.cs</LastGenOutput>
     </Content>
+    <Content Include="Scripts\Blindriver.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
@@ -303,6 +301,8 @@
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -311,9 +311,6 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Views\master.html" />
-    <Content Include="Views\Shared\Admin\admin-edit.html" />
-    <Content Include="Views\Shared\Admin\admin-pages.html" />
-    <Content Include="Views\Shared\Admin\admin.html" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -345,11 +342,7 @@
     <Content Include="Views\AdminContacts\Details.cshtml" />
     <Content Include="Views\AdminContacts\Edit.cshtml" />
     <Content Include="Views\AdminContacts\Index.cshtml" />
-
     <Content Include="Views\Shared\_Admin.cshtml" />
-    <Content Include="Views\CPanel\Dashboard.cshtml" />
-    <Content Include="Views\CPanel\Pages.cshtml" />
-
     <Content Include="Views\DoctorAvailableTimes\Create.cshtml" />
     <Content Include="Views\DoctorAvailableTimes\Delete.cshtml" />
     <Content Include="Views\DoctorAvailableTimes\Details.cshtml" />
@@ -360,7 +353,7 @@
     <Content Include="Views\MembersAdmin\Details.cshtml" />
     <Content Include="Views\MembersAdmin\Edit.cshtml" />
     <Content Include="Views\MembersAdmin\Index.cshtml" />
-
+    <Content Include="Views\Shared\_pages.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

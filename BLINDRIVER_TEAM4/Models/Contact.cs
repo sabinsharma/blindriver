@@ -6,7 +6,7 @@
 //    Manual changes to this file will be overwritten if the code is regenerated.
 // </auto-generated>
 //------------------------------------------------------------------------------
-using System.ComponentModel.DataAnnotations;
+
 namespace BLINDRIVER_TEAM4.Models
 {
     using System;
@@ -15,33 +15,10 @@ namespace BLINDRIVER_TEAM4.Models
     public partial class Contact
     {
         public int Id { get; set; }
-
-        [Display(Name = "Your Name")]
-        [Required(ErrorMessage = "Name is required.")]
-
         public string SenderName { get; set; }
-
-        [Display(Name = "Email ID")]
-        [Required(ErrorMessage = "The email address is required")]
-        [DataType(DataType.EmailAddress)]
-        [EmailAddress]
-
         public string Email { get; set; }
-
-        [Display(Name = "Phone No")]
-        [Required(ErrorMessage = "Phone number is required")]
-        [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Entered phone format is not valid.")]
-
         public string Phone { get; set; }
-
-        [Display(Name = "Subject")]
-        [Required(ErrorMessage = "subject is required.")]
-
         public string Subject { get; set; }
-
-        [Display(Name = "Comments")]
-        [Required(ErrorMessage = " Please give some comments")]
-
         public string Commment { get; set; }
         public System.DateTime SubmitDate { get; set; }
         public Nullable<int> ViewedBy { get; set; }

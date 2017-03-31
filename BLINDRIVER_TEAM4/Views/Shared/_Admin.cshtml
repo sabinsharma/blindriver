@@ -1,10 +1,10 @@
 ﻿<!DOCTYPE html>
 <html>
-    <head>
-        <title>@Page.Title</title>
-        @*@RenderSection("head", required: false)*@
+<head>
+    <title>@Page.Title</title>
+    @*@RenderSection("head", required: false)*@
 
-   
+
     <meta charset="utf-8">
     <title>@ViewBag.Title</title>
     <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
@@ -12,6 +12,13 @@
     <link href="~/Content/admin.css" rel="stylesheet" />
     <link href="~/Content/font-awesome.css" rel="stylesheet" /> <!--fontawasome icon-->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700" /><!--Google font-->
+    <script src="~/Scripts/jquery-1.10.2.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Scripts/Blindriver.js"></script>
+
+
 </head>
 <body>
     <div id="wrapper" class="container-fluid">
@@ -34,7 +41,7 @@
                 <ul class="nav" id="mobile-menu">
                     <li><a href="~/CPanel/Dashboard"><i class="fa fa-dashboard"></i>Dashboard </a></li>
                     @*<li class="active-link"><a href="admin-edit.html"><i class="fa fa-edit"></i>Control Panel <span class="badge bg-color-pink">3</span></a></li>
-                    <li><a href="#"><i class="fa fa-table"></i>Database <span class="badge bg-color-pink">30</span></a></li>*@
+                        <li><a href="#"><i class="fa fa-table"></i>Database <span class="badge bg-color-pink">30</span></a></li>*@
                     <li><a href="~/CPanel/Pages"><i class="fa fa-pages"></i>Pages <span class="badge bg-color-pink">3</span></a></li>
                     <li><a href="#"><i class="fa fa-bar-chart-o"></i>Link </a></li>
                 </ul>
@@ -48,7 +55,7 @@
                         <ul class="nav" id="main-menu">
                             <li><a href="~/CPanel/Dashboard"><i class="fa fa-dashboard"></i>Dashboard </a></li>
                             @*<li class="active-link"><a href="admin-edit.html"><i class="fa fa-edit"></i>Control Panel <span class="badge bg-color-pink">3</span></a></li>
-                            <li><a href="~/AdminPanel/Dashboard"><i class="fa fa-table"></i>Database <span class="badge bg-color-pink">30</span></a></li>*@
+                                <li><a href="~/AdminPanel/Dashboard"><i class="fa fa-table"></i>Database <span class="badge bg-color-pink">30</span></a></li>*@
                             <li><a href="~/CPanel/Pages"><i class="fa fa-pages"></i>Pages <span class="badge bg-color-pink">3</span></a></li>
                             <li><a href="#"><i class="fa fa-bar-chart-o"></i>Link </a></li>
                         </ul>
@@ -59,16 +66,16 @@
                 @RenderBody()
             </div><!-- END PAGE_INNER  -->
 
-    </div><!-- END WRAPPER -->
-    <footer class="sticky">
-        <div class="row">
-            <div class="col-lg-12">
-                <p><small>&copy;  2014 yourdomain.com</small></p>
+        </div><!-- END WRAPPER -->
+        <footer class="sticky">
+            <div class="row">
+                <div class="col-lg-12">
+                    <p><small>&copy;  2014 yourdomain.com</small></p>
+                </div>
             </div>
-        </div>
-    </footer><!-- END FOOTER  -->
+        </footer><!-- END FOOTER  -->
+        @*<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>*@
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
+
 </body>
 </html>
