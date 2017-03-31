@@ -31,8 +31,11 @@ namespace BLINDRIVER_TEAM4.Models
             this.Reviews = new HashSet<Review>();
             this.ReviewCategories = new HashSet<ReviewCategory>();
             this.VisitingSchedules = new HashSet<VisitingSchedule>();
+            this.Events = new HashSet<Event>();
+            this.EventMemberStatus = new HashSet<EventMemberStatu>();
+            this.Patients = new HashSet<Patient>();
         }
-    
+
         public int Id { get; set; }
 
         [Display(Name = "User Name")]
@@ -115,5 +118,8 @@ namespace BLINDRIVER_TEAM4.Models
         public virtual ICollection<Review> Reviews { get; set; }
         public virtual ICollection<ReviewCategory> ReviewCategories { get; set; }
         public virtual ICollection<VisitingSchedule> VisitingSchedules { get; set; }
+        public virtual ICollection<Event> Events { get; set; }
+        public virtual ICollection<EventMemberStatu> EventMemberStatus { get; set; }
+        public virtual ICollection<Patient> Patients { get; set; }
     }
 }

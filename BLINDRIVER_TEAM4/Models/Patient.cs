@@ -24,14 +24,12 @@ namespace BLINDRIVER_TEAM4.Models
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
         public string LastName { get; set; }
-        public int CityId { get; set; }
         public string Address { get; set; }
         public string PostalCode { get; set; }
         public Nullable<System.DateTime> EnteredDate { get; set; }
         public Nullable<int> EnteredBy { get; set; }
         public Nullable<bool> Active { get; set; }
     
-        public virtual City City { get; set; }
         public virtual Member Member { get; set; }
         public virtual ICollection<PatientVisitingHour> PatientVisitingHours { get; set; }
         public virtual ICollection<VisitingSchedule> VisitingSchedules { get; set; }
