@@ -122,8 +122,17 @@
             @Html.LabelFor(model => model.Photo, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @*@Html.DisplayFor(model => model.Photo)*@               
-                <input type="file" name="image" class="btn btn-default" />
+                <input id="profileImg" type="file" name="image" class="btn btn-default" />
                 @Html.ValidationMessageFor(model => model.Photo, "", new { @class = "text-danger" })
+                @if (Model.Photo != null)
+                {
+                    <img id="showImg" src="~/image/UserImage/@Html.DisplayFor(model => model.Photo)" width="400" class="img-rounded" />
+                }
+                else
+                {
+                    <img id="showImg" src="~/image/UserImage/unavailable.png" width="400" class="img-rounded" />
+                }
+
             </div>
         </div>
 
@@ -132,17 +141,6 @@
                 <input type="submit" value="Save" class="btn btn-default" />
             </div>
         </div>
-    </div>
-    <div style="position:absolute;top:5em;right:10em;" class="well">
-        @if (Model.Photo != null)
-        {
-            <img src="~/image/UserImage/@Html.DisplayFor(model => model.Photo)" width="400" />
-        }
-        else
-        {
-            <img src="~/image/UserImage/unavailable.png" width="400" />
-        }
-
     </div>
 }
 
@@ -153,3 +151,19 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
+
+<script>
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#showImg').attr('src', e.target.result);
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    $("#profileImg").change(function () {
+        readURL(this);
+    });
+</script>

@@ -34,6 +34,7 @@ namespace BLINDRIVER_TEAM4.Controllers
                                        || m.Email.Contains(searchString)
                                        || m.Gender.Contains(searchString)
                                        || m.PostalCode.Contains(searchString)
+                                       || m.JoinedDay.ToString().Contains(searchString)
                                        || m.Role.RoleName.Contains(searchString)) && m.RoleId > 0).OrderByDescending(m => m.RoleId).ToList();
             return PartialView("_AdminPartialView_Index", mem);
         }

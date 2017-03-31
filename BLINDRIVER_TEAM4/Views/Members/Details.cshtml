@@ -112,14 +112,14 @@
         </dt>
 
         <dd>
-            <div style="position:absolute;top:25em;right:25em;" class="well">
+            <div class="">
                 @if (Model.Photo != null)
                 {
-                    <img src="~/image/UserImage/@Html.DisplayFor(model => model.Photo)" width="200" />
+                    <img src="~/image/UserImage/@Html.DisplayFor(model => model.Photo)" width="400" class="img-rounded" />
                 }
                 else
                 {
-                    <img src="~/image/UserImage/unavailable.png" width="200" />
+                    <img src="~/image/UserImage/unavailable.png" width="400" class="img-rounded" />
                 }
 
             </div>
