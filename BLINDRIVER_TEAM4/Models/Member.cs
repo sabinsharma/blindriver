@@ -26,7 +26,6 @@ namespace BLINDRIVER_TEAM4.Models
             this.Services = new HashSet<Service>();
             this.Severities = new HashSet<Severity>();
             this.VoluteerPosts = new HashSet<VoluteerPost>();
-            this.Patients = new HashSet<Patient>();
             this.PatientVisitingHours = new HashSet<PatientVisitingHour>();
             this.Reviews = new HashSet<Review>();
             this.ReviewCategories = new HashSet<ReviewCategory>();
@@ -113,7 +112,6 @@ namespace BLINDRIVER_TEAM4.Models
         public virtual ICollection<Service> Services { get; set; }
         public virtual ICollection<Severity> Severities { get; set; }
         public virtual ICollection<VoluteerPost> VoluteerPosts { get; set; }
-        public virtual ICollection<Patient> Patients { get; set; }
         public virtual ICollection<PatientVisitingHour> PatientVisitingHours { get; set; }
         public virtual ICollection<Review> Reviews { get; set; }
         public virtual ICollection<ReviewCategory> ReviewCategories { get; set; }
