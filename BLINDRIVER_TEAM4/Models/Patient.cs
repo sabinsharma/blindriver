@@ -11,25 +11,39 @@ namespace BLINDRIVER_TEAM4.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel;
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Patient
     {
         public Patient()
         {
             this.PatientVisitingHours = new HashSet<PatientVisitingHour>();
             this.VisitingSchedules = new HashSet<VisitingSchedule>();
+            
         }
     
         public int Id { get; set; }
+        [Display(Name ="First Name"),Required,RegularExpression("^([A-Za-z]+\\s?)*([A-Za-z])*$",ErrorMessage ="Invalid First Name")]
         public string FirstName { get; set; }
+        [Display(Name = "Middle Name"),RegularExpression("^([A-Za-z])*$", ErrorMessage = "Invalid Middle Name")]
         public string MiddleName { get; set; }
+        [Display(Name = "Last Name"), RegularExpression("^([A-Za-z])*$", ErrorMessage = "Invalid Middle Name")]
         public string LastName { get; set; }
         public string Address { get; set; }
         public string PostalCode { get; set; }
+        [Display(Name ="Entered Date")]
         public Nullable<System.DateTime> EnteredDate { get; set; }
+        [Display(Name ="Entered By")]
         public Nullable<int> EnteredBy { get; set; }
-        public Nullable<bool> Active { get; set; }
+
+        [DefaultValue(true)]
+        public bool Active { get; set; }
+       
+
+        //public Nullable<bool> Active { get; set; }
     
+
         public virtual Member Member { get; set; }
         public virtual ICollection<PatientVisitingHour> PatientVisitingHours { get; set; }
         public virtual ICollection<VisitingSchedule> VisitingSchedules { get; set; }
