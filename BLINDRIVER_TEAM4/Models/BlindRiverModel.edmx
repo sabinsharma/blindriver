@@ -133,6 +133,7 @@
           <Property Name="Active" Type="bit" Nullable="false" />
           <Property Name="EnteredDate" Type="datetime" Nullable="false" />
           <Property Name="EnteredBy" Type="int" Nullable="false" />
+          <Property Name="Place" Type="nvarchar(max)" Nullable="false" />
         </EntityType>
         <EntityType Name="EventMemberStatus">
           <Key>
@@ -1774,6 +1775,7 @@
           <Property Name="EnteredBy" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Member" Relationship="BlindRiverModel.FK_Event_Member" FromRole="Event" ToRole="Member" />
           <NavigationProperty Name="EventMemberStatus" Relationship="BlindRiverModel.FK_EventMemberStatus_Event" FromRole="Event" ToRole="EventMemberStatu" />
+          <Property Name="Place" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="EventMemberStatu">
           <Key>
@@ -2213,6 +2215,7 @@
           <EntitySetMapping Name="Events">
             <EntityTypeMapping TypeName="BlindRiverModel.Event">
               <MappingFragment StoreEntitySet="Event">
+                <ScalarProperty Name="Place" ColumnName="Place" />
                 <ScalarProperty Name="EnteredBy" ColumnName="EnteredBy" />
                 <ScalarProperty Name="EnteredDate" ColumnName="EnteredDate" />
                 <ScalarProperty Name="Active" ColumnName="Active" />

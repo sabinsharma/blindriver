@@ -11,7 +11,8 @@ namespace BLINDRIVER_TEAM4.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Event
     {
         public Event()
@@ -20,15 +21,38 @@ namespace BLINDRIVER_TEAM4.Models
         }
     
         public int Id { get; set; }
+
+        [Display(Name = "Event Title")]
+        [Required]
         public string Title { get; set; }
+
+        [Display(Name = "Event Content")]
+        [Required]
         public string Content { get; set; }
+
+        [Display(Name = "Event Time")]
+        [DataType(DataType.DateTime)]
         public System.DateTime DateTime { get; set; }
+
+        [Display(Name = "Number of Invited")]
         public int NumberInvited { get; set; }
+
+        [Display(Name = "Number of Going")]
         public int NumberGoing { get; set; }
+
+        [Display(Name = "Number of Declined")]
         public int NumberDeclined { get; set; }
         public bool Active { get; set; }
+
+        [Display(Name = "Created Date")]
         public System.DateTime EnteredDate { get; set; }
+
+        [Display(Name = "Created By")]
         public int EnteredBy { get; set; }
+
+        [Display(Name = "Event Place")]
+        [Required]
+        public string Place { get; set; }
     
         public virtual Member Member { get; set; }
         public virtual ICollection<EventMemberStatu> EventMemberStatus { get; set; }
