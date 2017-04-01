@@ -39,9 +39,9 @@ namespace BLINDRIVER_TEAM4.Models
 
         [DefaultValue(true)]
         public bool Active { get; set; }
-        [Display(Name = "Entered By")]
+       
 
-        public Nullable<bool> Active { get; set; }
+        //public Nullable<bool> Active { get; set; }
     
 
         public virtual Member Member { get; set; }

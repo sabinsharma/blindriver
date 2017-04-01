@@ -11,6 +11,7 @@ namespace BLINDRIVER_TEAM4.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     
     public partial class Member
     {
@@ -57,7 +58,7 @@ namespace BLINDRIVER_TEAM4.Models
         public string PostalCode { get; set; }
         public string MiddleName { get; set; }
 
-        public string Photo { get; set; }
+        //public string Photo { get; set; }
     
 
 
