@@ -203,6 +203,12 @@
     <Compile Include="Models\Donation.cs">
       <DependentUpon>BlindRiverModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Event.cs">
+      <DependentUpon>BlindRiverModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EventMemberStatu.cs">
+      <DependentUpon>BlindRiverModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Facility.cs">
       <DependentUpon>BlindRiverModel.tt</DependentUpon>
     </Compile>

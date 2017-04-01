@@ -36,9 +36,14 @@ namespace BLINDRIVER_TEAM4.Models
         public Nullable<System.DateTime> EnteredDate { get; set; }
         [Display(Name ="Entered By")]
         public Nullable<int> EnteredBy { get; set; }
+
         [DefaultValue(true)]
         public bool Active { get; set; }
         [Display(Name = "Entered By")]
+
+        public Nullable<bool> Active { get; set; }
+    
+
         public virtual Member Member { get; set; }
         public virtual ICollection<PatientVisitingHour> PatientVisitingHours { get; set; }
         public virtual ICollection<VisitingSchedule> VisitingSchedules { get; set; }

@@ -49,6 +49,11 @@ namespace BLINDRIVER_TEAM4.Models
         public DbSet<Review> Reviews { get; set; }
         public DbSet<ReviewCategory> ReviewCategories { get; set; }
         public DbSet<VisitingSchedule> VisitingSchedules { get; set; }
+<<<<<<< HEAD
+=======
+        public DbSet<Event> Events { get; set; }
+        public DbSet<EventMemberStatu> EventMemberStatus { get; set; }
+>>>>>>> be21a6fcbd4e760ecf6a9985db3ef950dab7a6f4
         public DbSet<Patient> Patients { get; set; }
     }
 }
