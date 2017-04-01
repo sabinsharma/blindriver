@@ -7,77 +7,80 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using BLINDRIVER_TEAM4.Models;
+using System.IO;
+using System.Web.Security;
 
 namespace BLINDRIVER_TEAM4.Controllers
 {
     public class MembersController : Controller
     {
-
-
         private BlindRiverContext db = new BlindRiverContext();
 
+        [HttpGet]
+        [AllowAnonymous]
         // GET: Members
-        public ActionResult Index(string searchString, string sortOrder)
+        public ActionResult Index()
         {
-            ViewBag.RoleSortParm = String.IsNullOrEmpty(sortOrder) ? "role_desc" : "";
-            ViewBag.FirstNameSortParm = sortOrder == "first_asc" ? "first_desc" : "first_asc";
-            ViewBag.LastNameSortParm = sortOrder == "last_asc" ? "last_desc" : "last_asc";
-            ViewBag.UserNameSortParm = sortOrder == "username_asc" ? "username_desc" : "username_asc";
-            ViewBag.DateSortParm = sortOrder == "date_asc" ? "date_desc" : "date_asc";
+            var members = db.Members.Include(m => m.Role).Where(m => m.RoleId > 0).OrderByDescending(m => m.RoleId);           
+            return View(members.ToList());
+        }
 
-            IQueryable<Member> members = null;
-            if (!String.IsNullOrEmpty(searchString))
-            {
-                members = db.Members.Where(m => (m.FirstName.Contains(searchString)
+        public PartialViewResult SearchUsers(string searchString)
+        {
+            List<Member> mem = db.Members.Where(m => (m.FirstName.Contains(searchString)
                                        || m.LastName.Contains(searchString)
                                        || m.Phone.Contains(searchString)
                                        || m.Address.Contains(searchString)
                                        || m.Email.Contains(searchString)
                                        || m.Gender.Contains(searchString)
                                        || m.PostalCode.Contains(searchString)
-                                       || m.Role.RoleName.Contains(searchString)) && m.RoleId > 0);
+                                       || m.JoinedDay.ToString().Contains(searchString)
+                                       || m.Role.RoleName.Contains(searchString)) && m.RoleId > 0).OrderByDescending(m => m.RoleId).ToList();
+            return PartialView("_AdminPartialView_Index", mem);
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public ActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Login(Member user)
+        {
+            // compared user input with db
+            // check if username and password exist
+            int count = db.Members.Where(u => u.Username == user.Username && u.Password == user.Password).Count();
+            if (count == 0)
+            {
+                ViewBag.Message = "Invalid login";
+                return View();
             }
             else
             {
-                members = db.Members.Include(m => m.Role).Where(m => m.RoleId > 0);
-
+                FormsAuthentication.SetAuthCookie(user.Username, false);
+                return RedirectToAction("Index", "Members"); // go to the index of the Users Controller when logging successfully
             }
-
-            switch (sortOrder)
-            {
-                case "role_desc":
-                    members = members.OrderByDescending(m => m.Role.RoleName);
-                    break;
-                case "first_asc":
-                    members = members.OrderBy(m => m.FirstName);
-                    break;
-                case "first_desc":
-                    members = members.OrderByDescending(m => m.FirstName);
-                    break;
-                case "last_asc":
-                    members = members.OrderBy(m => m.LastName);
-                    break;
-                case "last_desc":
-                    members = members.OrderByDescending(m => m.LastName);
-                    break;
-                case "username_asc":
-                    members = members.OrderBy(m => m.Username);
-                    break;
-                case "username_desc":
-                    members = members.OrderByDescending(m => m.Username);
-                    break;
-                case "date_asc":
-                    members = members.OrderBy(m => m.JoinedDay);
-                    break;
-                case "date_desc":
-                    members = members.OrderByDescending(m => m.JoinedDay);
-                    break;
-                default:
-                    members = members.OrderBy(m => m.Role.RoleName);
-                    break;
-            }
-            return View(members.ToList());
         }
+
+        public ActionResult Logout()
+        {
+            string returnUrl = Request.QueryString["ReturnUrl"];
+            FormsAuthentication.SignOut();
+            if (returnUrl != null)
+            {
+                return Redirect(returnUrl);
+            }
+            ViewBag.Message = "You have been successfully logged out";
+            return RedirectToAction("Index");
+        }
+
+        //[HttpPost]
+        //public JsonResult IsUserExists(string UserName)
+        //{  
+        //    return Json(!db.Members.Any(x => x.Username == UserName), JsonRequestBehavior.AllowGet);
+        //}
 
         // GET: Members/Details/5
         public ActionResult Details(int? id)
@@ -94,6 +97,7 @@ namespace BLINDRIVER_TEAM4.Controllers
             return View(member);
         }
 
+        [Authorize(Roles = "Admin, Staff")]
         // GET: Members/Create
         public ActionResult Create()
         {
@@ -106,7 +110,7 @@ namespace BLINDRIVER_TEAM4.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Username,Password,RepeatPassword,RoleId,JoinedDay,FirstName,MiddleName,LastName,Gender,DOB,Email,Phone,Address,PostalCode")] Member member, string confirmPassword)
+        public ActionResult Create([Bind(Include = "Id,Username,Password,RepeatPassword,RoleId,JoinedDay,FirstName,MiddleName,LastName,Gender,DOB,Email,Phone,Address,PostalCode,Photo")] Member member, string confirmPassword, HttpPostedFileBase image)
         {
             if (ModelState.IsValid)
             {
@@ -124,6 +128,14 @@ namespace BLINDRIVER_TEAM4.Controllers
                 }
                 else
                 {
+                    if (image != null && image.ContentLength > 0)
+                    {
+                        var fileName = Path.GetFileName(image.FileName).ToLower();
+                        member.Photo = fileName.Replace(fileName.Substring(0, fileName.IndexOf(".")), member.Username);
+                        var path = Path.Combine(Server.MapPath("/image/UserImage/"), member.Photo);
+                        image.SaveAs(path);
+                    }
+
                     db.Members.Add(member);
                     db.SaveChanges();
                     return RedirectToAction("Index");
@@ -134,6 +146,7 @@ namespace BLINDRIVER_TEAM4.Controllers
             return View(member);
         }
 
+        [Authorize(Roles = "Admin, Staff")]
         // GET: Members/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -155,10 +168,12 @@ namespace BLINDRIVER_TEAM4.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Username,FirstName,MiddleName,LastName,Gender,DOB,Email,Phone,Address,PostalCode")] Member member)
+        public ActionResult Edit([Bind(Include = "Id,Username,FirstName,MiddleName,LastName,Gender,DOB,Email,Phone,Address,PostalCode,Photo")] Member member, HttpPostedFileBase image)
         {
             // when ModelState got Error because of null "Password" field, we ignore the "Password" element in the array
             ModelState.Remove("Password");
+            ModelState.Remove("Username");
+            ModelState.Remove("Email");
             if (ModelState.IsValid)
             {
                 // change the State of the Entity to be Modified
@@ -167,9 +182,20 @@ namespace BLINDRIVER_TEAM4.Controllers
                 // set false to fields which you don't want to change
                 db.Entry(member).Property(x => x.Password).IsModified = false;
                 db.Entry(member).Property(x => x.JoinedDay).IsModified = false;
-
+                db.Entry(member).Property(x => x.Username).IsModified = false;
+                db.Entry(member).Property(x => x.Email).IsModified = false;
+                db.Entry(member).Property(x => x.RoleId).IsModified = false;
                 // set validate false to save possibly
                 db.Configuration.ValidateOnSaveEnabled = false;
+
+                if (image != null && image.ContentLength > 0)
+                {
+                    var fileName = Path.GetFileName(image.FileName).ToLower();
+                    member.Photo = fileName.Replace(fileName.Substring(0, fileName.IndexOf(".")), member.Username);
+                    var path = Path.Combine(Server.MapPath("/image/UserImage/"), member.Photo);
+                    image.SaveAs(path);
+                }
+
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }

@@ -1043,7 +1043,10 @@
           <NavigationProperty Name="ReviewCategories" Relationship="BlindRiverModel.FK_ReviewCategory_Member" FromRole="Member" ToRole="ReviewCategory" />
           <NavigationProperty Name="VisitingSchedules" Relationship="BlindRiverModel.FK_VisitingSchedule_Member" FromRole="Member" ToRole="VisitingSchedule" />
           <Property Name="Photo" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Patients" Relationship="BlindRiverModel.FK_Patient_Member" FromRole="Member" ToRole="Patient" />
+
+           <NavigationProperty Name="Patients" Relationship="BlindRiverModel.FK_Patient_Member" FromRole="Member" ToRole="Patient" />
+
+
         </EntityType>
         <EntityType Name="PaymentInfo">
           <Key>

@@ -33,6 +33,12 @@ namespace BLINDRIVER_TEAM4.Models
         }
     
         public int Id { get; set; }
+
+
+        [Display(Name = "User Name")]
+        [Required]
+        //[System.Web.Mvc.Remote("IsUserExists", "Members", HttpMethod = "POST", ErrorMessage = "User name already exists. Please enter a different user name.")]
+
         public string Username { get; set; }
         public string Password { get; set; }
         public int RoleId { get; set; }
@@ -46,8 +52,15 @@ namespace BLINDRIVER_TEAM4.Models
         public string Address { get; set; }
         public string PostalCode { get; set; }
         public string MiddleName { get; set; }
+
         public string Photo { get; set; }
     
+
+
+        [Display(Name = "Profile Image")]
+        public string Photo { get; set; }
+
+
         public virtual ICollection<Contact> Contacts { get; set; }
         public virtual ICollection<Doctor> Doctors { get; set; }
         public virtual ICollection<DoctorAvailableDate> DoctorAvailableDates { get; set; }

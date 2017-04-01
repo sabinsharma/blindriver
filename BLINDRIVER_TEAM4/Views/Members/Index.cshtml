@@ -1,12 +1,8 @@
 ﻿@model IEnumerable<BLINDRIVER_TEAM4.Models.Member>
 
 @{
-
-    ViewBag.Title = "Member List";
     Layout = "~/Views/Shared/_Layout.cshtml";
-
-    
-
+    ViewBag.Title = "Member List";
 }
 
 <h2>Member List</h2>
@@ -14,33 +10,53 @@
 <p style="text-align:right;">
     @Html.ActionLink("Register Member", "Create", null, new { @class = "btn btn-default" })
 </p>
-@using (Html.BeginForm())
+@*@using (Html.BeginForm())
 {
     <p>
         Search Term: @Html.TextBox("searchString", null, new { @class = "form-control", style = "display: inline;" })
         <input class="btn btn-success" type="submit" value="Search" />
     </p>
-}
-<table class="table">
+}*@
+
+<p>Search Term: <input type="text" id="admin-search" class="form-control" style="display:inline;" /> <button onclick="search()" class="btn btn-success">Search</button></p>
+<script>
+    $(document).ready(function () {
+        $("#admin-search").keyup(function (event) {
+            if (event.keyCode == 13) {
+                search();
+            }
+        });
+    });
+
+    function search() {
+        var search = $("#admin-search").val();
+        $.ajax({
+            url: "@Url.Action("SearchUsers", "Members")",
+            type: "GET", //
+            data: { searchString: search },
+            success: function (result) {
+                $("#index-admin").html(result);
+            }
+        });
+    }
+</script> 
+
+<table class="table" id="index-admin">
     <tr>
         <th>
-            @*@Html.DisplayNameFor(model => model.Username)*@
-            @Html.ActionLink("User Name", "Index", new { sortOrder = ViewBag.UserNameSortParm })
+            @Html.DisplayNameFor(model => model.Username)
         </th>
         @*<th>
             @Html.DisplayNameFor(model => model.Password)
         </th>*@
         <th>
-            @*@Html.DisplayNameFor(model => model.JoinedDay)*@
-            @Html.ActionLink("Registered Date", "Index", new { sortOrder = ViewBag.DateSortParm })
+            @Html.DisplayNameFor(model => model.JoinedDay)           
         </th>
         <th>
-            @*@Html.DisplayNameFor(model => model.FirstName)*@
-            @Html.ActionLink("First Name", "Index", new { sortOrder = ViewBag.FirstNameSortParm })
+            @Html.DisplayNameFor(model => model.FirstName)
         </th>
         <th>
-            @*@Html.DisplayNameFor(model => model.LastName)*@
-            @Html.ActionLink("Last Name", "Index", new { sortOrder = ViewBag.LastNameSortParm })
+            @Html.DisplayNameFor(model => model.LastName)
         </th>
         @*<th>
             @Html.DisplayNameFor(model => model.Gender)
@@ -61,8 +77,7 @@
             @Html.DisplayNameFor(model => model.PostalCode)
         </th>*@
         <th>
-            @*@Html.DisplayNameFor(model => model.Role.RoleName)*@
-            @Html.ActionLink("Role", "Index", new { sortOrder = ViewBag.RoleSortParm })
+            @Html.DisplayNameFor(model => model.Role.RoleName)
         </th>
         <th></th>
     </tr>
