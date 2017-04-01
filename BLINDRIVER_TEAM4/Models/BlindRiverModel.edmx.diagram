@@ -50,23 +50,18 @@
         <EntityTypeShape EntityType="BlindRiverModel.Review" PointX="10.5" PointY="30.25" Width="1.5" />
         <EntityTypeShape EntityType="BlindRiverModel.ReviewCategory" PointX="5.25" PointY="38.75" Width="1.5" />
         <EntityTypeShape EntityType="BlindRiverModel.VisitingSchedule" PointX="13.5" PointY="23.75" Width="1.5" />
-
         <AssociationConnector Association="BlindRiverModel.FK_Review_Doctor" />
         <AssociationConnector Association="BlindRiverModel.FK_PatientVisitingHour_Member" />
         <AssociationConnector Association="BlindRiverModel.FK_Review_Member" />
         <AssociationConnector Association="BlindRiverModel.FK_ReviewCategory_Member" />
         <AssociationConnector Association="BlindRiverModel.FK_VisitingSchedule_Member" />
         <AssociationConnector Association="BlindRiverModel.FK_Review_ReviewCategory" />
-
-        <EntityTypeShape EntityType="BlindRiverModel.Patient" Width="1.5" PointX="5.125" PointY="3.125" />
-
         <EntityTypeShape EntityType="BlindRiverModel.Event" Width="1.5" PointX="5.25" PointY="10.125" />
         <EntityTypeShape EntityType="BlindRiverModel.EventMemberStatu" Width="1.5" PointX="10.5" PointY="19.25" />
         <AssociationConnector Association="BlindRiverModel.FK_Event_Member" />
         <AssociationConnector Association="BlindRiverModel.FK_EventMemberStatus_Event" />
         <AssociationConnector Association="BlindRiverModel.FK_EventMemberStatus_Member" />
         <EntityTypeShape EntityType="BlindRiverModel.Patient" Width="1.5" PointX="5.25" PointY="5.125" />
-
         <AssociationConnector Association="BlindRiverModel.FK_Patient_Member" />
         <AssociationConnector Association="BlindRiverModel.FK_PatientVisitingHour_Patient" />
         <AssociationConnector Association="BlindRiverModel.FK_VisitingSchedule_Patient" />

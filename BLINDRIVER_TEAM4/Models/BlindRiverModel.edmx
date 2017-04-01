@@ -1112,27 +1112,15 @@
           <NavigationProperty Name="Services" Relationship="Self.FK_Service_Member" FromRole="Member" ToRole="Service" />
           <NavigationProperty Name="Severities" Relationship="Self.FK_Severity_Member" FromRole="Member" ToRole="Severity" />
           <NavigationProperty Name="VoluteerPosts" Relationship="Self.FK_VolunteerPost_Member" FromRole="Member" ToRole="VoluteerPost" />
-<<<<<<< HEAD
-          <Property Name="MiddleName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-=======
           <Property Name="MiddleName" MaxLength="Max" FixedLength="false" Unicode="false" Type="String" />
->>>>>>> be21a6fcbd4e760ecf6a9985db3ef950dab7a6f4
           <NavigationProperty Name="PatientVisitingHours" Relationship="BlindRiverModel.FK_PatientVisitingHour_Member" FromRole="Member" ToRole="PatientVisitingHour" />
           <NavigationProperty Name="Reviews" Relationship="BlindRiverModel.FK_Review_Member" FromRole="Member" ToRole="Review" />
           <NavigationProperty Name="ReviewCategories" Relationship="BlindRiverModel.FK_ReviewCategory_Member" FromRole="Member" ToRole="ReviewCategory" />
           <NavigationProperty Name="VisitingSchedules" Relationship="BlindRiverModel.FK_VisitingSchedule_Member" FromRole="Member" ToRole="VisitingSchedule" />
-<<<<<<< HEAD
-          <Property Name="Photo" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-
-           <NavigationProperty Name="Patients" Relationship="BlindRiverModel.FK_Patient_Member" FromRole="Member" ToRole="Patient" />
-
-
-=======
           <Property Name="Photo" MaxLength="Max" FixedLength="false" Unicode="false" Type="String" />
           <NavigationProperty Name="Events" Relationship="BlindRiverModel.FK_Event_Member" FromRole="Member" ToRole="Event" />
           <NavigationProperty Name="EventMemberStatus" Relationship="BlindRiverModel.FK_EventMemberStatus_Member" FromRole="Member" ToRole="EventMemberStatu" />
           <NavigationProperty Name="Patients" Relationship="BlindRiverModel.FK_Patient_Member" FromRole="Member" ToRole="Patient" />
->>>>>>> be21a6fcbd4e760ecf6a9985db3ef950dab7a6f4
         </EntityType>
         <EntityType Name="PaymentInfo">
           <Key>
@@ -1585,13 +1573,8 @@
           <EntitySet Name="ReviewCategories" EntityType="BlindRiverModel.ReviewCategory" />
           <EntitySet Name="VisitingSchedules" EntityType="BlindRiverModel.VisitingSchedule" />
           <AssociationSet Name="FK_Review_Doctor" Association="BlindRiverModel.FK_Review_Doctor">
-<<<<<<< HEAD
-            <End Role="Doctor" EntitySet="Doctors" />
-            <End Role="Review" EntitySet="Reviews" />
-=======
             <End EntitySet="Doctors" Role="Doctor" />
             <End EntitySet="Reviews" Role="Review" />
->>>>>>> be21a6fcbd4e760ecf6a9985db3ef950dab7a6f4
           </AssociationSet>
           <AssociationSet Name="FK_PatientVisitingHour_Member" Association="BlindRiverModel.FK_PatientVisitingHour_Member">
             <End EntitySet="Members" Role="Member" />
@@ -1649,11 +1632,7 @@
             <End Role="Patient" EntitySet="Patients" />
             <End Role="VisitingSchedule" EntitySet="VisitingSchedules" />
           </AssociationSet>
-<<<<<<< HEAD
           </EntityContainer>
-=======
-        </EntityContainer>
->>>>>>> be21a6fcbd4e760ecf6a9985db3ef950dab7a6f4
         <EntityType Name="PatientVisitingHour">
           <Key>
             <PropertyRef Name="Id" />
@@ -1718,10 +1697,6 @@
           <NavigationProperty Name="Patient" Relationship="BlindRiverModel.FK_VisitingSchedule_Patient" FromRole="VisitingSchedule" ToRole="Patient" />
         </EntityType>
         <Association Name="FK_Review_Doctor">
-<<<<<<< HEAD
-          <End Type="BlindRiverModel.Doctor" Role="Doctor" Multiplicity="1" />
-          <End Type="BlindRiverModel.Review" Role="Review" Multiplicity="*" />
-=======
           <End Type="BlindRiverModel.Doctor" Multiplicity="1" Role="Doctor" />
           <End Type="BlindRiverModel.Review" Multiplicity="*" Role="Review" />
           <ReferentialConstraint>
@@ -1736,7 +1711,6 @@
         <Association Name="FK_PatientVisitingHour_Member">
           <End Type="BlindRiverModel.Member" Multiplicity="0..1" Role="Member" />
           <End Type="BlindRiverModel.PatientVisitingHour" Multiplicity="*" Role="PatientVisitingHour" />
->>>>>>> be21a6fcbd4e760ecf6a9985db3ef950dab7a6f4
           <ReferentialConstraint>
             <Principal Role="Member">
               <PropertyRef Name="Id" />
@@ -1746,11 +1720,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-<<<<<<< HEAD
-        <Association Name="FK_PatientVisitingHour_Member">
-          <End Type="BlindRiverModel.Member" Role="Member" Multiplicity="0..1" />
-          <End Type="BlindRiverModel.PatientVisitingHour" Role="PatientVisitingHour" Multiplicity="*" />
-=======
         <Association Name="FK_Review_Member">
           <End Type="BlindRiverModel.Member" Multiplicity="0..1" Role="Member" />
           <End Type="BlindRiverModel.Review" Multiplicity="*" Role="Review" />
@@ -1766,7 +1735,6 @@
         <Association Name="FK_ReviewCategory_Member">
           <End Type="BlindRiverModel.Member" Multiplicity="0..1" Role="Member" />
           <End Type="BlindRiverModel.ReviewCategory" Multiplicity="*" Role="ReviewCategory" />
->>>>>>> be21a6fcbd4e760ecf6a9985db3ef950dab7a6f4
           <ReferentialConstraint>
             <Principal Role="Member">
               <PropertyRef Name="Id" />
@@ -1959,11 +1927,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-<<<<<<< HEAD
-        </Schema>
-=======
       </Schema>
->>>>>>> be21a6fcbd4e760ecf6a9985db3ef950dab7a6f4
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -2298,8 +2262,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-<<<<<<< HEAD
-=======
           <EntitySetMapping Name="Events">
             <EntityTypeMapping TypeName="BlindRiverModel.Event">
               <MappingFragment StoreEntitySet="Event">
@@ -2326,7 +2288,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
->>>>>>> be21a6fcbd4e760ecf6a9985db3ef950dab7a6f4
           <EntitySetMapping Name="Patients">
             <EntityTypeMapping TypeName="BlindRiverModel.Patient">
               <MappingFragment StoreEntitySet="Patient">
