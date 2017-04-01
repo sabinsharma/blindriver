@@ -1615,15 +1615,6 @@
             <End Role="Member" EntitySet="Members" />
             <End Role="Patient" EntitySet="Patients" />
           </AssociationSet>
-          <AssociationSet Name="FK_Review_ReviewCategory" Association="BlindRiverModel.FK_Review_ReviewCategory">
-            <End Role="ReviewCategory" EntitySet="ReviewCategories" />
-            <End Role="Review" EntitySet="Reviews" />
-          </AssociationSet>
-          <EntitySet Name="Patients" EntityType="BlindRiverModel.Patient" />
-          <AssociationSet Name="FK_Patient_Member" Association="BlindRiverModel.FK_Patient_Member">
-            <End Role="Member" EntitySet="Members" />
-            <End Role="Patient" EntitySet="Patients" />
-          </AssociationSet>
           <AssociationSet Name="FK_PatientVisitingHour_Patient" Association="BlindRiverModel.FK_PatientVisitingHour_Patient">
             <End Role="Patient" EntitySet="Patients" />
             <End Role="PatientVisitingHour" EntitySet="PatientVisitingHours" />
@@ -1840,47 +1831,6 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="FirstName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="MiddleName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="LastName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="PostalCode" Type="String" Nullable="false" MaxLength="7" FixedLength="true" Unicode="false" />
-          <Property Name="EnteredDate" Type="DateTime" Precision="3" />
-          <Property Name="EnteredBy" Type="Int32" />
-          <Property Name="Active" Type="Boolean" />
-          <NavigationProperty Name="Member" Relationship="BlindRiverModel.FK_Patient_Member" FromRole="Patient" ToRole="Member" />
-          <NavigationProperty Name="PatientVisitingHours" Relationship="BlindRiverModel.FK_PatientVisitingHour_Patient" FromRole="Patient" ToRole="PatientVisitingHour" />
-          <NavigationProperty Name="VisitingSchedules" Relationship="BlindRiverModel.FK_VisitingSchedule_Patient" FromRole="Patient" ToRole="VisitingSchedule" />
-        </EntityType>
-        <Association Name="FK_Patient_Member">
-          <End Type="BlindRiverModel.Member" Role="Member" Multiplicity="0..1" />
-          <End Type="BlindRiverModel.Patient" Role="Patient" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Member">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Patient">
-              <PropertyRef Name="EnteredBy" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Review_ReviewCategory">
-          <End Type="BlindRiverModel.ReviewCategory" Role="ReviewCategory" Multiplicity="1" />
-          <End Type="BlindRiverModel.Review" Role="Review" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ReviewCategory">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Review">
-              <PropertyRef Name="ReviewCategoryId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="Patient">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="MiddleName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="true" />
           <Property Name="LastName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="PostalCode" Type="String" Nullable="false" MaxLength="7" FixedLength="true" Unicode="false" />
