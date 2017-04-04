@@ -962,8 +962,8 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="DoctorAvailableDateId" Type="Int32" Nullable="false" />
-          <Property Name="AvailableFrom" Type="DateTime" Nullable="false" Precision="7" />
-          <Property Name="AvailableUntil" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="AvailableFrom" Type="Time" Nullable="false" />
+          <Property Name="AvailableUntil" Type="Time" Nullable="false" />
           <Property Name="Active" Type="Boolean" />
           <NavigationProperty Name="DoctorAvailableDate" Relationship="Self.FK_DoctorAvailableTime_DoctorAvailableDate" FromRole="DoctorAvailableTime" ToRole="DoctorAvailableDate" />
         </EntityType>

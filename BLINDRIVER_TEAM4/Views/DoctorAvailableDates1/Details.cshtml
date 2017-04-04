@@ -1,0 +1,58 @@
+﻿@model BLINDRIVER_TEAM4.Models.DoctorAvailableDate
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>DoctorAvailableDate</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.AvailableDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AvailableDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EnteredDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EnteredDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Active)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Active)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Doctor.FirstName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Doctor.FirstName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Member.Username)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Member.Username)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
