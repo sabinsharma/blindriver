@@ -409,11 +409,11 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_DoctorAppointment_DoctorAvailableDate">
-          <End Role="DoctorAvailableDate" Type="Self.DoctorAvailableDate" Multiplicity="1" />
+        <Association Name="FK_DoctorAppointment_DoctorAvailableTime">
+          <End Role="DoctorAvailableTime" Type="Self.DoctorAvailableTime" Multiplicity="1" />
           <End Role="DoctorAppointment" Type="Self.DoctorAppointment" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="DoctorAvailableDate">
+            <Principal Role="DoctorAvailableTime">
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="DoctorAppointment">
@@ -793,8 +793,8 @@
             <End Role="Member" EntitySet="Member" />
             <End Role="Doctor" EntitySet="Doctor" />
           </AssociationSet>
-          <AssociationSet Name="FK_DoctorAppointment_DoctorAvailableDate" Association="Self.FK_DoctorAppointment_DoctorAvailableDate">
-            <End Role="DoctorAvailableDate" EntitySet="DoctorAvailableDate" />
+          <AssociationSet Name="FK_DoctorAppointment_DoctorAvailableTime" Association="Self.FK_DoctorAppointment_DoctorAvailableTime">
+            <End Role="DoctorAvailableTime" EntitySet="DoctorAvailableTime" />
             <End Role="DoctorAppointment" EntitySet="DoctorAppointment" />
           </AssociationSet>
           <AssociationSet Name="FK_DoctorAvailableDate_Doctor" Association="Self.FK_DoctorAvailableDate_Doctor">
@@ -997,7 +997,7 @@
           <Property Name="DoctorAvailableTimeId" Nullable="false" Type="Int32" />
           <Property Name="MemberId" Nullable="false" Type="Int32" />
           <Property Name="BookingDate" Nullable="false" Precision="0" Type="DateTime" />
-          <NavigationProperty Name="DoctorAvailableDate" Relationship="Self.FK_DoctorAppointment_DoctorAvailableDate" FromRole="DoctorAppointment" ToRole="DoctorAvailableDate" />
+          <NavigationProperty Name="DoctorAvailableTime" Relationship="BlindRiverModel.FK_DoctorAppointment_DoctorAvailableTime" FromRole="DoctorAppointment" ToRole="DoctorAvailableTime" />
         </EntityType>
         <EntityType Name="DoctorAvailableDate">
           <Key>
@@ -1010,7 +1010,6 @@
           <Property Name="EnteredBy" Type="Int32" />
           <Property Name="Active" Type="Boolean" />
           <NavigationProperty Name="Doctor" Relationship="Self.FK_DoctorAvailableDate_Doctor" FromRole="DoctorAvailableDate" ToRole="Doctor" />
-          <NavigationProperty Name="DoctorAppointments" Relationship="Self.FK_DoctorAppointment_DoctorAvailableDate" FromRole="DoctorAvailableDate" ToRole="DoctorAppointment" />
           <NavigationProperty Name="Member" Relationship="Self.FK_DoctorAvailableDate_Member" FromRole="DoctorAvailableDate" ToRole="Member" />
           <NavigationProperty Name="DoctorAvailableTimes" Relationship="Self.FK_DoctorAvailableTime_DoctorAvailableDate" FromRole="DoctorAvailableDate" ToRole="DoctorAvailableTime" />
         </EntityType>
@@ -1024,6 +1023,7 @@
           <Property Name="AvailableUntil" Nullable="false" Precision="7" Type="Time" />
           <Property Name="Active" Type="Boolean" />
           <NavigationProperty Name="DoctorAvailableDate" Relationship="Self.FK_DoctorAvailableTime_DoctorAvailableDate" FromRole="DoctorAvailableTime" ToRole="DoctorAvailableDate" />
+          <NavigationProperty Name="DoctorAppointments" Relationship="BlindRiverModel.FK_DoctorAppointment_DoctorAvailableTime" FromRole="DoctorAvailableTime" ToRole="DoctorAppointment" />
         </EntityType>
         <EntityType Name="Donation">
           <Key>
@@ -1319,18 +1319,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_DoctorAppointment_DoctorAvailableDate">
-          <End Type="Self.DoctorAvailableDate" Multiplicity="1" Role="DoctorAvailableDate" />
-          <End Type="Self.DoctorAppointment" Multiplicity="*" Role="DoctorAppointment" />
-          <ReferentialConstraint>
-            <Principal Role="DoctorAvailableDate">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="DoctorAppointment">
-              <PropertyRef Name="DoctorAvailableTimeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_DoctorAvailableDate_Member">
           <End Type="Self.Member" Multiplicity="0..1" Role="Member" />
           <End Type="Self.DoctorAvailableDate" Multiplicity="*" Role="DoctorAvailableDate" />
@@ -1520,10 +1508,6 @@
             <End EntitySet="Doctors" Role="Doctor" />
             <End EntitySet="DoctorAvailableDates" Role="DoctorAvailableDate" />
           </AssociationSet>
-          <AssociationSet Name="FK_DoctorAppointment_DoctorAvailableDate" Association="Self.FK_DoctorAppointment_DoctorAvailableDate">
-            <End EntitySet="DoctorAvailableDates" Role="DoctorAvailableDate" />
-            <End EntitySet="DoctorAppointments" Role="DoctorAppointment" />
-          </AssociationSet>
           <AssociationSet Name="FK_DoctorAvailableDate_Member" Association="Self.FK_DoctorAvailableDate_Member">
             <End EntitySet="Members" Role="Member" />
             <End EntitySet="DoctorAvailableDates" Role="DoctorAvailableDate" />
@@ -1622,6 +1606,10 @@
           <AssociationSet Name="FK_VisitingSchedule_Patient" Association="BlindRiverModel.FK_VisitingSchedule_Patient">
             <End Role="Patient" EntitySet="Patients" />
             <End Role="VisitingSchedule" EntitySet="VisitingSchedules" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DoctorAppointment_DoctorAvailableTime" Association="BlindRiverModel.FK_DoctorAppointment_DoctorAvailableTime">
+            <End Role="DoctorAvailableTime" EntitySet="DoctorAvailableTimes" />
+            <End Role="DoctorAppointment" EntitySet="DoctorAppointments" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="PatientVisitingHour">
@@ -1874,6 +1862,18 @@
             </Principal>
             <Dependent Role="VisitingSchedule">
               <PropertyRef Name="PatientId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DoctorAppointment_DoctorAvailableTime">
+          <End Type="BlindRiverModel.DoctorAvailableTime" Role="DoctorAvailableTime" Multiplicity="1" />
+          <End Type="BlindRiverModel.DoctorAppointment" Role="DoctorAppointment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DoctorAvailableTime">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DoctorAppointment">
+              <PropertyRef Name="DoctorAvailableTimeId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>

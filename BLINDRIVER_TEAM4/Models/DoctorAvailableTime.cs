@@ -14,6 +14,11 @@ namespace BLINDRIVER_TEAM4.Models
     
     public partial class DoctorAvailableTime
     {
+        public DoctorAvailableTime()
+        {
+            this.DoctorAppointments = new HashSet<DoctorAppointment>();
+        }
+    
         public int Id { get; set; }
         public int DoctorAvailableDateId { get; set; }
         public System.TimeSpan AvailableFrom { get; set; }
@@ -21,5 +26,6 @@ namespace BLINDRIVER_TEAM4.Models
         public Nullable<bool> Active { get; set; }
     
         public virtual DoctorAvailableDate DoctorAvailableDate { get; set; }
+        public virtual ICollection<DoctorAppointment> DoctorAppointments { get; set; }
     }
 }
