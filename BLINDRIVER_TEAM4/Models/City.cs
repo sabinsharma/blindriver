@@ -19,7 +19,6 @@ namespace BLINDRIVER_TEAM4.Models
             this.Donations = new HashSet<Donation>();
             this.PaymentInfoes = new HashSet<PaymentInfo>();
             this.VolunteerInfoes = new HashSet<VolunteerInfo>();
-            this.Patients = new HashSet<Patient>();
         }
     
         public int Id { get; set; }
@@ -28,6 +27,5 @@ namespace BLINDRIVER_TEAM4.Models
         public virtual ICollection<Donation> Donations { get; set; }
         public virtual ICollection<PaymentInfo> PaymentInfoes { get; set; }
         public virtual ICollection<VolunteerInfo> VolunteerInfoes { get; set; }
-        public virtual ICollection<Patient> Patients { get; set; }
     }
 }

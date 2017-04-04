@@ -2,18 +2,18 @@
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
-    ViewBag.Title = "Member List";
+    ViewBag.Title = "Index";
 }
 
 <h2>Member List</h2>
 
-<p style="text-align:right;">
-    @Html.ActionLink("Register Member", "Create", null, new { @class = "btn btn-default" })
-</p>
+@*<p>
+    @Html.ActionLink("Create New", "Create")
+</p>*@
 @*@using (Html.BeginForm())
 {
     <p>
-        Search Term: @Html.TextBox("searchString", null, new { @class = "form-control", style = "display: inline;" })
+        Search Term: @Html.TextBox("SearchString", null, new { @class = "form-control", style = "display: inline;" })
         <input class="btn btn-success" type="submit" value="Search" />
     </p>
 }*@
@@ -27,7 +27,7 @@
             }
         });
     });
-
+    
     function search() {
         var search = $("#admin-search").val();
         $.ajax({
@@ -40,7 +40,6 @@
         });
     }
 </script> 
-
 <table class="table" id="index-admin">
     <tr>
         <th>
@@ -50,7 +49,7 @@
             @Html.DisplayNameFor(model => model.Password)
         </th>*@
         <th>
-            @Html.DisplayNameFor(model => model.JoinedDay)           
+            @Html.DisplayNameFor(model => model.JoinedDay)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.FirstName)
@@ -75,6 +74,9 @@
         </th>
         <th>
             @Html.DisplayNameFor(model => model.PostalCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MiddleName)
         </th>*@
         <th>
             @Html.DisplayNameFor(model => model.Role.RoleName)
@@ -116,14 +118,17 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.PostalCode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MiddleName)
         </td>*@
         <td>
             @Html.DisplayFor(modelItem => item.Role.RoleName)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) 
-            @*@Html.ActionLink("Delete", "Delete", new { id=item.Id })*@
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
         </td>
     </tr>
 }

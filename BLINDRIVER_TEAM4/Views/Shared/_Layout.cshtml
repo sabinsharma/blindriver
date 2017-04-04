@@ -26,7 +26,20 @@
                 <!--END header_logo-->
                 <div id="heder_login-box" class="col-md-offset-5 col-md-3">
                     <a href="#" class="header_btn">Sign up</a>
-                    <a href="#" class="header_btn">Login</a>
+                    @*<a href="#" class="header_btn">Login</a>*@
+                    @{
+                        HttpCookie authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];                                              
+                        if (authCookie == null)
+                        {
+                            @Html.ActionLink("Login", "Login", "Members", null, htmlAttributes: new { @class = "header_btn" })
+                        }
+                        else
+                        {
+                            FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(authCookie.Value);
+                            @Html.ActionLink("Logout", "Logout", "Members", null, htmlAttributes: new { @class = "header_btn" })    
+                            <p>Welcome back <strong>@ticket.Name</strong></p>
+                        }
+                    }                  
                 </div>
             </div>
             <!--/.row-->

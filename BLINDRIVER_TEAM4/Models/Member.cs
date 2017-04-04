@@ -26,17 +26,20 @@ namespace BLINDRIVER_TEAM4.Models
             this.Services = new HashSet<Service>();
             this.Severities = new HashSet<Severity>();
             this.VoluteerPosts = new HashSet<VoluteerPost>();
-            this.Patients = new HashSet<Patient>();
             this.PatientVisitingHours = new HashSet<PatientVisitingHour>();
             this.Reviews = new HashSet<Review>();
             this.ReviewCategories = new HashSet<ReviewCategory>();
             this.VisitingSchedules = new HashSet<VisitingSchedule>();
+            this.Events = new HashSet<Event>();
+            this.EventMemberStatus = new HashSet<EventMemberStatu>();
+            this.Patients = new HashSet<Patient>();
         }
-    
+
         public int Id { get; set; }
 
         [Display(Name = "User Name")]
         [Required]
+        //[System.Web.Mvc.Remote("IsUserExists", "Members", HttpMethod = "POST", ErrorMessage = "User name already exists. Please enter a different user name.")]
         public string Username { get; set; }
 
         [Display(Name = "Password")]
@@ -95,7 +98,10 @@ namespace BLINDRIVER_TEAM4.Models
 
         [Display(Name = "Middle Name")]
         public string MiddleName { get; set; }
-    
+
+        [Display(Name = "Profile Image")]
+        public string Photo { get; set; }
+
         public virtual ICollection<Contact> Contacts { get; set; }
         public virtual ICollection<Doctor> Doctors { get; set; }
         public virtual ICollection<DoctorAvailableDate> DoctorAvailableDates { get; set; }
@@ -106,10 +112,12 @@ namespace BLINDRIVER_TEAM4.Models
         public virtual ICollection<Service> Services { get; set; }
         public virtual ICollection<Severity> Severities { get; set; }
         public virtual ICollection<VoluteerPost> VoluteerPosts { get; set; }
-        public virtual ICollection<Patient> Patients { get; set; }
         public virtual ICollection<PatientVisitingHour> PatientVisitingHours { get; set; }
         public virtual ICollection<Review> Reviews { get; set; }
         public virtual ICollection<ReviewCategory> ReviewCategories { get; set; }
         public virtual ICollection<VisitingSchedule> VisitingSchedules { get; set; }
+        public virtual ICollection<Event> Events { get; set; }
+        public virtual ICollection<EventMemberStatu> EventMemberStatus { get; set; }
+        public virtual ICollection<Patient> Patients { get; set; }
     }
 }

@@ -119,6 +119,31 @@
           <Property Name="PostalCode" Type="char" MaxLength="7" Nullable="false" />
           <Property Name="Gender" Type="nchar" MaxLength="10" Nullable="false" />
         </EntityType>
+        <EntityType Name="Event">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Content" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="DateTime" Type="datetime" Nullable="false" />
+          <Property Name="NumberInvited" Type="int" Nullable="false" />
+          <Property Name="NumberGoing" Type="int" Nullable="false" />
+          <Property Name="NumberDeclined" Type="int" Nullable="false" />
+          <Property Name="Active" Type="bit" Nullable="false" />
+          <Property Name="EnteredDate" Type="datetime" Nullable="false" />
+          <Property Name="EnteredBy" Type="int" Nullable="false" />
+          <Property Name="Place" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EventMemberStatus">
+          <Key>
+            <PropertyRef Name="EventId" />
+            <PropertyRef Name="MemberId" />
+          </Key>
+          <Property Name="EventId" Type="int" Nullable="false" />
+          <Property Name="MemberId" Type="int" Nullable="false" />
+          <Property Name="Status" Type="varchar" MaxLength="20" Nullable="false" />
+        </EntityType>
         <EntityType Name="Facility">
           <Key>
             <PropertyRef Name="Id" />
@@ -169,13 +194,14 @@
           <Property Name="JoinedDay" Type="date" Nullable="false" />
           <Property Name="FirstName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="LastName" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="Gender" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="Gender" Type="nvarchar" MaxLength="15" />
           <Property Name="DOB" Type="date" Nullable="false" />
           <Property Name="Email" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Phone" Type="char" MaxLength="10" Nullable="false" />
           <Property Name="Address" Type="nvarchar(max)" />
           <Property Name="PostalCode" Type="char" MaxLength="7" Nullable="false" />
           <Property Name="MiddleName" Type="varchar(max)" />
+          <Property Name="Photo" Type="varchar(max)" />
         </EntityType>
         <EntityType Name="Patient">
           <Key>
@@ -183,12 +209,11 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="FirstName" Type="varchar(max)" Nullable="false" />
-          <Property Name="MiddleName" Type="varchar(max)" Nullable="false" />
+          <Property Name="MiddleName" Type="nvarchar(max)" />
           <Property Name="LastName" Type="varchar(max)" Nullable="false" />
-          <Property Name="CityId" Type="int" Nullable="false" />
           <Property Name="Address" Type="nvarchar(max)" />
           <Property Name="PostalCode" Type="char" MaxLength="7" Nullable="false" />
-          <Property Name="EnteredDate" Type="date" />
+          <Property Name="EnteredDate" Type="datetime" />
           <Property Name="EnteredBy" Type="int" />
           <Property Name="Active" Type="bit" />
         </EntityType>
@@ -444,6 +469,42 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Event_Member">
+          <End Role="Member" Type="Self.Member" Multiplicity="1" />
+          <End Role="Event" Type="Self.Event" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Event">
+              <PropertyRef Name="EnteredBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EventMemberStatus_Event">
+          <End Role="Event" Type="Self.Event" Multiplicity="1" />
+          <End Role="EventMemberStatus" Type="Self.EventMemberStatus" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Event">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EventMemberStatus">
+              <PropertyRef Name="EventId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EventMemberStatus_Member">
+          <End Role="Member" Type="Self.Member" Multiplicity="1" />
+          <End Role="EventMemberStatus" Type="Self.EventMemberStatus" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EventMemberStatus">
+              <PropertyRef Name="MemberId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_FAQ_Department">
           <End Role="Department" Type="Self.Department" Multiplicity="1" />
           <End Role="FAQ" Type="Self.FAQ" Multiplicity="*" />
@@ -489,18 +550,6 @@
             </Principal>
             <Dependent Role="Member">
               <PropertyRef Name="RoleId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Patient_City">
-          <End Role="City" Type="Self.City" Multiplicity="1" />
-          <End Role="Patient" Type="Self.Patient" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="City">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Patient">
-              <PropertyRef Name="CityId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -707,6 +756,8 @@
           <EntitySet Name="DoctorAvailableDate" EntityType="Self.DoctorAvailableDate" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DoctorAvailableTime" EntityType="Self.DoctorAvailableTime" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Donation" EntityType="Self.Donation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Event" EntityType="Self.Event" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EventMemberStatus" EntityType="Self.EventMemberStatus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Facility" EntityType="Self.Facility" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FAQ" EntityType="Self.FAQ" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Location" EntityType="Self.Location" Schema="dbo" store:Type="Tables" />
@@ -762,6 +813,18 @@
             <End Role="City" EntitySet="City" />
             <End Role="Donation" EntitySet="Donation" />
           </AssociationSet>
+          <AssociationSet Name="FK_Event_Member" Association="Self.FK_Event_Member">
+            <End Role="Member" EntitySet="Member" />
+            <End Role="Event" EntitySet="Event" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EventMemberStatus_Event" Association="Self.FK_EventMemberStatus_Event">
+            <End Role="Event" EntitySet="Event" />
+            <End Role="EventMemberStatus" EntitySet="EventMemberStatus" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EventMemberStatus_Member" Association="Self.FK_EventMemberStatus_Member">
+            <End Role="Member" EntitySet="Member" />
+            <End Role="EventMemberStatus" EntitySet="EventMemberStatus" />
+          </AssociationSet>
           <AssociationSet Name="FK_FAQ_Department" Association="Self.FK_FAQ_Department">
             <End Role="Department" EntitySet="Department" />
             <End Role="FAQ" EntitySet="FAQ" />
@@ -777,10 +840,6 @@
           <AssociationSet Name="FK_Member_Role" Association="Self.FK_Member_Role">
             <End Role="Role" EntitySet="Role" />
             <End Role="Member" EntitySet="Member" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Patient_City" Association="Self.FK_Patient_City">
-            <End Role="City" EntitySet="City" />
-            <End Role="Patient" EntitySet="Patient" />
           </AssociationSet>
           <AssociationSet Name="FK_Patient_Member" Association="Self.FK_Patient_Member">
             <End Role="Member" EntitySet="Member" />
@@ -855,46 +914,45 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="FirstName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="LastName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Question" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="EnteredDate" Type="DateTime" Precision="0" />
+          <Property Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" Type="Int32" />
+          <Property Name="FirstName" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" Type="String" />
+          <Property Name="LastName" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" Type="String" />
+          <Property Name="Email" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" Type="String" />
+          <Property Name="Question" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" Type="String" />
+          <Property Name="EnteredDate" Precision="0" Type="DateTime" />
           <Property Name="Active" Type="Boolean" />
         </EntityType>
         <EntityType Name="Calculator">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="PatientCount" Type="Int32" Nullable="false" />
-          <Property Name="SeverityId" Type="Int32" Nullable="false" />
-          <Property Name="EnteredDate" Type="DateTime" Precision="0" />
+          <Property Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" Type="Int32" />
+          <Property Name="PatientCount" Nullable="false" Type="Int32" />
+          <Property Name="SeverityId" Nullable="false" Type="Int32" />
+          <Property Name="EnteredDate" Precision="0" Type="DateTime" />
           <NavigationProperty Name="Severity" Relationship="Self.FK_Calculator_Severity" FromRole="Calculator" ToRole="Severity" />
         </EntityType>
         <EntityType Name="City">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="CityName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" Type="Int32" />
+          <Property Name="CityName" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" Type="String" />
           <NavigationProperty Name="Donations" Relationship="Self.FK_Donation_City" FromRole="City" ToRole="Donation" />
           <NavigationProperty Name="PaymentInfoes" Relationship="Self.FK_PaymentInfo_City" FromRole="City" ToRole="PaymentInfo" />
           <NavigationProperty Name="VolunteerInfoes" Relationship="Self.FK_VolunteerInfo_City" FromRole="City" ToRole="VolunteerInfo" />
-          <NavigationProperty Name="Patients" Relationship="BlindRiverModel.FK_Patient_City" FromRole="City" ToRole="Patient" />
         </EntityType>
         <EntityType Name="Contact">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="SenderName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Phone" Type="String" MaxLength="10" FixedLength="true" Unicode="false" Nullable="false" />
-          <Property Name="Subject" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Commment" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="SubmitDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" Type="Int32" />
+          <Property Name="SenderName" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" Type="String" />
+          <Property Name="Email" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" Type="String" />
+          <Property Name="Phone" Nullable="false" MaxLength="10" FixedLength="true" Unicode="false" Type="String" />
+          <Property Name="Subject" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" Type="String" />
+          <Property Name="Commment" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" Type="String" />
+          <Property Name="SubmitDate" Nullable="false" Precision="0" Type="DateTime" />
           <Property Name="ViewedBy" Type="Int32" />
           <NavigationProperty Name="Member" Relationship="Self.FK_Contact_Member" FromRole="Contact" ToRole="Member" />
         </EntityType>
@@ -902,10 +960,10 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="DepartmentName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" Type="Int32" />
+          <Property Name="DepartmentName" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" Type="String" />
           <Property Name="EnteredBy" Type="Int32" />
-          <Property Name="EnteredDate" Type="DateTime" Precision="0" />
+          <Property Name="EnteredDate" Precision="0" Type="DateTime" />
           <Property Name="Active" Type="Boolean" />
           <NavigationProperty Name="Doctors" Relationship="Self.FK_Doctor_Department" FromRole="Department" ToRole="Doctor" />
           <NavigationProperty Name="FAQs" Relationship="Self.FK_FAQ_Department" FromRole="Department" ToRole="FAQ" />
@@ -914,16 +972,16 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="FirstName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="LastName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="DepartmentId" Type="Int32" Nullable="false" />
-          <Property Name="Gender" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Language" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="YearOfExperience" Type="Int32" Nullable="false" />
-          <Property Name="Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Photo" Type="Binary" MaxLength="Max" FixedLength="false" />
-          <Property Name="EnteredDate" Type="DateTime" Precision="0" />
+          <Property Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" Type="Int32" />
+          <Property Name="FirstName" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" Type="String" />
+          <Property Name="LastName" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" Type="String" />
+          <Property Name="DepartmentId" Nullable="false" Type="Int32" />
+          <Property Name="Gender" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" Type="String" />
+          <Property Name="Language" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" Type="String" />
+          <Property Name="YearOfExperience" Nullable="false" Type="Int32" />
+          <Property Name="Text" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" Type="String" />
+          <Property Name="Photo" MaxLength="Max" FixedLength="false" Type="Binary" />
+          <Property Name="EnteredDate" Precision="0" Type="DateTime" />
           <Property Name="EnteredBy" Type="Int32" />
           <Property Name="Active" Type="Boolean" />
           <NavigationProperty Name="Department" Relationship="Self.FK_Doctor_Department" FromRole="Doctor" ToRole="Department" />
@@ -935,20 +993,20 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="DoctorAvailableTimeId" Type="Int32" Nullable="false" />
-          <Property Name="MemberId" Type="Int32" Nullable="false" />
-          <Property Name="BookingDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" Type="Int32" />
+          <Property Name="DoctorAvailableTimeId" Nullable="false" Type="Int32" />
+          <Property Name="MemberId" Nullable="false" Type="Int32" />
+          <Property Name="BookingDate" Nullable="false" Precision="0" Type="DateTime" />
           <NavigationProperty Name="DoctorAvailableDate" Relationship="Self.FK_DoctorAppointment_DoctorAvailableDate" FromRole="DoctorAppointment" ToRole="DoctorAvailableDate" />
         </EntityType>
         <EntityType Name="DoctorAvailableDate">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="DoctorId" Type="Int32" Nullable="false" />
-          <Property Name="AvailableDate" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="EnteredDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" Type="Int32" />
+          <Property Name="DoctorId" Nullable="false" Type="Int32" />
+          <Property Name="AvailableDate" Nullable="false" Precision="0" Type="DateTime" />
+          <Property Name="EnteredDate" Nullable="false" Precision="0" Type="DateTime" />
           <Property Name="EnteredBy" Type="Int32" />
           <Property Name="Active" Type="Boolean" />
           <NavigationProperty Name="Doctor" Relationship="Self.FK_DoctorAvailableDate_Doctor" FromRole="DoctorAvailableDate" ToRole="Doctor" />
@@ -971,32 +1029,32 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="FirstName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="LastName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="DonationDate" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="DonationAmount" Type="Int32" Nullable="false" />
-          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Phone" Type="String" MaxLength="10" FixedLength="true" Unicode="false" Nullable="false" />
-          <Property Name="CityId" Type="Int32" Nullable="false" />
-          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="PostalCode" Type="String" MaxLength="7" FixedLength="true" Unicode="false" Nullable="false" />
-          <Property Name="Gender" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" Type="Int32" />
+          <Property Name="FirstName" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" Type="String" />
+          <Property Name="LastName" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" Type="String" />
+          <Property Name="DonationDate" Nullable="false" Precision="0" Type="DateTime" />
+          <Property Name="DonationAmount" Nullable="false" Type="Int32" />
+          <Property Name="Email" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" Type="String" />
+          <Property Name="Phone" Nullable="false" MaxLength="10" FixedLength="true" Unicode="false" Type="String" />
+          <Property Name="CityId" Nullable="false" Type="Int32" />
+          <Property Name="Address" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" Type="String" />
+          <Property Name="PostalCode" Nullable="false" MaxLength="7" FixedLength="true" Unicode="false" Type="String" />
+          <Property Name="Gender" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" Type="String" />
           <NavigationProperty Name="City" Relationship="Self.FK_Donation_City" FromRole="Donation" ToRole="City" />
         </EntityType>
         <EntityType Name="Facility">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="FacilityName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="PostalCode" Type="String" MaxLength="7" FixedLength="true" Unicode="false" />
-          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Phone" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
-          <Property Name="Photo" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" Type="Int32" />
+          <Property Name="FacilityName" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" Type="String" />
+          <Property Name="Address" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" Type="String" />
+          <Property Name="PostalCode" MaxLength="7" FixedLength="true" Unicode="false" Type="String" />
+          <Property Name="Email" MaxLength="50" FixedLength="false" Unicode="false" Type="String" />
+          <Property Name="Phone" MaxLength="10" FixedLength="true" Unicode="false" Type="String" />
+          <Property Name="Photo" MaxLength="Max" FixedLength="false" Type="Binary" />
           <Property Name="UnitNumber" Type="Int32" />
-          <Property Name="EnteredDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="EnteredDate" Nullable="false" Precision="0" Type="DateTime" />
           <Property Name="EnteredBy" Type="Int32" />
           <Property Name="Active" Type="Boolean" />
           <NavigationProperty Name="Member" Relationship="Self.FK__Facility__Entere__01142BA1" FromRole="Facility" ToRole="Member" />
@@ -1005,12 +1063,12 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="DepartmentId" Type="Int32" Nullable="false" />
-          <Property Name="Question" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Answer" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="EnteredDate" Type="DateTime" Precision="0" />
-          <Property Name="EnteredBy" Type="Int32" Nullable="false" />
+          <Property Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" Type="Int32" />
+          <Property Name="DepartmentId" Nullable="false" Type="Int32" />
+          <Property Name="Question" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" Type="String" />
+          <Property Name="Answer" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" Type="String" />
+          <Property Name="EnteredDate" Precision="0" Type="DateTime" />
+          <Property Name="EnteredBy" Nullable="false" Type="Int32" />
           <Property Name="Active" Type="Boolean" />
           <NavigationProperty Name="Department" Relationship="Self.FK_FAQ_Department" FromRole="FAQ" ToRole="Department" />
           <NavigationProperty Name="Member" Relationship="Self.FK_FAQ_Member" FromRole="FAQ" ToRole="Member" />
@@ -1019,11 +1077,11 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="EntranceName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Latitude" Type="Decimal" Precision="8" Scale="6" Nullable="false" />
-          <Property Name="Longtitude" Type="Decimal" Precision="9" Scale="6" Nullable="false" />
-          <Property Name="EnteredDate" Type="DateTime" Precision="0" />
+          <Property Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" Type="Int32" />
+          <Property Name="EntranceName" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" Type="String" />
+          <Property Name="Latitude" Nullable="false" Precision="8" Scale="6" Type="Decimal" />
+          <Property Name="Longtitude" Nullable="false" Precision="9" Scale="6" Type="Decimal" />
+          <Property Name="EnteredDate" Precision="0" Type="DateTime" />
           <Property Name="EnteredBy" Type="Int32" />
           <NavigationProperty Name="Member" Relationship="Self.FK_Location_Member" FromRole="Location" ToRole="Member" />
         </EntityType>
@@ -1031,19 +1089,19 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Password" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="RoleId" Type="Int32" Nullable="false" />
-          <Property Name="JoinedDay" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Gender" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
-          <Property Name="DOB" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Phone" Type="String" MaxLength="10" FixedLength="true" Unicode="false" Nullable="false" />
-          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="PostalCode" Type="String" MaxLength="7" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" Type="Int32" />
+          <Property Name="Username" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" Type="String" />
+          <Property Name="Password" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" Type="String" />
+          <Property Name="RoleId" Nullable="false" Type="Int32" />
+          <Property Name="JoinedDay" Nullable="false" Precision="0" Type="DateTime" />
+          <Property Name="FirstName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" Type="String" />
+          <Property Name="LastName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" Type="String" />
+          <Property Name="Gender" MaxLength="15" FixedLength="false" Unicode="true" Type="String" />
+          <Property Name="DOB" Nullable="false" Precision="0" Type="DateTime" />
+          <Property Name="Email" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" Type="String" />
+          <Property Name="Phone" Nullable="false" MaxLength="10" FixedLength="true" Unicode="false" Type="String" />
+          <Property Name="Address" MaxLength="Max" FixedLength="false" Unicode="true" Type="String" />
+          <Property Name="PostalCode" Nullable="false" MaxLength="7" FixedLength="true" Unicode="false" Type="String" />
           <NavigationProperty Name="Contacts" Relationship="Self.FK_Contact_Member" FromRole="Member" ToRole="Contact" />
           <NavigationProperty Name="Doctors" Relationship="Self.FK_Doctor_Member" FromRole="Member" ToRole="Doctor" />
           <NavigationProperty Name="DoctorAvailableDates" Relationship="Self.FK_DoctorAvailableDate_Member" FromRole="Member" ToRole="DoctorAvailableDate" />
@@ -1054,30 +1112,33 @@
           <NavigationProperty Name="Services" Relationship="Self.FK_Service_Member" FromRole="Member" ToRole="Service" />
           <NavigationProperty Name="Severities" Relationship="Self.FK_Severity_Member" FromRole="Member" ToRole="Severity" />
           <NavigationProperty Name="VoluteerPosts" Relationship="Self.FK_VolunteerPost_Member" FromRole="Member" ToRole="VoluteerPost" />
-          <Property Name="MiddleName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Patients" Relationship="BlindRiverModel.FK_Patient_Member" FromRole="Member" ToRole="Patient" />
+          <Property Name="MiddleName" MaxLength="Max" FixedLength="false" Unicode="false" Type="String" />
           <NavigationProperty Name="PatientVisitingHours" Relationship="BlindRiverModel.FK_PatientVisitingHour_Member" FromRole="Member" ToRole="PatientVisitingHour" />
           <NavigationProperty Name="Reviews" Relationship="BlindRiverModel.FK_Review_Member" FromRole="Member" ToRole="Review" />
           <NavigationProperty Name="ReviewCategories" Relationship="BlindRiverModel.FK_ReviewCategory_Member" FromRole="Member" ToRole="ReviewCategory" />
           <NavigationProperty Name="VisitingSchedules" Relationship="BlindRiverModel.FK_VisitingSchedule_Member" FromRole="Member" ToRole="VisitingSchedule" />
+          <Property Name="Photo" MaxLength="Max" FixedLength="false" Unicode="false" Type="String" />
+          <NavigationProperty Name="Events" Relationship="BlindRiverModel.FK_Event_Member" FromRole="Member" ToRole="Event" />
+          <NavigationProperty Name="EventMemberStatus" Relationship="BlindRiverModel.FK_EventMemberStatus_Member" FromRole="Member" ToRole="EventMemberStatu" />
+          <NavigationProperty Name="Patients" Relationship="BlindRiverModel.FK_Patient_Member" FromRole="Member" ToRole="Patient" />
         </EntityType>
         <EntityType Name="PaymentInfo">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="PaymentDate" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="FirstName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="LastName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Phone" Type="String" MaxLength="10" FixedLength="true" Unicode="false" Nullable="false" />
-          <Property Name="CityId" Type="Int32" Nullable="false" />
-          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="PostalCode" Type="String" MaxLength="7" FixedLength="true" Unicode="false" Nullable="false" />
-          <Property Name="Gender" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
-          <Property Name="ServiceId" Type="Int32" Nullable="false" />
-          <Property Name="PaymentAmount" Type="Int32" Nullable="false" />
-          <Property Name="PaymentCode" Type="Int32" Nullable="false" />
+          <Property Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" Type="Int32" />
+          <Property Name="PaymentDate" Nullable="false" Precision="0" Type="DateTime" />
+          <Property Name="FirstName" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" Type="String" />
+          <Property Name="LastName" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" Type="String" />
+          <Property Name="Email" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" Type="String" />
+          <Property Name="Phone" Nullable="false" MaxLength="10" FixedLength="true" Unicode="false" Type="String" />
+          <Property Name="CityId" Nullable="false" Type="Int32" />
+          <Property Name="Address" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" Type="String" />
+          <Property Name="PostalCode" Nullable="false" MaxLength="7" FixedLength="true" Unicode="false" Type="String" />
+          <Property Name="Gender" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" Type="String" />
+          <Property Name="ServiceId" Nullable="false" Type="Int32" />
+          <Property Name="PaymentAmount" Nullable="false" Type="Int32" />
+          <Property Name="PaymentCode" Nullable="false" Type="Int32" />
           <NavigationProperty Name="City" Relationship="Self.FK_PaymentInfo_City" FromRole="PaymentInfo" ToRole="City" />
           <NavigationProperty Name="Service" Relationship="Self.FK_PaymentInfo_Service" FromRole="PaymentInfo" ToRole="Service" />
         </EntityType>
@@ -1085,18 +1146,18 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="RoleName" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" Type="Int32" />
+          <Property Name="RoleName" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" Type="String" />
           <NavigationProperty Name="Members" Relationship="Self.FK_Member_Role" FromRole="Role" ToRole="Member" />
         </EntityType>
         <EntityType Name="Service">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ServiceName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="EnteredBy" Type="Int32" Nullable="false" />
-          <Property Name="EnteredDate" Type="DateTime" Precision="0" />
+          <Property Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" Type="Int32" />
+          <Property Name="ServiceName" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" Type="String" />
+          <Property Name="EnteredBy" Nullable="false" Type="Int32" />
+          <Property Name="EnteredDate" Precision="0" Type="DateTime" />
           <Property Name="Active" Type="Boolean" />
           <NavigationProperty Name="Member" Relationship="Self.FK_Service_Member" FromRole="Service" ToRole="Member" />
           <NavigationProperty Name="PaymentInfoes" Relationship="Self.FK_PaymentInfo_Service" FromRole="Service" ToRole="PaymentInfo" />
@@ -1105,11 +1166,11 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="SeverityName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Minute" Type="Int32" Nullable="false" />
-          <Property Name="EnteredBy" Type="Int32" Nullable="false" />
-          <Property Name="EnteredDate" Type="DateTime" Precision="0" />
+          <Property Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" Type="Int32" />
+          <Property Name="SeverityName" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" Type="String" />
+          <Property Name="Minute" Nullable="false" Type="Int32" />
+          <Property Name="EnteredBy" Nullable="false" Type="Int32" />
+          <Property Name="EnteredDate" Precision="0" Type="DateTime" />
           <Property Name="Active" Type="Boolean" />
           <NavigationProperty Name="Calculators" Relationship="Self.FK_Calculator_Severity" FromRole="Severity" ToRole="Calculator" />
           <NavigationProperty Name="Member" Relationship="Self.FK_Severity_Member" FromRole="Severity" ToRole="Member" />
@@ -1118,19 +1179,19 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ApplyDate" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="FirstName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="MiddleName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="LastName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Phone" Type="String" MaxLength="10" FixedLength="true" Unicode="false" Nullable="false" />
-          <Property Name="CityId" Type="Int32" Nullable="false" />
-          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="PostalCode" Type="String" MaxLength="7" FixedLength="true" Unicode="false" Nullable="false" />
-          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="PublishDate" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="VolunteerPostId" Type="Int32" Nullable="false" />
+          <Property Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" Type="Int32" />
+          <Property Name="ApplyDate" Nullable="false" Precision="0" Type="DateTime" />
+          <Property Name="FirstName" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" Type="String" />
+          <Property Name="MiddleName" MaxLength="Max" FixedLength="false" Unicode="false" Type="String" />
+          <Property Name="LastName" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" Type="String" />
+          <Property Name="Email" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" Type="String" />
+          <Property Name="Phone" Nullable="false" MaxLength="10" FixedLength="true" Unicode="false" Type="String" />
+          <Property Name="CityId" Nullable="false" Type="Int32" />
+          <Property Name="Address" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" Type="String" />
+          <Property Name="PostalCode" Nullable="false" MaxLength="7" FixedLength="true" Unicode="false" Type="String" />
+          <Property Name="Description" MaxLength="Max" FixedLength="false" Unicode="false" Type="String" />
+          <Property Name="PublishDate" Nullable="false" Precision="0" Type="DateTime" />
+          <Property Name="VolunteerPostId" Nullable="false" Type="Int32" />
           <NavigationProperty Name="City" Relationship="Self.FK_VolunteerInfo_City" FromRole="VolunteerInfo" ToRole="City" />
           <NavigationProperty Name="VoluteerPost" Relationship="Self.FK_VolunteerInfo_VolunteerPost" FromRole="VolunteerInfo" ToRole="VoluteerPost" />
         </EntityType>
@@ -1138,21 +1199,21 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Title" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Content" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="LastSubmitDate" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="PublishDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" Type="Int32" />
+          <Property Name="Title" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" Type="String" />
+          <Property Name="Content" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" Type="String" />
+          <Property Name="LastSubmitDate" Nullable="false" Precision="0" Type="DateTime" />
+          <Property Name="PublishDate" Nullable="false" Precision="0" Type="DateTime" />
           <Property Name="Active" Type="Boolean" />
           <Property Name="Published" Type="Boolean" />
-          <Property Name="EnteredDate" Type="DateTime" Precision="0" />
+          <Property Name="EnteredDate" Precision="0" Type="DateTime" />
           <Property Name="EnteredBy" Type="Int32" />
           <NavigationProperty Name="Member" Relationship="Self.FK_VolunteerPost_Member" FromRole="VoluteerPost" ToRole="Member" />
           <NavigationProperty Name="VolunteerInfoes" Relationship="Self.FK_VolunteerInfo_VolunteerPost" FromRole="VoluteerPost" ToRole="VolunteerInfo" />
         </EntityType>
         <Association Name="FK_Calculator_Severity">
-          <End Role="Severity" Type="Self.Severity" Multiplicity="1" />
-          <End Role="Calculator" Type="Self.Calculator" Multiplicity="*" />
+          <End Type="Self.Severity" Multiplicity="1" Role="Severity" />
+          <End Type="Self.Calculator" Multiplicity="*" Role="Calculator" />
           <ReferentialConstraint>
             <Principal Role="Severity">
               <PropertyRef Name="Id" />
@@ -1163,8 +1224,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Donation_City">
-          <End Role="City" Type="Self.City" Multiplicity="1" />
-          <End Role="Donation" Type="Self.Donation" Multiplicity="*" />
+          <End Type="Self.City" Multiplicity="1" Role="City" />
+          <End Type="Self.Donation" Multiplicity="*" Role="Donation" />
           <ReferentialConstraint>
             <Principal Role="City">
               <PropertyRef Name="Id" />
@@ -1175,8 +1236,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_PaymentInfo_City">
-          <End Role="City" Type="Self.City" Multiplicity="1" />
-          <End Role="PaymentInfo" Type="Self.PaymentInfo" Multiplicity="*" />
+          <End Type="Self.City" Multiplicity="1" Role="City" />
+          <End Type="Self.PaymentInfo" Multiplicity="*" Role="PaymentInfo" />
           <ReferentialConstraint>
             <Principal Role="City">
               <PropertyRef Name="Id" />
@@ -1187,8 +1248,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_VolunteerInfo_City">
-          <End Role="City" Type="Self.City" Multiplicity="1" />
-          <End Role="VolunteerInfo" Type="Self.VolunteerInfo" Multiplicity="*" />
+          <End Type="Self.City" Multiplicity="1" Role="City" />
+          <End Type="Self.VolunteerInfo" Multiplicity="*" Role="VolunteerInfo" />
           <ReferentialConstraint>
             <Principal Role="City">
               <PropertyRef Name="Id" />
@@ -1199,8 +1260,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Contact_Member">
-          <End Role="Member" Type="Self.Member" Multiplicity="0..1" />
-          <End Role="Contact" Type="Self.Contact" Multiplicity="*" />
+          <End Type="Self.Member" Multiplicity="0..1" Role="Member" />
+          <End Type="Self.Contact" Multiplicity="*" Role="Contact" />
           <ReferentialConstraint>
             <Principal Role="Member">
               <PropertyRef Name="Id" />
@@ -1211,8 +1272,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Doctor_Department">
-          <End Role="Department" Type="Self.Department" Multiplicity="1" />
-          <End Role="Doctor" Type="Self.Doctor" Multiplicity="*" />
+          <End Type="Self.Department" Multiplicity="1" Role="Department" />
+          <End Type="Self.Doctor" Multiplicity="*" Role="Doctor" />
           <ReferentialConstraint>
             <Principal Role="Department">
               <PropertyRef Name="Id" />
@@ -1223,8 +1284,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_FAQ_Department">
-          <End Role="Department" Type="Self.Department" Multiplicity="1" />
-          <End Role="FAQ" Type="Self.FAQ" Multiplicity="*" />
+          <End Type="Self.Department" Multiplicity="1" Role="Department" />
+          <End Type="Self.FAQ" Multiplicity="*" Role="FAQ" />
           <ReferentialConstraint>
             <Principal Role="Department">
               <PropertyRef Name="Id" />
@@ -1235,8 +1296,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Doctor_Member">
-          <End Role="Member" Type="Self.Member" Multiplicity="0..1" />
-          <End Role="Doctor" Type="Self.Doctor" Multiplicity="*" />
+          <End Type="Self.Member" Multiplicity="0..1" Role="Member" />
+          <End Type="Self.Doctor" Multiplicity="*" Role="Doctor" />
           <ReferentialConstraint>
             <Principal Role="Member">
               <PropertyRef Name="Id" />
@@ -1247,8 +1308,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_DoctorAvailableDate_Doctor">
-          <End Role="Doctor" Type="Self.Doctor" Multiplicity="1" />
-          <End Role="DoctorAvailableDate" Type="Self.DoctorAvailableDate" Multiplicity="*" />
+          <End Type="Self.Doctor" Multiplicity="1" Role="Doctor" />
+          <End Type="Self.DoctorAvailableDate" Multiplicity="*" Role="DoctorAvailableDate" />
           <ReferentialConstraint>
             <Principal Role="Doctor">
               <PropertyRef Name="Id" />
@@ -1259,8 +1320,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_DoctorAppointment_DoctorAvailableDate">
-          <End Role="DoctorAvailableDate" Type="Self.DoctorAvailableDate" Multiplicity="1" />
-          <End Role="DoctorAppointment" Type="Self.DoctorAppointment" Multiplicity="*" />
+          <End Type="Self.DoctorAvailableDate" Multiplicity="1" Role="DoctorAvailableDate" />
+          <End Type="Self.DoctorAppointment" Multiplicity="*" Role="DoctorAppointment" />
           <ReferentialConstraint>
             <Principal Role="DoctorAvailableDate">
               <PropertyRef Name="Id" />
@@ -1271,8 +1332,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_DoctorAvailableDate_Member">
-          <End Role="Member" Type="Self.Member" Multiplicity="0..1" />
-          <End Role="DoctorAvailableDate" Type="Self.DoctorAvailableDate" Multiplicity="*" />
+          <End Type="Self.Member" Multiplicity="0..1" Role="Member" />
+          <End Type="Self.DoctorAvailableDate" Multiplicity="*" Role="DoctorAvailableDate" />
           <ReferentialConstraint>
             <Principal Role="Member">
               <PropertyRef Name="Id" />
@@ -1283,8 +1344,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_DoctorAvailableTime_DoctorAvailableDate">
-          <End Role="DoctorAvailableDate" Type="Self.DoctorAvailableDate" Multiplicity="1" />
-          <End Role="DoctorAvailableTime" Type="Self.DoctorAvailableTime" Multiplicity="*" />
+          <End Type="Self.DoctorAvailableDate" Multiplicity="1" Role="DoctorAvailableDate" />
+          <End Type="Self.DoctorAvailableTime" Multiplicity="*" Role="DoctorAvailableTime" />
           <ReferentialConstraint>
             <Principal Role="DoctorAvailableDate">
               <PropertyRef Name="Id" />
@@ -1295,8 +1356,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__Facility__Entere__01142BA1">
-          <End Role="Member" Type="Self.Member" Multiplicity="0..1" />
-          <End Role="Facility" Type="Self.Facility" Multiplicity="*" />
+          <End Type="Self.Member" Multiplicity="0..1" Role="Member" />
+          <End Type="Self.Facility" Multiplicity="*" Role="Facility" />
           <ReferentialConstraint>
             <Principal Role="Member">
               <PropertyRef Name="Id" />
@@ -1307,8 +1368,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_FAQ_Member">
-          <End Role="Member" Type="Self.Member" Multiplicity="1" />
-          <End Role="FAQ" Type="Self.FAQ" Multiplicity="*" />
+          <End Type="Self.Member" Multiplicity="1" Role="Member" />
+          <End Type="Self.FAQ" Multiplicity="*" Role="FAQ" />
           <ReferentialConstraint>
             <Principal Role="Member">
               <PropertyRef Name="Id" />
@@ -1319,8 +1380,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Location_Member">
-          <End Role="Member" Type="Self.Member" Multiplicity="0..1" />
-          <End Role="Location" Type="Self.Location" Multiplicity="*" />
+          <End Type="Self.Member" Multiplicity="0..1" Role="Member" />
+          <End Type="Self.Location" Multiplicity="*" Role="Location" />
           <ReferentialConstraint>
             <Principal Role="Member">
               <PropertyRef Name="Id" />
@@ -1331,8 +1392,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Member_Role">
-          <End Role="Role" Type="Self.Role" Multiplicity="1" />
-          <End Role="Member" Type="Self.Member" Multiplicity="*" />
+          <End Type="Self.Role" Multiplicity="1" Role="Role" />
+          <End Type="Self.Member" Multiplicity="*" Role="Member" />
           <ReferentialConstraint>
             <Principal Role="Role">
               <PropertyRef Name="Id" />
@@ -1343,8 +1404,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Service_Member">
-          <End Role="Member" Type="Self.Member" Multiplicity="1" />
-          <End Role="Service" Type="Self.Service" Multiplicity="*" />
+          <End Type="Self.Member" Multiplicity="1" Role="Member" />
+          <End Type="Self.Service" Multiplicity="*" Role="Service" />
           <ReferentialConstraint>
             <Principal Role="Member">
               <PropertyRef Name="Id" />
@@ -1355,8 +1416,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Severity_Member">
-          <End Role="Member" Type="Self.Member" Multiplicity="1" />
-          <End Role="Severity" Type="Self.Severity" Multiplicity="*" />
+          <End Type="Self.Member" Multiplicity="1" Role="Member" />
+          <End Type="Self.Severity" Multiplicity="*" Role="Severity" />
           <ReferentialConstraint>
             <Principal Role="Member">
               <PropertyRef Name="Id" />
@@ -1367,8 +1428,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_VolunteerPost_Member">
-          <End Role="Member" Type="Self.Member" Multiplicity="0..1" />
-          <End Role="VoluteerPost" Type="Self.VoluteerPost" Multiplicity="*" />
+          <End Type="Self.Member" Multiplicity="0..1" Role="Member" />
+          <End Type="Self.VoluteerPost" Multiplicity="*" Role="VoluteerPost" />
           <ReferentialConstraint>
             <Principal Role="Member">
               <PropertyRef Name="Id" />
@@ -1379,8 +1440,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_PaymentInfo_Service">
-          <End Role="Service" Type="Self.Service" Multiplicity="1" />
-          <End Role="PaymentInfo" Type="Self.PaymentInfo" Multiplicity="*" />
+          <End Type="Self.Service" Multiplicity="1" Role="Service" />
+          <End Type="Self.PaymentInfo" Multiplicity="*" Role="PaymentInfo" />
           <ReferentialConstraint>
             <Principal Role="Service">
               <PropertyRef Name="Id" />
@@ -1391,8 +1452,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_VolunteerInfo_VolunteerPost">
-          <End Role="VoluteerPost" Type="Self.VoluteerPost" Multiplicity="1" />
-          <End Role="VolunteerInfo" Type="Self.VolunteerInfo" Multiplicity="*" />
+          <End Type="Self.VoluteerPost" Multiplicity="1" Role="VoluteerPost" />
+          <End Type="Self.VolunteerInfo" Multiplicity="*" Role="VolunteerInfo" />
           <ReferentialConstraint>
             <Principal Role="VoluteerPost">
               <PropertyRef Name="Id" />
@@ -1424,121 +1485,135 @@
           <EntitySet Name="VolunteerInfoes" EntityType="Self.VolunteerInfo" />
           <EntitySet Name="VoluteerPosts" EntityType="Self.VoluteerPost" />
           <AssociationSet Name="FK_Calculator_Severity" Association="Self.FK_Calculator_Severity">
-            <End Role="Severity" EntitySet="Severities" />
-            <End Role="Calculator" EntitySet="Calculators" />
+            <End EntitySet="Severities" Role="Severity" />
+            <End EntitySet="Calculators" Role="Calculator" />
           </AssociationSet>
           <AssociationSet Name="FK_Donation_City" Association="Self.FK_Donation_City">
-            <End Role="City" EntitySet="Cities" />
-            <End Role="Donation" EntitySet="Donations" />
+            <End EntitySet="Cities" Role="City" />
+            <End EntitySet="Donations" Role="Donation" />
           </AssociationSet>
           <AssociationSet Name="FK_PaymentInfo_City" Association="Self.FK_PaymentInfo_City">
-            <End Role="City" EntitySet="Cities" />
-            <End Role="PaymentInfo" EntitySet="PaymentInfoes" />
+            <End EntitySet="Cities" Role="City" />
+            <End EntitySet="PaymentInfoes" Role="PaymentInfo" />
           </AssociationSet>
           <AssociationSet Name="FK_VolunteerInfo_City" Association="Self.FK_VolunteerInfo_City">
-            <End Role="City" EntitySet="Cities" />
-            <End Role="VolunteerInfo" EntitySet="VolunteerInfoes" />
+            <End EntitySet="Cities" Role="City" />
+            <End EntitySet="VolunteerInfoes" Role="VolunteerInfo" />
           </AssociationSet>
           <AssociationSet Name="FK_Contact_Member" Association="Self.FK_Contact_Member">
-            <End Role="Member" EntitySet="Members" />
-            <End Role="Contact" EntitySet="Contacts" />
+            <End EntitySet="Members" Role="Member" />
+            <End EntitySet="Contacts" Role="Contact" />
           </AssociationSet>
           <AssociationSet Name="FK_Doctor_Department" Association="Self.FK_Doctor_Department">
-            <End Role="Department" EntitySet="Departments" />
-            <End Role="Doctor" EntitySet="Doctors" />
+            <End EntitySet="Departments" Role="Department" />
+            <End EntitySet="Doctors" Role="Doctor" />
           </AssociationSet>
           <AssociationSet Name="FK_FAQ_Department" Association="Self.FK_FAQ_Department">
-            <End Role="Department" EntitySet="Departments" />
-            <End Role="FAQ" EntitySet="FAQs" />
+            <End EntitySet="Departments" Role="Department" />
+            <End EntitySet="FAQs" Role="FAQ" />
           </AssociationSet>
           <AssociationSet Name="FK_Doctor_Member" Association="Self.FK_Doctor_Member">
-            <End Role="Member" EntitySet="Members" />
-            <End Role="Doctor" EntitySet="Doctors" />
+            <End EntitySet="Members" Role="Member" />
+            <End EntitySet="Doctors" Role="Doctor" />
           </AssociationSet>
           <AssociationSet Name="FK_DoctorAvailableDate_Doctor" Association="Self.FK_DoctorAvailableDate_Doctor">
-            <End Role="Doctor" EntitySet="Doctors" />
-            <End Role="DoctorAvailableDate" EntitySet="DoctorAvailableDates" />
+            <End EntitySet="Doctors" Role="Doctor" />
+            <End EntitySet="DoctorAvailableDates" Role="DoctorAvailableDate" />
           </AssociationSet>
           <AssociationSet Name="FK_DoctorAppointment_DoctorAvailableDate" Association="Self.FK_DoctorAppointment_DoctorAvailableDate">
-            <End Role="DoctorAvailableDate" EntitySet="DoctorAvailableDates" />
-            <End Role="DoctorAppointment" EntitySet="DoctorAppointments" />
+            <End EntitySet="DoctorAvailableDates" Role="DoctorAvailableDate" />
+            <End EntitySet="DoctorAppointments" Role="DoctorAppointment" />
           </AssociationSet>
           <AssociationSet Name="FK_DoctorAvailableDate_Member" Association="Self.FK_DoctorAvailableDate_Member">
-            <End Role="Member" EntitySet="Members" />
-            <End Role="DoctorAvailableDate" EntitySet="DoctorAvailableDates" />
+            <End EntitySet="Members" Role="Member" />
+            <End EntitySet="DoctorAvailableDates" Role="DoctorAvailableDate" />
           </AssociationSet>
           <AssociationSet Name="FK_DoctorAvailableTime_DoctorAvailableDate" Association="Self.FK_DoctorAvailableTime_DoctorAvailableDate">
-            <End Role="DoctorAvailableDate" EntitySet="DoctorAvailableDates" />
-            <End Role="DoctorAvailableTime" EntitySet="DoctorAvailableTimes" />
+            <End EntitySet="DoctorAvailableDates" Role="DoctorAvailableDate" />
+            <End EntitySet="DoctorAvailableTimes" Role="DoctorAvailableTime" />
           </AssociationSet>
           <AssociationSet Name="FK__Facility__Entere__01142BA1" Association="Self.FK__Facility__Entere__01142BA1">
-            <End Role="Member" EntitySet="Members" />
-            <End Role="Facility" EntitySet="Facilities" />
+            <End EntitySet="Members" Role="Member" />
+            <End EntitySet="Facilities" Role="Facility" />
           </AssociationSet>
           <AssociationSet Name="FK_FAQ_Member" Association="Self.FK_FAQ_Member">
-            <End Role="Member" EntitySet="Members" />
-            <End Role="FAQ" EntitySet="FAQs" />
+            <End EntitySet="Members" Role="Member" />
+            <End EntitySet="FAQs" Role="FAQ" />
           </AssociationSet>
           <AssociationSet Name="FK_Location_Member" Association="Self.FK_Location_Member">
-            <End Role="Member" EntitySet="Members" />
-            <End Role="Location" EntitySet="Locations" />
+            <End EntitySet="Members" Role="Member" />
+            <End EntitySet="Locations" Role="Location" />
           </AssociationSet>
           <AssociationSet Name="FK_Member_Role" Association="Self.FK_Member_Role">
-            <End Role="Role" EntitySet="Roles" />
-            <End Role="Member" EntitySet="Members" />
+            <End EntitySet="Roles" Role="Role" />
+            <End EntitySet="Members" Role="Member" />
           </AssociationSet>
           <AssociationSet Name="FK_Service_Member" Association="Self.FK_Service_Member">
-            <End Role="Member" EntitySet="Members" />
-            <End Role="Service" EntitySet="Services" />
+            <End EntitySet="Members" Role="Member" />
+            <End EntitySet="Services" Role="Service" />
           </AssociationSet>
           <AssociationSet Name="FK_Severity_Member" Association="Self.FK_Severity_Member">
-            <End Role="Member" EntitySet="Members" />
-            <End Role="Severity" EntitySet="Severities" />
+            <End EntitySet="Members" Role="Member" />
+            <End EntitySet="Severities" Role="Severity" />
           </AssociationSet>
           <AssociationSet Name="FK_VolunteerPost_Member" Association="Self.FK_VolunteerPost_Member">
-            <End Role="Member" EntitySet="Members" />
-            <End Role="VoluteerPost" EntitySet="VoluteerPosts" />
+            <End EntitySet="Members" Role="Member" />
+            <End EntitySet="VoluteerPosts" Role="VoluteerPost" />
           </AssociationSet>
           <AssociationSet Name="FK_PaymentInfo_Service" Association="Self.FK_PaymentInfo_Service">
-            <End Role="Service" EntitySet="Services" />
-            <End Role="PaymentInfo" EntitySet="PaymentInfoes" />
+            <End EntitySet="Services" Role="Service" />
+            <End EntitySet="PaymentInfoes" Role="PaymentInfo" />
           </AssociationSet>
           <AssociationSet Name="FK_VolunteerInfo_VolunteerPost" Association="Self.FK_VolunteerInfo_VolunteerPost">
-            <End Role="VoluteerPost" EntitySet="VoluteerPosts" />
-            <End Role="VolunteerInfo" EntitySet="VolunteerInfoes" />
+            <End EntitySet="VoluteerPosts" Role="VoluteerPost" />
+            <End EntitySet="VolunteerInfoes" Role="VolunteerInfo" />
           </AssociationSet>
-          <EntitySet Name="Patients" EntityType="BlindRiverModel.Patient" />
           <EntitySet Name="PatientVisitingHours" EntityType="BlindRiverModel.PatientVisitingHour" />
           <EntitySet Name="Reviews" EntityType="BlindRiverModel.Review" />
           <EntitySet Name="ReviewCategories" EntityType="BlindRiverModel.ReviewCategory" />
           <EntitySet Name="VisitingSchedules" EntityType="BlindRiverModel.VisitingSchedule" />
-          <AssociationSet Name="FK_Patient_City" Association="BlindRiverModel.FK_Patient_City">
-            <End Role="City" EntitySet="Cities" />
-            <End Role="Patient" EntitySet="Patients" />
-          </AssociationSet>
           <AssociationSet Name="FK_Review_Doctor" Association="BlindRiverModel.FK_Review_Doctor">
-            <End Role="Doctor" EntitySet="Doctors" />
-            <End Role="Review" EntitySet="Reviews" />
+            <End EntitySet="Doctors" Role="Doctor" />
+            <End EntitySet="Reviews" Role="Review" />
           </AssociationSet>
+          <AssociationSet Name="FK_PatientVisitingHour_Member" Association="BlindRiverModel.FK_PatientVisitingHour_Member">
+            <End EntitySet="Members" Role="Member" />
+            <End EntitySet="PatientVisitingHours" Role="PatientVisitingHour" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Review_Member" Association="BlindRiverModel.FK_Review_Member">
+            <End EntitySet="Members" Role="Member" />
+            <End EntitySet="Reviews" Role="Review" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ReviewCategory_Member" Association="BlindRiverModel.FK_ReviewCategory_Member">
+            <End EntitySet="Members" Role="Member" />
+            <End EntitySet="ReviewCategories" Role="ReviewCategory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VisitingSchedule_Member" Association="BlindRiverModel.FK_VisitingSchedule_Member">
+            <End EntitySet="Members" Role="Member" />
+            <End EntitySet="VisitingSchedules" Role="VisitingSchedule" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Review_ReviewCategory" Association="BlindRiverModel.FK_Review_ReviewCategory">
+            <End EntitySet="ReviewCategories" Role="ReviewCategory" />
+            <End EntitySet="Reviews" Role="Review" />
+          </AssociationSet>
+          <EntitySet Name="Events" EntityType="BlindRiverModel.Event" />
+          <EntitySet Name="EventMemberStatus" EntityType="BlindRiverModel.EventMemberStatu" />
+          <AssociationSet Name="FK_Event_Member" Association="BlindRiverModel.FK_Event_Member">
+            <End Role="Member" EntitySet="Members" />
+            <End Role="Event" EntitySet="Events" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EventMemberStatus_Event" Association="BlindRiverModel.FK_EventMemberStatus_Event">
+            <End Role="Event" EntitySet="Events" />
+            <End Role="EventMemberStatu" EntitySet="EventMemberStatus" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EventMemberStatus_Member" Association="BlindRiverModel.FK_EventMemberStatus_Member">
+            <End Role="Member" EntitySet="Members" />
+            <End Role="EventMemberStatu" EntitySet="EventMemberStatus" />
+          </AssociationSet>
+          <EntitySet Name="Patients" EntityType="BlindRiverModel.Patient" />
           <AssociationSet Name="FK_Patient_Member" Association="BlindRiverModel.FK_Patient_Member">
             <End Role="Member" EntitySet="Members" />
             <End Role="Patient" EntitySet="Patients" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PatientVisitingHour_Member" Association="BlindRiverModel.FK_PatientVisitingHour_Member">
-            <End Role="Member" EntitySet="Members" />
-            <End Role="PatientVisitingHour" EntitySet="PatientVisitingHours" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Review_Member" Association="BlindRiverModel.FK_Review_Member">
-            <End Role="Member" EntitySet="Members" />
-            <End Role="Review" EntitySet="Reviews" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ReviewCategory_Member" Association="BlindRiverModel.FK_ReviewCategory_Member">
-            <End Role="Member" EntitySet="Members" />
-            <End Role="ReviewCategory" EntitySet="ReviewCategories" />
-          </AssociationSet>
-          <AssociationSet Name="FK_VisitingSchedule_Member" Association="BlindRiverModel.FK_VisitingSchedule_Member">
-            <End Role="Member" EntitySet="Members" />
-            <End Role="VisitingSchedule" EntitySet="VisitingSchedules" />
           </AssociationSet>
           <AssociationSet Name="FK_PatientVisitingHour_Patient" Association="BlindRiverModel.FK_PatientVisitingHour_Patient">
             <End Role="Patient" EntitySet="Patients" />
@@ -1548,43 +1623,20 @@
             <End Role="Patient" EntitySet="Patients" />
             <End Role="VisitingSchedule" EntitySet="VisitingSchedules" />
           </AssociationSet>
-          <AssociationSet Name="FK_Review_ReviewCategory" Association="BlindRiverModel.FK_Review_ReviewCategory">
-            <End Role="ReviewCategory" EntitySet="ReviewCategories" />
-            <End Role="Review" EntitySet="Reviews" />
-          </AssociationSet>
-        </EntityContainer>
-        <EntityType Name="Patient">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="MiddleName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="LastName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="CityId" Type="Int32" Nullable="false" />
-          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="PostalCode" Type="String" Nullable="false" MaxLength="7" FixedLength="true" Unicode="false" />
-          <Property Name="EnteredDate" Type="DateTime" Precision="0" />
-          <Property Name="EnteredBy" Type="Int32" />
-          <Property Name="Active" Type="Boolean" />
-          <NavigationProperty Name="City" Relationship="BlindRiverModel.FK_Patient_City" FromRole="Patient" ToRole="City" />
-          <NavigationProperty Name="Member" Relationship="BlindRiverModel.FK_Patient_Member" FromRole="Patient" ToRole="Member" />
-          <NavigationProperty Name="PatientVisitingHours" Relationship="BlindRiverModel.FK_PatientVisitingHour_Patient" FromRole="Patient" ToRole="PatientVisitingHour" />
-          <NavigationProperty Name="VisitingSchedules" Relationship="BlindRiverModel.FK_VisitingSchedule_Patient" FromRole="Patient" ToRole="VisitingSchedule" />
-        </EntityType>
+          </EntityContainer>
         <EntityType Name="PatientVisitingHour">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="PatientId" Type="Int32" Nullable="false" />
-          <Property Name="VisitingDateFrom" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="VisitingDateTo" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="VisitingHourFrom" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="VisitingHourTo" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="MaxTimeSpan" Type="Int32" Nullable="false" />
-          <Property Name="TimeSpanBetweenVisit" Type="Int32" Nullable="false" />
-          <Property Name="EnteredDate" Type="DateTime" Precision="0" />
+          <Property Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" Type="Int32" />
+          <Property Name="PatientId" Nullable="false" Type="Int32" />
+          <Property Name="VisitingDateFrom" Nullable="false" Precision="0" Type="DateTime" />
+          <Property Name="VisitingDateTo" Nullable="false" Precision="0" Type="DateTime" />
+          <Property Name="VisitingHourFrom" Nullable="false" Precision="3" Type="DateTime" />
+          <Property Name="VisitingHourTo" Nullable="false" Precision="3" Type="DateTime" />
+          <Property Name="MaxTimeSpan" Nullable="false" Type="Int32" />
+          <Property Name="TimeSpanBetweenVisit" Nullable="false" Type="Int32" />
+          <Property Name="EnteredDate" Precision="0" Type="DateTime" />
           <Property Name="EnteredBy" Type="Int32" />
           <Property Name="Active" Type="Boolean" />
           <NavigationProperty Name="Member" Relationship="BlindRiverModel.FK_PatientVisitingHour_Member" FromRole="PatientVisitingHour" ToRole="Member" />
@@ -1594,17 +1646,17 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ReviewCategoryId" Type="Int32" Nullable="false" />
-          <Property Name="DoctorId" Type="Int32" Nullable="false" />
+          <Property Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" Type="Int32" />
+          <Property Name="ReviewCategoryId" Nullable="false" Type="Int32" />
+          <Property Name="DoctorId" Nullable="false" Type="Int32" />
           <Property Name="Punctuality" Type="Int32" />
           <Property Name="Helpfullness" Type="Int32" />
           <Property Name="Knowledge" Type="Int32" />
           <Property Name="Rate" Type="Int32" />
-          <Property Name="Pros" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="Cons" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="Advice" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="EnteredDate" Type="DateTime" Precision="0" />
+          <Property Name="Pros" MaxLength="Max" FixedLength="false" Unicode="false" Type="String" />
+          <Property Name="Cons" MaxLength="Max" FixedLength="false" Unicode="false" Type="String" />
+          <Property Name="Advice" MaxLength="Max" FixedLength="false" Unicode="false" Type="String" />
+          <Property Name="EnteredDate" Precision="0" Type="DateTime" />
           <Property Name="ReviewedBy" Type="Int32" />
           <NavigationProperty Name="Doctor" Relationship="BlindRiverModel.FK_Review_Doctor" FromRole="Review" ToRole="Doctor" />
           <NavigationProperty Name="Member" Relationship="BlindRiverModel.FK_Review_Member" FromRole="Review" ToRole="Member" />
@@ -1614,9 +1666,9 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="CategoryName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="EnteredDate" Type="DateTime" Precision="0" />
+          <Property Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" Type="Int32" />
+          <Property Name="CategoryName" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" Type="String" />
+          <Property Name="EnteredDate" Precision="0" Type="DateTime" />
           <Property Name="EnteredBy" Type="Int32" />
           <Property Name="Active" Type="Boolean" />
           <NavigationProperty Name="Member" Relationship="BlindRiverModel.FK_ReviewCategory_Member" FromRole="ReviewCategory" ToRole="Member" />
@@ -1626,30 +1678,18 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="PatientId" Type="Int32" Nullable="false" />
-          <Property Name="VisitorId" Type="Int32" Nullable="false" />
-          <Property Name="BookedFrom" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="BookedTo" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="AppointmentDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" Type="Int32" />
+          <Property Name="PatientId" Nullable="false" Type="Int32" />
+          <Property Name="VisitorId" Nullable="false" Type="Int32" />
+          <Property Name="BookedFrom" Nullable="false" Precision="3" Type="DateTime" />
+          <Property Name="BookedTo" Nullable="false" Precision="3" Type="DateTime" />
+          <Property Name="AppointmentDate" Nullable="false" Precision="0" Type="DateTime" />
           <NavigationProperty Name="Member" Relationship="BlindRiverModel.FK_VisitingSchedule_Member" FromRole="VisitingSchedule" ToRole="Member" />
           <NavigationProperty Name="Patient" Relationship="BlindRiverModel.FK_VisitingSchedule_Patient" FromRole="VisitingSchedule" ToRole="Patient" />
         </EntityType>
-        <Association Name="FK_Patient_City">
-          <End Type="BlindRiverModel.City" Role="City" Multiplicity="1" />
-          <End Type="BlindRiverModel.Patient" Role="Patient" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="City">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Patient">
-              <PropertyRef Name="CityId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Review_Doctor">
-          <End Type="BlindRiverModel.Doctor" Role="Doctor" Multiplicity="1" />
-          <End Type="BlindRiverModel.Review" Role="Review" Multiplicity="*" />
+          <End Type="BlindRiverModel.Doctor" Multiplicity="1" Role="Doctor" />
+          <End Type="BlindRiverModel.Review" Multiplicity="*" Role="Review" />
           <ReferentialConstraint>
             <Principal Role="Doctor">
               <PropertyRef Name="Id" />
@@ -1659,21 +1699,9 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Patient_Member">
-          <End Type="BlindRiverModel.Member" Role="Member" Multiplicity="0..1" />
-          <End Type="BlindRiverModel.Patient" Role="Patient" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Member">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Patient">
-              <PropertyRef Name="EnteredBy" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_PatientVisitingHour_Member">
-          <End Type="BlindRiverModel.Member" Role="Member" Multiplicity="0..1" />
-          <End Type="BlindRiverModel.PatientVisitingHour" Role="PatientVisitingHour" Multiplicity="*" />
+          <End Type="BlindRiverModel.Member" Multiplicity="0..1" Role="Member" />
+          <End Type="BlindRiverModel.PatientVisitingHour" Multiplicity="*" Role="PatientVisitingHour" />
           <ReferentialConstraint>
             <Principal Role="Member">
               <PropertyRef Name="Id" />
@@ -1684,8 +1712,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Review_Member">
-          <End Type="BlindRiverModel.Member" Role="Member" Multiplicity="0..1" />
-          <End Type="BlindRiverModel.Review" Role="Review" Multiplicity="*" />
+          <End Type="BlindRiverModel.Member" Multiplicity="0..1" Role="Member" />
+          <End Type="BlindRiverModel.Review" Multiplicity="*" Role="Review" />
           <ReferentialConstraint>
             <Principal Role="Member">
               <PropertyRef Name="Id" />
@@ -1696,8 +1724,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_ReviewCategory_Member">
-          <End Type="BlindRiverModel.Member" Role="Member" Multiplicity="0..1" />
-          <End Type="BlindRiverModel.ReviewCategory" Role="ReviewCategory" Multiplicity="*" />
+          <End Type="BlindRiverModel.Member" Multiplicity="0..1" Role="Member" />
+          <End Type="BlindRiverModel.ReviewCategory" Multiplicity="*" Role="ReviewCategory" />
           <ReferentialConstraint>
             <Principal Role="Member">
               <PropertyRef Name="Id" />
@@ -1708,14 +1736,120 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_VisitingSchedule_Member">
-          <End Type="BlindRiverModel.Member" Role="Member" Multiplicity="1" />
-          <End Type="BlindRiverModel.VisitingSchedule" Role="VisitingSchedule" Multiplicity="*" />
+          <End Type="BlindRiverModel.Member" Multiplicity="1" Role="Member" />
+          <End Type="BlindRiverModel.VisitingSchedule" Multiplicity="*" Role="VisitingSchedule" />
           <ReferentialConstraint>
             <Principal Role="Member">
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="VisitingSchedule">
               <PropertyRef Name="VisitorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Review_ReviewCategory">
+          <End Type="BlindRiverModel.ReviewCategory" Multiplicity="1" Role="ReviewCategory" />
+          <End Type="BlindRiverModel.Review" Multiplicity="*" Role="Review" />
+          <ReferentialConstraint>
+            <Principal Role="ReviewCategory">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Review">
+              <PropertyRef Name="ReviewCategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Event">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Content" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="NumberInvited" Type="Int32" Nullable="false" />
+          <Property Name="NumberGoing" Type="Int32" Nullable="false" />
+          <Property Name="NumberDeclined" Type="Int32" Nullable="false" />
+          <Property Name="Active" Type="Boolean" Nullable="false" />
+          <Property Name="EnteredDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EnteredBy" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Member" Relationship="BlindRiverModel.FK_Event_Member" FromRole="Event" ToRole="Member" />
+          <NavigationProperty Name="EventMemberStatus" Relationship="BlindRiverModel.FK_EventMemberStatus_Event" FromRole="Event" ToRole="EventMemberStatu" />
+          <Property Name="Place" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="EventMemberStatu">
+          <Key>
+            <PropertyRef Name="EventId" />
+            <PropertyRef Name="MemberId" />
+          </Key>
+          <Property Name="EventId" Type="Int32" Nullable="false" />
+          <Property Name="MemberId" Type="Int32" Nullable="false" />
+          <Property Name="Status" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Event" Relationship="BlindRiverModel.FK_EventMemberStatus_Event" FromRole="EventMemberStatu" ToRole="Event" />
+          <NavigationProperty Name="Member" Relationship="BlindRiverModel.FK_EventMemberStatus_Member" FromRole="EventMemberStatu" ToRole="Member" />
+        </EntityType>
+        <Association Name="FK_Event_Member">
+          <End Type="BlindRiverModel.Member" Role="Member" Multiplicity="1" />
+          <End Type="BlindRiverModel.Event" Role="Event" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Event">
+              <PropertyRef Name="EnteredBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EventMemberStatus_Event">
+          <End Type="BlindRiverModel.Event" Role="Event" Multiplicity="1" />
+          <End Type="BlindRiverModel.EventMemberStatu" Role="EventMemberStatu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Event">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EventMemberStatu">
+              <PropertyRef Name="EventId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EventMemberStatus_Member">
+          <End Type="BlindRiverModel.Member" Role="Member" Multiplicity="1" />
+          <End Type="BlindRiverModel.EventMemberStatu" Role="EventMemberStatu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EventMemberStatu">
+              <PropertyRef Name="MemberId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Patient">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="MiddleName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PostalCode" Type="String" Nullable="false" MaxLength="7" FixedLength="true" Unicode="false" />
+          <Property Name="EnteredDate" Type="DateTime" Precision="3" />
+          <Property Name="EnteredBy" Type="Int32" />
+          <Property Name="Active" Type="Boolean" />
+          <NavigationProperty Name="Member" Relationship="BlindRiverModel.FK_Patient_Member" FromRole="Patient" ToRole="Member" />
+          <NavigationProperty Name="PatientVisitingHours" Relationship="BlindRiverModel.FK_PatientVisitingHour_Patient" FromRole="Patient" ToRole="PatientVisitingHour" />
+          <NavigationProperty Name="VisitingSchedules" Relationship="BlindRiverModel.FK_VisitingSchedule_Patient" FromRole="Patient" ToRole="VisitingSchedule" />
+        </EntityType>
+        <Association Name="FK_Patient_Member">
+          <End Type="BlindRiverModel.Member" Role="Member" Multiplicity="0..1" />
+          <End Type="BlindRiverModel.Patient" Role="Patient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Patient">
+              <PropertyRef Name="EnteredBy" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1740,18 +1874,6 @@
             </Principal>
             <Dependent Role="VisitingSchedule">
               <PropertyRef Name="PatientId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Review_ReviewCategory">
-          <End Type="BlindRiverModel.ReviewCategory" Role="ReviewCategory" Multiplicity="1" />
-          <End Type="BlindRiverModel.Review" Role="Review" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ReviewCategory">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Review">
-              <PropertyRef Name="ReviewCategoryId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1930,6 +2052,7 @@
           <EntitySetMapping Name="Members">
             <EntityTypeMapping TypeName="BlindRiverModel.Member">
               <MappingFragment StoreEntitySet="Member">
+                <ScalarProperty Name="Photo" ColumnName="Photo" />
                 <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Username" ColumnName="Username" />
@@ -2031,22 +2154,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Patients">
-            <EntityTypeMapping TypeName="BlindRiverModel.Patient">
-              <MappingFragment StoreEntitySet="Patient">
-                <ScalarProperty Name="Active" ColumnName="Active" />
-                <ScalarProperty Name="EnteredBy" ColumnName="EnteredBy" />
-                <ScalarProperty Name="EnteredDate" ColumnName="EnteredDate" />
-                <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
-                <ScalarProperty Name="Address" ColumnName="Address" />
-                <ScalarProperty Name="CityId" ColumnName="CityId" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="PatientVisitingHours">
             <EntityTypeMapping TypeName="BlindRiverModel.PatientVisitingHour">
               <MappingFragment StoreEntitySet="PatientVisitingHour">
@@ -2101,6 +2208,47 @@
                 <ScalarProperty Name="BookedFrom" ColumnName="BookedFrom" />
                 <ScalarProperty Name="VisitorId" ColumnName="VisitorId" />
                 <ScalarProperty Name="PatientId" ColumnName="PatientId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Events">
+            <EntityTypeMapping TypeName="BlindRiverModel.Event">
+              <MappingFragment StoreEntitySet="Event">
+                <ScalarProperty Name="Place" ColumnName="Place" />
+                <ScalarProperty Name="EnteredBy" ColumnName="EnteredBy" />
+                <ScalarProperty Name="EnteredDate" ColumnName="EnteredDate" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="NumberDeclined" ColumnName="NumberDeclined" />
+                <ScalarProperty Name="NumberGoing" ColumnName="NumberGoing" />
+                <ScalarProperty Name="NumberInvited" ColumnName="NumberInvited" />
+                <ScalarProperty Name="DateTime" ColumnName="DateTime" />
+                <ScalarProperty Name="Content" ColumnName="Content" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EventMemberStatus">
+            <EntityTypeMapping TypeName="BlindRiverModel.EventMemberStatu">
+              <MappingFragment StoreEntitySet="EventMemberStatus">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+                <ScalarProperty Name="EventId" ColumnName="EventId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Patients">
+            <EntityTypeMapping TypeName="BlindRiverModel.Patient">
+              <MappingFragment StoreEntitySet="Patient">
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="EnteredBy" ColumnName="EnteredBy" />
+                <ScalarProperty Name="EnteredDate" ColumnName="EnteredDate" />
+                <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

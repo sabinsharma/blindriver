@@ -1,0 +1,24 @@
+.editor.btn-toolbar {
+    zoom: 1;
+    background: #F7F7F7;
+    margin: 5px 2px;
+    padding: 3px 0;
+    border: 1px solid #EFEFEF;
+}
+.editor-wrapper {
+    min-height: 250px;
+    background-color: #fff;
+    border-collapse: separate;
+    border: 1px solid #ccc;
+    padding: 4px;
+    box-sizing: content-box;
+    box-shadow: rgba(0,0,0,.07451) 0 1px 1px 0 inset;
+    overflow: scroll;
+    outline: 0;
+    border-radius: 3px;
+}
+textarea {
+    margin: 10px auto;
+    vertical-align: top;
+    width: 200px;
+}
