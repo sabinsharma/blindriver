@@ -1017,10 +1017,10 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" Type="Int32" />
-          <Property Name="DoctorAvailableDateId" Nullable="false" Type="Int32" />
-          <Property Name="AvailableFrom" Nullable="false" Precision="7" Type="Time" />
-          <Property Name="AvailableUntil" Nullable="false" Precision="7" Type="Time" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DoctorAvailableDateId" Type="Int32" Nullable="false" />
+          <Property Name="AvailableFrom" Type="Time" Nullable="false" />
+          <Property Name="AvailableUntil" Type="Time" Nullable="false" />
           <Property Name="Active" Type="Boolean" />
           <NavigationProperty Name="DoctorAvailableDate" Relationship="Self.FK_DoctorAvailableTime_DoctorAvailableDate" FromRole="DoctorAvailableTime" ToRole="DoctorAvailableDate" />
           <NavigationProperty Name="DoctorAppointments" Relationship="BlindRiverModel.FK_DoctorAppointment_DoctorAvailableTime" FromRole="DoctorAvailableTime" ToRole="DoctorAppointment" />
