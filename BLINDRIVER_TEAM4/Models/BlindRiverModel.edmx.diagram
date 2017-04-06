@@ -14,21 +14,15 @@
         <EntityTypeShape EntityType="BlindRiverModel.DoctorAppointment" PointX="16.75" PointY="28.625" Width="1.5" IsExpanded="true" />
         <EntityTypeShape EntityType="BlindRiverModel.DoctorAvailableDate" PointX="15" PointY="32" Width="1.5" IsExpanded="true" />
         <EntityTypeShape EntityType="BlindRiverModel.DoctorAvailableTime" PointX="17.375" PointY="32.5" Width="1.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="BlindRiverModel.Donation" PointX="8.25" PointY="15" Width="1.5" IsExpanded="true" />
         <EntityTypeShape EntityType="BlindRiverModel.Facility" PointX="5.25" PointY="22" Width="1.5" IsExpanded="true" />
         <EntityTypeShape EntityType="BlindRiverModel.FAQ" PointX="5.25" PointY="26.375" Width="1.5" IsExpanded="true" />
         <EntityTypeShape EntityType="BlindRiverModel.Location" PointX="5.25" PointY="31" Width="1.5" IsExpanded="true" />
         <EntityTypeShape EntityType="BlindRiverModel.Member" PointX="3" PointY="23.25" Width="1.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="BlindRiverModel.PaymentInfo" PointX="7.5" PointY="40" Width="1.5" IsExpanded="true" />
         <EntityTypeShape EntityType="BlindRiverModel.Role" PointX="0.75" PointY="25.875" Width="1.5" IsExpanded="true" />
         <EntityTypeShape EntityType="BlindRiverModel.Service" PointX="5.25" PointY="41.875" Width="1.5" IsExpanded="true" />
         <EntityTypeShape EntityType="BlindRiverModel.Severity" PointX="5.25" PointY="45" Width="1.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="BlindRiverModel.VolunteerInfo" PointX="7.5" PointY="52.375" Width="1.5" IsExpanded="true" />
         <EntityTypeShape EntityType="BlindRiverModel.VoluteerPost" PointX="5.25" PointY="52.75" Width="1.5" IsExpanded="true" />
         <AssociationConnector ManuallyRouted="false" Association="BlindRiverModel.FK_Calculator_Severity" />
-        <AssociationConnector ManuallyRouted="false" Association="BlindRiverModel.FK_Donation_City" />
-        <AssociationConnector ManuallyRouted="false" Association="BlindRiverModel.FK_PaymentInfo_City" />
-        <AssociationConnector ManuallyRouted="false" Association="BlindRiverModel.FK_VolunteerInfo_City" />
         <AssociationConnector ManuallyRouted="false" Association="BlindRiverModel.FK_Contact_Member" />
         <AssociationConnector ManuallyRouted="false" Association="BlindRiverModel.FK_Doctor_Department" />
         <AssociationConnector ManuallyRouted="false" Association="BlindRiverModel.FK_FAQ_Department" />
@@ -43,8 +37,6 @@
         <AssociationConnector ManuallyRouted="false" Association="BlindRiverModel.FK_Service_Member" />
         <AssociationConnector ManuallyRouted="false" Association="BlindRiverModel.FK_Severity_Member" />
         <AssociationConnector ManuallyRouted="false" Association="BlindRiverModel.FK_VolunteerPost_Member" />
-        <AssociationConnector ManuallyRouted="false" Association="BlindRiverModel.FK_PaymentInfo_Service" />
-        <AssociationConnector ManuallyRouted="false" Association="BlindRiverModel.FK_VolunteerInfo_VolunteerPost" />
         <EntityTypeShape EntityType="BlindRiverModel.PatientVisitingHour" PointX="10.5" PointY="23.25" Width="1.5" />
         <EntityTypeShape EntityType="BlindRiverModel.Review" PointX="10.5" PointY="30.25" Width="1.5" />
         <EntityTypeShape EntityType="BlindRiverModel.ReviewCategory" PointX="5.25" PointY="38.75" Width="1.5" />
@@ -65,6 +57,14 @@
         <AssociationConnector Association="BlindRiverModel.FK_PatientVisitingHour_Patient" />
         <AssociationConnector Association="BlindRiverModel.FK_VisitingSchedule_Patient" />
         <AssociationConnector Association="BlindRiverModel.FK_DoctorAppointment_DoctorAvailableTime" />
+        <EntityTypeShape EntityType="BlindRiverModel.Donation" Width="1.5" PointX="8.25" PointY="18" />
+        <EntityTypeShape EntityType="BlindRiverModel.PaymentInfo" Width="1.5" PointX="8.25" PointY="29.5" />
+        <EntityTypeShape EntityType="BlindRiverModel.VolunteerInfo" Width="1.5" PointX="8.25" PointY="35.25" />
+        <AssociationConnector Association="BlindRiverModel.FK_Donation_City" />
+        <AssociationConnector Association="BlindRiverModel.FK_PaymentInfo_City" />
+        <AssociationConnector Association="BlindRiverModel.FK_VolunteerInfo_City" />
+        <AssociationConnector Association="BlindRiverModel.FK_PaymentInfo_Service" />
+        <AssociationConnector Association="BlindRiverModel.FK_VolunteerInfo_VolunteerPost" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

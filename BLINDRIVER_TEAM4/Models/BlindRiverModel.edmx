@@ -114,7 +114,7 @@
           <Property Name="DonationAmount" Type="int" Nullable="false" />
           <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Phone" Type="char" MaxLength="10" Nullable="false" />
-          <Property Name="CityId" Type="int" Nullable="false" />
+          <Property Name="CityId" Type="int" />
           <Property Name="Address" Type="nvarchar(max)" Nullable="false" />
           <Property Name="PostalCode" Type="char" MaxLength="7" Nullable="false" />
           <Property Name="Gender" Type="nchar" MaxLength="10" Nullable="false" />
@@ -243,7 +243,7 @@
           <Property Name="LastName" Type="varchar(max)" Nullable="false" />
           <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Phone" Type="char" MaxLength="10" Nullable="false" />
-          <Property Name="CityId" Type="int" Nullable="false" />
+          <Property Name="CityId" Type="int" />
           <Property Name="Address" Type="nvarchar(max)" Nullable="false" />
           <Property Name="PostalCode" Type="char" MaxLength="7" Nullable="false" />
           <Property Name="Gender" Type="nchar" MaxLength="10" Nullable="false" />
@@ -328,7 +328,7 @@
           <Property Name="LastName" Type="varchar(max)" Nullable="false" />
           <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Phone" Type="char" MaxLength="10" Nullable="false" />
-          <Property Name="CityId" Type="int" Nullable="false" />
+          <Property Name="CityId" Type="int" />
           <Property Name="Address" Type="nvarchar(max)" Nullable="false" />
           <Property Name="PostalCode" Type="char" MaxLength="7" Nullable="false" />
           <Property Name="Description" Type="varchar(max)" />
@@ -458,7 +458,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Donation_City">
-          <End Role="City" Type="Self.City" Multiplicity="1" />
+          <End Role="City" Type="Self.City" Multiplicity="0..1" />
           <End Role="Donation" Type="Self.Donation" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="City">
@@ -590,7 +590,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_PaymentInfo_City">
-          <End Role="City" Type="Self.City" Multiplicity="1" />
+          <End Role="City" Type="Self.City" Multiplicity="0..1" />
           <End Role="PaymentInfo" Type="Self.PaymentInfo" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="City">
@@ -710,7 +710,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_VolunteerInfo_City">
-          <End Role="City" Type="Self.City" Multiplicity="1" />
+          <End Role="City" Type="Self.City" Multiplicity="0..1" />
           <End Role="VolunteerInfo" Type="Self.VolunteerInfo" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="City">
@@ -938,9 +938,9 @@
           </Key>
           <Property Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" Type="Int32" />
           <Property Name="CityName" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" Type="String" />
-          <NavigationProperty Name="Donations" Relationship="Self.FK_Donation_City" FromRole="City" ToRole="Donation" />
-          <NavigationProperty Name="PaymentInfoes" Relationship="Self.FK_PaymentInfo_City" FromRole="City" ToRole="PaymentInfo" />
-          <NavigationProperty Name="VolunteerInfoes" Relationship="Self.FK_VolunteerInfo_City" FromRole="City" ToRole="VolunteerInfo" />
+          <NavigationProperty Name="Donations" Relationship="BlindRiverModel.FK_Donation_City" FromRole="City" ToRole="Donation" />
+          <NavigationProperty Name="PaymentInfoes" Relationship="BlindRiverModel.FK_PaymentInfo_City" FromRole="City" ToRole="PaymentInfo" />
+          <NavigationProperty Name="VolunteerInfoes" Relationship="BlindRiverModel.FK_VolunteerInfo_City" FromRole="City" ToRole="VolunteerInfo" />
         </EntityType>
         <EntityType Name="Contact">
           <Key>
@@ -1019,28 +1019,11 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="DoctorAvailableDateId" Type="Int32" Nullable="false" />
-          <Property Name="AvailableFrom" Type="Time" Nullable="false" />
-          <Property Name="AvailableUntil" Type="Time" Nullable="false" />
+          <Property Name="AvailableFrom" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="AvailableUntil" Type="Time" Nullable="false" Precision="7" />
           <Property Name="Active" Type="Boolean" />
           <NavigationProperty Name="DoctorAvailableDate" Relationship="Self.FK_DoctorAvailableTime_DoctorAvailableDate" FromRole="DoctorAvailableTime" ToRole="DoctorAvailableDate" />
           <NavigationProperty Name="DoctorAppointments" Relationship="BlindRiverModel.FK_DoctorAppointment_DoctorAvailableTime" FromRole="DoctorAvailableTime" ToRole="DoctorAppointment" />
-        </EntityType>
-        <EntityType Name="Donation">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" Type="Int32" />
-          <Property Name="FirstName" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" Type="String" />
-          <Property Name="LastName" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" Type="String" />
-          <Property Name="DonationDate" Nullable="false" Precision="0" Type="DateTime" />
-          <Property Name="DonationAmount" Nullable="false" Type="Int32" />
-          <Property Name="Email" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" Type="String" />
-          <Property Name="Phone" Nullable="false" MaxLength="10" FixedLength="true" Unicode="false" Type="String" />
-          <Property Name="CityId" Nullable="false" Type="Int32" />
-          <Property Name="Address" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" Type="String" />
-          <Property Name="PostalCode" Nullable="false" MaxLength="7" FixedLength="true" Unicode="false" Type="String" />
-          <Property Name="Gender" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" Type="String" />
-          <NavigationProperty Name="City" Relationship="Self.FK_Donation_City" FromRole="Donation" ToRole="City" />
         </EntityType>
         <EntityType Name="Facility">
           <Key>
@@ -1122,26 +1105,6 @@
           <NavigationProperty Name="EventMemberStatus" Relationship="BlindRiverModel.FK_EventMemberStatus_Member" FromRole="Member" ToRole="EventMemberStatu" />
           <NavigationProperty Name="Patients" Relationship="BlindRiverModel.FK_Patient_Member" FromRole="Member" ToRole="Patient" />
         </EntityType>
-        <EntityType Name="PaymentInfo">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" Type="Int32" />
-          <Property Name="PaymentDate" Nullable="false" Precision="0" Type="DateTime" />
-          <Property Name="FirstName" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" Type="String" />
-          <Property Name="LastName" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" Type="String" />
-          <Property Name="Email" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" Type="String" />
-          <Property Name="Phone" Nullable="false" MaxLength="10" FixedLength="true" Unicode="false" Type="String" />
-          <Property Name="CityId" Nullable="false" Type="Int32" />
-          <Property Name="Address" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" Type="String" />
-          <Property Name="PostalCode" Nullable="false" MaxLength="7" FixedLength="true" Unicode="false" Type="String" />
-          <Property Name="Gender" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" Type="String" />
-          <Property Name="ServiceId" Nullable="false" Type="Int32" />
-          <Property Name="PaymentAmount" Nullable="false" Type="Int32" />
-          <Property Name="PaymentCode" Nullable="false" Type="Int32" />
-          <NavigationProperty Name="City" Relationship="Self.FK_PaymentInfo_City" FromRole="PaymentInfo" ToRole="City" />
-          <NavigationProperty Name="Service" Relationship="Self.FK_PaymentInfo_Service" FromRole="PaymentInfo" ToRole="Service" />
-        </EntityType>
         <EntityType Name="Role">
           <Key>
             <PropertyRef Name="Id" />
@@ -1160,7 +1123,7 @@
           <Property Name="EnteredDate" Precision="0" Type="DateTime" />
           <Property Name="Active" Type="Boolean" />
           <NavigationProperty Name="Member" Relationship="Self.FK_Service_Member" FromRole="Service" ToRole="Member" />
-          <NavigationProperty Name="PaymentInfoes" Relationship="Self.FK_PaymentInfo_Service" FromRole="Service" ToRole="PaymentInfo" />
+          <NavigationProperty Name="PaymentInfoes" Relationship="BlindRiverModel.FK_PaymentInfo_Service" FromRole="Service" ToRole="PaymentInfo" />
         </EntityType>
         <EntityType Name="Severity">
           <Key>
@@ -1174,26 +1137,6 @@
           <Property Name="Active" Type="Boolean" />
           <NavigationProperty Name="Calculators" Relationship="Self.FK_Calculator_Severity" FromRole="Severity" ToRole="Calculator" />
           <NavigationProperty Name="Member" Relationship="Self.FK_Severity_Member" FromRole="Severity" ToRole="Member" />
-        </EntityType>
-        <EntityType Name="VolunteerInfo">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" Type="Int32" />
-          <Property Name="ApplyDate" Nullable="false" Precision="0" Type="DateTime" />
-          <Property Name="FirstName" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" Type="String" />
-          <Property Name="MiddleName" MaxLength="Max" FixedLength="false" Unicode="false" Type="String" />
-          <Property Name="LastName" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" Type="String" />
-          <Property Name="Email" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" Type="String" />
-          <Property Name="Phone" Nullable="false" MaxLength="10" FixedLength="true" Unicode="false" Type="String" />
-          <Property Name="CityId" Nullable="false" Type="Int32" />
-          <Property Name="Address" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" Type="String" />
-          <Property Name="PostalCode" Nullable="false" MaxLength="7" FixedLength="true" Unicode="false" Type="String" />
-          <Property Name="Description" MaxLength="Max" FixedLength="false" Unicode="false" Type="String" />
-          <Property Name="PublishDate" Nullable="false" Precision="0" Type="DateTime" />
-          <Property Name="VolunteerPostId" Nullable="false" Type="Int32" />
-          <NavigationProperty Name="City" Relationship="Self.FK_VolunteerInfo_City" FromRole="VolunteerInfo" ToRole="City" />
-          <NavigationProperty Name="VoluteerPost" Relationship="Self.FK_VolunteerInfo_VolunteerPost" FromRole="VolunteerInfo" ToRole="VoluteerPost" />
         </EntityType>
         <EntityType Name="VoluteerPost">
           <Key>
@@ -1209,7 +1152,7 @@
           <Property Name="EnteredDate" Precision="0" Type="DateTime" />
           <Property Name="EnteredBy" Type="Int32" />
           <NavigationProperty Name="Member" Relationship="Self.FK_VolunteerPost_Member" FromRole="VoluteerPost" ToRole="Member" />
-          <NavigationProperty Name="VolunteerInfoes" Relationship="Self.FK_VolunteerInfo_VolunteerPost" FromRole="VoluteerPost" ToRole="VolunteerInfo" />
+          <NavigationProperty Name="VolunteerInfoes" Relationship="BlindRiverModel.FK_VolunteerInfo_VolunteerPost" FromRole="VoluteerPost" ToRole="VolunteerInfo" />
         </EntityType>
         <Association Name="FK_Calculator_Severity">
           <End Type="Self.Severity" Multiplicity="1" Role="Severity" />
@@ -1220,42 +1163,6 @@
             </Principal>
             <Dependent Role="Calculator">
               <PropertyRef Name="SeverityId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Donation_City">
-          <End Type="Self.City" Multiplicity="1" Role="City" />
-          <End Type="Self.Donation" Multiplicity="*" Role="Donation" />
-          <ReferentialConstraint>
-            <Principal Role="City">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Donation">
-              <PropertyRef Name="CityId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PaymentInfo_City">
-          <End Type="Self.City" Multiplicity="1" Role="City" />
-          <End Type="Self.PaymentInfo" Multiplicity="*" Role="PaymentInfo" />
-          <ReferentialConstraint>
-            <Principal Role="City">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="PaymentInfo">
-              <PropertyRef Name="CityId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_VolunteerInfo_City">
-          <End Type="Self.City" Multiplicity="1" Role="City" />
-          <End Type="Self.VolunteerInfo" Multiplicity="*" Role="VolunteerInfo" />
-          <ReferentialConstraint>
-            <Principal Role="City">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="VolunteerInfo">
-              <PropertyRef Name="CityId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1427,30 +1334,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_PaymentInfo_Service">
-          <End Type="Self.Service" Multiplicity="1" Role="Service" />
-          <End Type="Self.PaymentInfo" Multiplicity="*" Role="PaymentInfo" />
-          <ReferentialConstraint>
-            <Principal Role="Service">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="PaymentInfo">
-              <PropertyRef Name="ServiceId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_VolunteerInfo_VolunteerPost">
-          <End Type="Self.VoluteerPost" Multiplicity="1" Role="VoluteerPost" />
-          <End Type="Self.VolunteerInfo" Multiplicity="*" Role="VolunteerInfo" />
-          <ReferentialConstraint>
-            <Principal Role="VoluteerPost">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="VolunteerInfo">
-              <PropertyRef Name="VolunteerPostId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="BlindRiverContext" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="AskBlindRivers" EntityType="Self.AskBlindRiver" />
           <EntitySet Name="Calculators" EntityType="Self.Calculator" />
@@ -1461,32 +1344,17 @@
           <EntitySet Name="DoctorAppointments" EntityType="Self.DoctorAppointment" />
           <EntitySet Name="DoctorAvailableDates" EntityType="Self.DoctorAvailableDate" />
           <EntitySet Name="DoctorAvailableTimes" EntityType="Self.DoctorAvailableTime" />
-          <EntitySet Name="Donations" EntityType="Self.Donation" />
           <EntitySet Name="Facilities" EntityType="Self.Facility" />
           <EntitySet Name="FAQs" EntityType="Self.FAQ" />
           <EntitySet Name="Locations" EntityType="Self.Location" />
           <EntitySet Name="Members" EntityType="Self.Member" />
-          <EntitySet Name="PaymentInfoes" EntityType="Self.PaymentInfo" />
           <EntitySet Name="Roles" EntityType="Self.Role" />
           <EntitySet Name="Services" EntityType="Self.Service" />
           <EntitySet Name="Severities" EntityType="Self.Severity" />
-          <EntitySet Name="VolunteerInfoes" EntityType="Self.VolunteerInfo" />
           <EntitySet Name="VoluteerPosts" EntityType="Self.VoluteerPost" />
           <AssociationSet Name="FK_Calculator_Severity" Association="Self.FK_Calculator_Severity">
             <End EntitySet="Severities" Role="Severity" />
             <End EntitySet="Calculators" Role="Calculator" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Donation_City" Association="Self.FK_Donation_City">
-            <End EntitySet="Cities" Role="City" />
-            <End EntitySet="Donations" Role="Donation" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PaymentInfo_City" Association="Self.FK_PaymentInfo_City">
-            <End EntitySet="Cities" Role="City" />
-            <End EntitySet="PaymentInfoes" Role="PaymentInfo" />
-          </AssociationSet>
-          <AssociationSet Name="FK_VolunteerInfo_City" Association="Self.FK_VolunteerInfo_City">
-            <End EntitySet="Cities" Role="City" />
-            <End EntitySet="VolunteerInfoes" Role="VolunteerInfo" />
           </AssociationSet>
           <AssociationSet Name="FK_Contact_Member" Association="Self.FK_Contact_Member">
             <End EntitySet="Members" Role="Member" />
@@ -1543,14 +1411,6 @@
           <AssociationSet Name="FK_VolunteerPost_Member" Association="Self.FK_VolunteerPost_Member">
             <End EntitySet="Members" Role="Member" />
             <End EntitySet="VoluteerPosts" Role="VoluteerPost" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PaymentInfo_Service" Association="Self.FK_PaymentInfo_Service">
-            <End EntitySet="Services" Role="Service" />
-            <End EntitySet="PaymentInfoes" Role="PaymentInfo" />
-          </AssociationSet>
-          <AssociationSet Name="FK_VolunteerInfo_VolunteerPost" Association="Self.FK_VolunteerInfo_VolunteerPost">
-            <End EntitySet="VoluteerPosts" Role="VoluteerPost" />
-            <End EntitySet="VolunteerInfoes" Role="VolunteerInfo" />
           </AssociationSet>
           <EntitySet Name="PatientVisitingHours" EntityType="BlindRiverModel.PatientVisitingHour" />
           <EntitySet Name="Reviews" EntityType="BlindRiverModel.Review" />
@@ -1610,6 +1470,29 @@
           <AssociationSet Name="FK_DoctorAppointment_DoctorAvailableTime" Association="BlindRiverModel.FK_DoctorAppointment_DoctorAvailableTime">
             <End Role="DoctorAvailableTime" EntitySet="DoctorAvailableTimes" />
             <End Role="DoctorAppointment" EntitySet="DoctorAppointments" />
+          </AssociationSet>
+          <EntitySet Name="Donations" EntityType="BlindRiverModel.Donation" />
+          <EntitySet Name="PaymentInfoes" EntityType="BlindRiverModel.PaymentInfo" />
+          <EntitySet Name="VolunteerInfoes" EntityType="BlindRiverModel.VolunteerInfo" />
+          <AssociationSet Name="FK_Donation_City" Association="BlindRiverModel.FK_Donation_City">
+            <End Role="City" EntitySet="Cities" />
+            <End Role="Donation" EntitySet="Donations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PaymentInfo_City" Association="BlindRiverModel.FK_PaymentInfo_City">
+            <End Role="City" EntitySet="Cities" />
+            <End Role="PaymentInfo" EntitySet="PaymentInfoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VolunteerInfo_City" Association="BlindRiverModel.FK_VolunteerInfo_City">
+            <End Role="City" EntitySet="Cities" />
+            <End Role="VolunteerInfo" EntitySet="VolunteerInfoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PaymentInfo_Service" Association="BlindRiverModel.FK_PaymentInfo_Service">
+            <End Role="Service" EntitySet="Services" />
+            <End Role="PaymentInfo" EntitySet="PaymentInfoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VolunteerInfo_VolunteerPost" Association="BlindRiverModel.FK_VolunteerInfo_VolunteerPost">
+            <End Role="VoluteerPost" EntitySet="VoluteerPosts" />
+            <End Role="VolunteerInfo" EntitySet="VolunteerInfoes" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="PatientVisitingHour">
@@ -1877,6 +1760,123 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Donation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="DonationDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="DonationAmount" Type="Int32" Nullable="false" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Phone" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="CityId" Type="Int32" Nullable="true" />
+          <Property Name="Address" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PostalCode" Type="String" Nullable="false" MaxLength="7" FixedLength="true" Unicode="false" />
+          <Property Name="Gender" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="City" Relationship="BlindRiverModel.FK_Donation_City" FromRole="Donation" ToRole="City" />
+        </EntityType>
+        <EntityType Name="PaymentInfo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PaymentDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Phone" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="CityId" Type="Int32" Nullable="true" />
+          <Property Name="Address" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PostalCode" Type="String" Nullable="false" MaxLength="7" FixedLength="true" Unicode="false" />
+          <Property Name="Gender" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="ServiceId" Type="Int32" Nullable="false" />
+          <Property Name="PaymentAmount" Type="Int32" Nullable="false" />
+          <Property Name="PaymentCode" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="City" Relationship="BlindRiverModel.FK_PaymentInfo_City" FromRole="PaymentInfo" ToRole="City" />
+          <NavigationProperty Name="Service" Relationship="BlindRiverModel.FK_PaymentInfo_Service" FromRole="PaymentInfo" ToRole="Service" />
+        </EntityType>
+        <EntityType Name="VolunteerInfo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ApplyDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="MiddleName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Phone" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="CityId" Type="Int32" Nullable="true" />
+          <Property Name="Address" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PostalCode" Type="String" Nullable="false" MaxLength="7" FixedLength="true" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="PublishDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="VolunteerPostId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="City" Relationship="BlindRiverModel.FK_VolunteerInfo_City" FromRole="VolunteerInfo" ToRole="City" />
+          <NavigationProperty Name="VoluteerPost" Relationship="BlindRiverModel.FK_VolunteerInfo_VolunteerPost" FromRole="VolunteerInfo" ToRole="VoluteerPost" />
+        </EntityType>
+        <Association Name="FK_Donation_City">
+          <End Type="BlindRiverModel.City" Role="City" Multiplicity="0..1" />
+          <End Type="BlindRiverModel.Donation" Role="Donation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="City">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Donation">
+              <PropertyRef Name="CityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PaymentInfo_City">
+          <End Type="BlindRiverModel.City" Role="City" Multiplicity="0..1" />
+          <End Type="BlindRiverModel.PaymentInfo" Role="PaymentInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="City">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PaymentInfo">
+              <PropertyRef Name="CityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VolunteerInfo_City">
+          <End Type="BlindRiverModel.City" Role="City" Multiplicity="0..1" />
+          <End Type="BlindRiverModel.VolunteerInfo" Role="VolunteerInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="City">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="VolunteerInfo">
+              <PropertyRef Name="CityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PaymentInfo_Service">
+          <End Type="BlindRiverModel.Service" Role="Service" Multiplicity="1" />
+          <End Type="BlindRiverModel.PaymentInfo" Role="PaymentInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Service">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PaymentInfo">
+              <PropertyRef Name="ServiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VolunteerInfo_VolunteerPost">
+          <End Type="BlindRiverModel.VoluteerPost" Role="VoluteerPost" Multiplicity="1" />
+          <End Type="BlindRiverModel.VolunteerInfo" Role="VolunteerInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VoluteerPost">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="VolunteerInfo">
+              <PropertyRef Name="VolunteerPostId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1990,23 +1990,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Donations">
-            <EntityTypeMapping TypeName="BlindRiverModel.Donation">
-              <MappingFragment StoreEntitySet="Donation">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-                <ScalarProperty Name="DonationDate" ColumnName="DonationDate" />
-                <ScalarProperty Name="DonationAmount" ColumnName="DonationAmount" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="Phone" ColumnName="Phone" />
-                <ScalarProperty Name="CityId" ColumnName="CityId" />
-                <ScalarProperty Name="Address" ColumnName="Address" />
-                <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
-                <ScalarProperty Name="Gender" ColumnName="Gender" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Facilities">
             <EntityTypeMapping TypeName="BlindRiverModel.Facility">
               <MappingFragment StoreEntitySet="Facility">
@@ -2070,25 +2053,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="PaymentInfoes">
-            <EntityTypeMapping TypeName="BlindRiverModel.PaymentInfo">
-              <MappingFragment StoreEntitySet="PaymentInfo">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="PaymentDate" ColumnName="PaymentDate" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="Phone" ColumnName="Phone" />
-                <ScalarProperty Name="CityId" ColumnName="CityId" />
-                <ScalarProperty Name="Address" ColumnName="Address" />
-                <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
-                <ScalarProperty Name="Gender" ColumnName="Gender" />
-                <ScalarProperty Name="ServiceId" ColumnName="ServiceId" />
-                <ScalarProperty Name="PaymentAmount" ColumnName="PaymentAmount" />
-                <ScalarProperty Name="PaymentCode" ColumnName="PaymentCode" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Roles">
             <EntityTypeMapping TypeName="BlindRiverModel.Role">
               <MappingFragment StoreEntitySet="Role">
@@ -2117,25 +2081,6 @@
                 <ScalarProperty Name="EnteredBy" ColumnName="EnteredBy" />
                 <ScalarProperty Name="EnteredDate" ColumnName="EnteredDate" />
                 <ScalarProperty Name="Active" ColumnName="Active" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="VolunteerInfoes">
-            <EntityTypeMapping TypeName="BlindRiverModel.VolunteerInfo">
-              <MappingFragment StoreEntitySet="VolunteerInfo">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="ApplyDate" ColumnName="ApplyDate" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="Phone" ColumnName="Phone" />
-                <ScalarProperty Name="CityId" ColumnName="CityId" />
-                <ScalarProperty Name="Address" ColumnName="Address" />
-                <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="PublishDate" ColumnName="PublishDate" />
-                <ScalarProperty Name="VolunteerPostId" ColumnName="VolunteerPostId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -2249,6 +2194,61 @@
                 <ScalarProperty Name="LastName" ColumnName="LastName" />
                 <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Donations">
+            <EntityTypeMapping TypeName="BlindRiverModel.Donation">
+              <MappingFragment StoreEntitySet="Donation">
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="CityId" ColumnName="CityId" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="DonationAmount" ColumnName="DonationAmount" />
+                <ScalarProperty Name="DonationDate" ColumnName="DonationDate" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PaymentInfoes">
+            <EntityTypeMapping TypeName="BlindRiverModel.PaymentInfo">
+              <MappingFragment StoreEntitySet="PaymentInfo">
+                <ScalarProperty Name="PaymentCode" ColumnName="PaymentCode" />
+                <ScalarProperty Name="PaymentAmount" ColumnName="PaymentAmount" />
+                <ScalarProperty Name="ServiceId" ColumnName="ServiceId" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="CityId" ColumnName="CityId" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="PaymentDate" ColumnName="PaymentDate" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VolunteerInfoes">
+            <EntityTypeMapping TypeName="BlindRiverModel.VolunteerInfo">
+              <MappingFragment StoreEntitySet="VolunteerInfo">
+                <ScalarProperty Name="VolunteerPostId" ColumnName="VolunteerPostId" />
+                <ScalarProperty Name="PublishDate" ColumnName="PublishDate" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="CityId" ColumnName="CityId" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="ApplyDate" ColumnName="ApplyDate" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
