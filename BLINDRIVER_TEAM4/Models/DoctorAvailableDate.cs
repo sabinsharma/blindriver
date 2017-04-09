@@ -16,7 +16,6 @@ namespace BLINDRIVER_TEAM4.Models
     {
         public DoctorAvailableDate()
         {
-            this.DoctorAppointments = new HashSet<DoctorAppointment>();
             this.DoctorAvailableTimes = new HashSet<DoctorAvailableTime>();
         }
     
@@ -28,7 +27,6 @@ namespace BLINDRIVER_TEAM4.Models
         public Nullable<bool> Active { get; set; }
     
         public virtual Doctor Doctor { get; set; }
-        public virtual ICollection<DoctorAppointment> DoctorAppointments { get; set; }
         public virtual Member Member { get; set; }
         public virtual ICollection<DoctorAvailableTime> DoctorAvailableTimes { get; set; }
     }

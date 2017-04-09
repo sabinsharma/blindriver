@@ -19,6 +19,6 @@ namespace BLINDRIVER_TEAM4.Models
         public int MemberId { get; set; }
         public System.DateTime BookingDate { get; set; }
     
-        public virtual DoctorAvailableDate DoctorAvailableDate { get; set; }
+        public virtual DoctorAvailableTime DoctorAvailableTime { get; set; }
     }
 }
