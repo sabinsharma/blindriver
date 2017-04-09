@@ -28,22 +28,25 @@ namespace BLINDRIVER_TEAM4.Models
         public string FirstName { get; set; }
         [Display(Name = "Middle Name"),RegularExpression("^([A-Za-z])*$", ErrorMessage = "Invalid Middle Name")]
         public string MiddleName { get; set; }
-        [Display(Name = "Last Name"), RegularExpression("^([A-Za-z])*$", ErrorMessage = "Invalid Middle Name")]
+        [Display(Name = "Last Name"),Required RegularExpression("^([A-Za-z])*$", ErrorMessage = "Invalid Middle Name")]
         public string LastName { get; set; }
         public string Address { get; set; }
+        [Display(Name = "Postal Code"), Required, RegularExpression("^[A-Za-z]+[1-9]+[A-Za-z]+(/s|-)+[1-9]+[A-Za-z]+[1-9]$", ErrorMessage = "Invalid Format. Format is X0X-0X0 ")]
         public string PostalCode { get; set; }
+        [ScaffoldColumn(false)]
         [Display(Name ="Entered Date")]
         public Nullable<System.DateTime> EnteredDate { get; set; }
         [Display(Name ="Entered By")]
+        [ScaffoldColumn(false)]
         public Nullable<int> EnteredBy { get; set; }
 
         [DefaultValue(true)]
         public bool Active { get; set; }
-       
+
 
         //public Nullable<bool> Active { get; set; }
-    
 
+        [Display(Name = "Entered By")]
         public virtual Member Member { get; set; }
         public virtual ICollection<PatientVisitingHour> PatientVisitingHours { get; set; }
         public virtual ICollection<VisitingSchedule> VisitingSchedules { get; set; }

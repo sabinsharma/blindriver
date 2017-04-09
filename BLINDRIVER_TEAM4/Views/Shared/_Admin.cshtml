@@ -1,81 +1,83 @@
 ﻿<!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-    <title>@Page.Title</title>
-    @*@RenderSection("head", required: false)*@
-
-
     <meta charset="utf-8">
-    <title>@ViewBag.Title</title>
+    <title>Blind River Hospital CMS - demo</title>
     <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
-    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
-    <link href="~/Content/admin.css" rel="stylesheet" />
-    <link href="~/Content/font-awesome.css" rel="stylesheet" /> <!--fontawasome icon-->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700" /><!--Google font-->
-    <script src="~/Scripts/jquery-1.10.2.js"></script>
-    <script src="~/Scripts/bootstrap.min.js"></script>
-    <script src="~/Scripts/jquery.validate.js"></script>
-    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
-    <script src="~/Scripts/Blindriver.js"></script>
+    <!--bootstrap css-->
+    <link rel="stylesheet" type="text/css" href="~/Content/bootstrap.min.css">
+    <!--font-awesome css-->
+    <link rel="stylesheet" href="~/Content/font-awesome.css" />
+    <!--Google font-->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:200,400,700" rel="stylesheet">
 
-
+    <link rel="stylesheet" type="text/css" href="~/Content/admin.css" />
 </head>
+
 <body>
-    <div id="wrapper" class="container-fluid">
+    <div class="container-fluid">
         <header class="row">
-            <div id="header_logo" class="col-md-2 col-sm-4 col-xs-4">
-                <a href="#"><img src="~/image/logo.jpg" alt="Blind River Hospital logo"></a>
+            <div id="header_logo" class="col-xs-12 col-sm-4 col-md-4">
+                <h1 class="hidden">Blind River Hospital</h1>
+                <a href="index.html"><img src="~/image/logo.jpg" id="header_logo_img" alt="Blind River logo"></a>
             </div>
-
-            <div id="header_nav" class="hidden-lg hidden-md col-sm-8 col-xs-8">
-                <button type="button" class="btn btn-default" data-toggle="collapse" data-target="#Collapse_header_nav">
-                    <i class="fa fa-bars fa-2x" aria-hidden="true"></i>
-                </button>
+            <!--#END header_logo-->
+            <div id="header_logout" class="col-xs-12 col-sm-8 col-md-offset-4 col-md-4">
+                <p><span>Hello User!</span><a href="#" class="btn btn-danger"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> Logout</a></p>
             </div>
-
-            <div id="header_logout" class="col-md-offset-6 col-md-4 col-sm-12 col-xs-12">
-                <p>Last access : 1 Jan 2017 &nbsp; <a href="index.html" class="btn btn-danger"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> Logout</a></p>
-            </div>
-
-            <div id="Collapse_header_nav" class="panel-collapse collapse in hidden-lg hidden-md col-sm-12 col-xs-12">
-                <ul class="nav" id="mobile-menu">
-                    <li><a href="~/CPanel/Dashboard"><i class="fa fa-dashboard"></i>Dashboard </a></li>
-                    @*<li class="active-link"><a href="admin-edit.html"><i class="fa fa-edit"></i>Control Panel <span class="badge bg-color-pink">3</span></a></li>
-                        <li><a href="#"><i class="fa fa-table"></i>Database <span class="badge bg-color-pink">30</span></a></li>*@
-                    <li><a href="~/CPanel/Pages"><i class="fa fa-pages"></i>Pages <span class="badge bg-color-pink">3</span></a></li>
-                    <li><a href="#"><i class="fa fa-bar-chart-o"></i>Link </a></li>
-                </ul>
-            </div>
+            <!--#END header_logout-->
         </header>
-        <!--Left panel-->
-        <div id="page_wrapper" class="row">
-            <div id="page_left" class="col-lg-2 col-md-3 hidden-sm hidden-xs">
-                <nav id="left_nav">
-                    <div>
-                        <ul class="nav" id="main-menu">
-                            <li><a href="~/CPanel/Dashboard"><i class="fa fa-dashboard"></i>Dashboard </a></li>
-                            @*<li class="active-link"><a href="admin-edit.html"><i class="fa fa-edit"></i>Control Panel <span class="badge bg-color-pink">3</span></a></li>
-                                <li><a href="~/AdminPanel/Dashboard"><i class="fa fa-table"></i>Database <span class="badge bg-color-pink">30</span></a></li>*@
-                            <li><a href="~/CPanel/Pages"><i class="fa fa-pages"></i>Pages <span class="badge bg-color-pink">3</span></a></li>
-                            <li><a href="#"><i class="fa fa-bar-chart-o"></i>Link </a></li>
-                        </ul>
-                    </div>
-                </nav>
-            </div><!--End of Left Panel-->
-            <div id="page_inner" class="col-lg-10 col-md-9">
-                @RenderBody()
-            </div><!-- END PAGE_INNER  -->
+        @*<nav>
+            <ul class="nav nav-pills">
+                <li role="presentation" class="dropdown active">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
+                        CMS <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li role="presentation"><a href="#">CMS #1</a></li>
+                        <li role="presentation"><a href="#">CMS #2</a></li>
+                        <li role="presentation"><a href="#">CMS #3</a></li>
+                    </ul>
+                </li>
+                <li role="presentation" class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
+                        Admin <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li role="presentation"><a href="#" id="linkPatient">Patient Information</a></li>
+                        <li role="presentation"><a href="#">Admin #2</a></li>
+                        <li role="presentation"><a href="#">Admin #3</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>*@
+        <main>
+            @RenderBody()
 
-        </div><!-- END WRAPPER -->
-        <footer class="sticky">
-            <div class="row">
-                <div class="col-lg-12">
-                    <p><small>&copy;  2014 yourdomain.com</small></p>
-                </div>
+            <!--
+                insert your content
+            -->
+            @*<div class="jumbotron">
+                <h1>DEMO</h1>
+                <p>This is DEMO Content</p>
+            </div>*@
+
+
+        </main>
+        <footer>
+            <div id="footer_copy" class="col-xs-12">
+                <p><small>&copy; 2017 Team 4. Blind River Hospital-demo</small></p>
             </div>
-        </footer><!-- END FOOTER  -->
-        @*<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>*@
-
-
+        </footer>
+    </div>
+    <!-- END .container-fluid-->
+    @*<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>*@
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/Blindriver.js"></script>
 </body>
+
 </html>
