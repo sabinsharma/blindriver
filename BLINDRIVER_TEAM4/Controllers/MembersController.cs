@@ -82,6 +82,7 @@ namespace BLINDRIVER_TEAM4.Controllers
         //    return Json(!db.Members.Any(x => x.Username == UserName), JsonRequestBehavior.AllowGet);
         //}
 
+        [Authorize(Roles = "Admin, Staff")]
         // GET: Members/Details/5
         public ActionResult Details(int? id)
         {
@@ -96,8 +97,7 @@ namespace BLINDRIVER_TEAM4.Controllers
             }
             return View(member);
         }
-
-        [Authorize(Roles = "Admin, Staff")]
+        
         // GET: Members/Create
         public ActionResult Create()
         {

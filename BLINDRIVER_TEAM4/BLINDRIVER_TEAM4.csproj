@@ -310,6 +310,8 @@
     <Content Include="fonts\FontAwesome.otf" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="fonts\glyphicons-halflings-regulard41d.eot" />
+    <None Include="Properties\PublishProfiles\blindriver - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\blindriver - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
