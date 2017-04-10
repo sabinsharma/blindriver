@@ -1,0 +1,40 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+
+<nav>
+    <ul class="nav nav-pills">
+        <li role="presentation" class="dropdown active">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
+                CMS <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu" role="menu">
+                <li role="presentation"><a href="#">CMS #1</a></li>
+                <li role="presentation"><a href="#">CMS #2</a></li>
+                <li role="presentation"><a href="#">CMS #3</a></li>
+            </ul>
+        </li>
+        <li role="presentation" class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
+                Admin <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu" role="menu">
+                @*<li role="presentation"><a href="#" id="linkPatient">Patient Information</a></li>*@
+                <li role="presentation">
+                    @Ajax.ActionLink("Patient Information", "Index", "Patients", new AjaxOptions
+               {
+                   HttpMethod = "POST",
+                   UpdateTargetId= "patientInfo",
+                   InsertionMode=InsertionMode.Replace
+
+               })
+            </li>
+            <li role="presentation"><a href="#">Admin #2</a></li>
+            <li role="presentation"><a href="#">Admin #3</a></li>
+        </ul>
+        </li>
+    </ul>
+</nav>
+<div id="patientInfo"></div>

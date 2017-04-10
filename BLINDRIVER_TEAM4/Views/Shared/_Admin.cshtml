@@ -1,0 +1,83 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Blind River Hospital CMS - demo</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
+    <!--bootstrap css-->
+    <link rel="stylesheet" type="text/css" href="~/Content/bootstrap.min.css">
+    <!--font-awesome css-->
+    <link rel="stylesheet" href="~/Content/font-awesome.css" />
+    <!--Google font-->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:200,400,700" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="~/Content/admin.css" />
+</head>
+
+<body>
+    <div class="container-fluid">
+        <header class="row">
+            <div id="header_logo" class="col-xs-12 col-sm-4 col-md-4">
+                <h1 class="hidden">Blind River Hospital</h1>
+                <a href="index.html"><img src="~/image/logo.jpg" id="header_logo_img" alt="Blind River logo"></a>
+            </div>
+            <!--#END header_logo-->
+            <div id="header_logout" class="col-xs-12 col-sm-8 col-md-offset-4 col-md-4">
+                <p><span>Hello User!</span><a href="#" class="btn btn-danger"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> Logout</a></p>
+            </div>
+            <!--#END header_logout-->
+        </header>
+        @*<nav>
+            <ul class="nav nav-pills">
+                <li role="presentation" class="dropdown active">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
+                        CMS <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li role="presentation"><a href="#">CMS #1</a></li>
+                        <li role="presentation"><a href="#">CMS #2</a></li>
+                        <li role="presentation"><a href="#">CMS #3</a></li>
+                    </ul>
+                </li>
+                <li role="presentation" class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
+                        Admin <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li role="presentation"><a href="#" id="linkPatient">Patient Information</a></li>
+                        <li role="presentation"><a href="#">Admin #2</a></li>
+                        <li role="presentation"><a href="#">Admin #3</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>*@
+        <main>
+            @RenderBody()
+
+            <!--
+                insert your content
+            -->
+            @*<div class="jumbotron">
+                <h1>DEMO</h1>
+                <p>This is DEMO Content</p>
+            </div>*@
+
+
+        </main>
+        <footer>
+            <div id="footer_copy" class="col-xs-12">
+                <p><small>&copy; 2017 Team 4. Blind River Hospital-demo</small></p>
+            </div>
+        </footer>
+    </div>
+    <!-- END .container-fluid-->
+    @*<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>*@
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/Blindriver.js"></script>
+</body>
+
+</html>
