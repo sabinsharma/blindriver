@@ -50,6 +50,7 @@ namespace BLINDRIVER_TEAM4
         public override string[] GetRolesForUser(string username)
         {
             //throw new NotImplementedException();
+            username = username.Split('|')[0];
             BlindRiverContext db = new BlindRiverContext();
             string roleResult = db.Members.Where(u => u.Username == username).FirstOrDefault().Role.RoleName;
             string[] results = { roleResult };
