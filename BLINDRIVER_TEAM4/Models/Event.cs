@@ -27,6 +27,7 @@ namespace BLINDRIVER_TEAM4.Models
         public string Title { get; set; }
 
         [Display(Name = "Event Content")]
+        [DataType(DataType.MultilineText)]
         [Required]
         public string Content { get; set; }
 

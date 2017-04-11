@@ -10,6 +10,7 @@ using BLINDRIVER_TEAM4.Models;
 
 namespace BLINDRIVER_TEAM4.Controllers
 {
+    [Authorize(Roles = "Admin, Staff, Member")]
     public class EventsController : Controller
     {
         private BlindRiverContext db = new BlindRiverContext();
