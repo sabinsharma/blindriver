@@ -69,9 +69,9 @@ namespace BLINDRIVER_TEAM4.Controllers
             else
             {
                 FormsAuthentication.SetAuthCookie(one.Username+ "|" + one.Id, false);
-                if (returnUrl == "")
+                if (returnUrl == null || returnUrl == "")
                 {
-                    return RedirectToAction("Index", "Members"); // go to the index of the Users Controller when logging successfully
+                    return RedirectToAction("Index", "Home"); // go to the index of the Users Controller when logging successfully
                 }
                 else
                 {
@@ -89,7 +89,7 @@ namespace BLINDRIVER_TEAM4.Controllers
                 return Redirect(returnUrl);
             }
             ViewBag.Message = "You have been successfully logged out";
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Home");
         }
 
         //[HttpPost]

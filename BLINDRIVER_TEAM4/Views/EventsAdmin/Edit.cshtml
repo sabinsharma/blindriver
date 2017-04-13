@@ -1,14 +1,18 @@
 ﻿@model BLINDRIVER_TEAM4.Models.Event
 
 @{
-    Layout = "~/Views/Shared/_Layout.cshtml";
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Edit";
 }
 
-<h2>Create</h2>
+<h2>Edit</h2>
 
-
-@using (Html.BeginForm()) 
+<style>
+    #Members {
+        width: 50%;
+        height: 250px;
+    }
+</style>
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
     
@@ -16,6 +20,8 @@
         <h4>Event</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id)
+
         <div class="form-group">
             @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -31,64 +37,66 @@
                 @Html.ValidationMessageFor(model => model.Content, "", new { @class = "text-danger" })
             </div>
         </div>
-
+        
         <div class="form-group">
             @Html.Label("Members", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.ListBox("Members", (MultiSelectList)ViewBag.EnteredBy, new { @class = "form-control"})
-                @Html.ValidationMessage("Members", "", new { @class = "text-danger" })
+                @if ((Enumerable.Count(ViewBag.NotYetInvited)) > 0)
+                {
+                    <p>Below are members who are not invitted to the event yet. You can select them at this time:</p>
+                    @Html.ListBox("Members", (MultiSelectList)ViewBag.NotYetInvited, new { @class = "form-control" })
+                    @Html.ValidationMessage("Members", "", new { @class = "text-danger" })
+                }
+                else
+                {
+                    <p>All members in hospital are invited.</p>
+                }
             </div>
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.DateTime, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.DateTime, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.HiddenFor(model => model.DateTime, new { htmlAttributes = new { @class = "form-control" } })
+                <input id="datetimepicker" type="text" class="form-control" value="@Html.DisplayFor(model => model.DateTime)"/>
                 @Html.ValidationMessageFor(model => model.DateTime, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Place, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.NumberInvited, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Place, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Place, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.NumberInvited, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.DisplayFor(model => model.NumberInvited, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.NumberInvited, "", new { @class = "text-danger" })
             </div>
         </div>
 
-        @*<div class="form-group">
-            @Html.LabelFor(model => model.NumberInvited, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.NumberInvited, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.NumberInvited, "", new { @class = "text-danger" })
-            </div>
-        </div>*@
-
-        @*<div class="form-group">
+        <div class="form-group">
             @Html.LabelFor(model => model.NumberGoing, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.NumberGoing, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.DisplayFor(model => model.NumberGoing, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.NumberGoing, "", new { @class = "text-danger" })
             </div>
-        </div>*@
+        </div>
 
-        @*<div class="form-group">
+        <div class="form-group">
             @Html.LabelFor(model => model.NumberDeclined, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.NumberDeclined, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.DisplayFor(model => model.NumberDeclined, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.NumberDeclined, "", new { @class = "text-danger" })
             </div>
-        </div>*@
+        </div>
 
-        @*<div class="form-group">
-            @Html.LabelFor(model => model.Active, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="form-group">
+            @Html.Label("Still available", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 <div class="checkbox">
                     @Html.EditorFor(model => model.Active)
                     @Html.ValidationMessageFor(model => model.Active, "", new { @class = "text-danger" })
                 </div>
             </div>
-        </div>*@
+        </div>
 
         @*<div class="form-group">
             @Html.LabelFor(model => model.EnteredDate, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -107,8 +115,16 @@
         </div>*@
 
         <div class="form-group">
+            @Html.LabelFor(model => model.Place, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Place, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Place, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Save" class="btn btn-default" />
             </div>
         </div>
     </div>
@@ -121,6 +137,7 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <script src="https://cloud.tinymce.com/stable/tinymce.min.js"></script>
-    <script type="text/javascript" src="@Url.Content("/Scripts/event.js")"></script>   
+    <link rel="stylesheet" type="text/css" href="@Url.Content("/Content/jquery.datetimepicker.min.css")" />
+    <script type="text/javascript" src="@Url.Content("/Scripts/jquery.datetimepicker.full.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("/Scripts/event.js")"></script>
 }
-

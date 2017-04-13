@@ -11,22 +11,20 @@ using System.Web.Security;
 
 namespace BLINDRIVER_TEAM4.Controllers
 {
-    [Authorize(Roles = "Admin, Staff, Member, Visitor")]
-    public class EventsController : Controller
+    [Authorize(Roles = "Admin, Staff, Member")]
+    public class EventsAdminController : Controller
     {
         private BlindRiverContext db = new BlindRiverContext();
 
-        // GET: Events
+        // GET: EventsAdmin
         public ActionResult Index()
         {
-            FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(Request.Cookies[FormsAuthentication.FormsCookieName].Value);
-            int id = Convert.ToInt32(ticket.Name.Split('|')[1]);
-            var events = db.Events.Include(e => e.Member).Join(db.EventMemberStatus, e=>e.Id, ems=>ems.EventId, (e,ems) => new { e, ems }).Where(j=>j.ems.MemberId == id).Select(e=>e.e).OrderBy(e=>e.DateTime);
-            //var events = db.Events.Include(e => e.Member);
+            // just show all the active Events
+            var events = db.Events.Include(e => e.Member).Where(e => e.Active).OrderBy(e=>e.DateTime);
             return View(events.ToList());
         }
 
-        // GET: Events/Details/5
+        // GET: EventsAdmin/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -37,18 +35,21 @@ namespace BLINDRIVER_TEAM4.Controllers
             if (@event == null)
             {
                 return HttpNotFound();
-            }
+            }            
             return View(@event);
         }
 
-        // GET: Events/Create
+        // GET: EventsAdmin/Create
         public ActionResult Create()
         {
-            ViewBag.EnteredBy = new SelectList(db.Members.Where(m => m.RoleId > 0), "Id", "Username");
+            ViewBag.EnteredBy = new SelectList(db.Members.OrderByDescending(m => m.RoleId).Select(m => new {
+                Id = m.Id,
+                Fullname = m.FirstName + " " + m.LastName + " - " + m.Role.RoleName
+            }), "Id", "Fullname");
             return View();
         }
 
-        // POST: Events/Create
+        // POST: EventsAdmin/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -60,6 +61,7 @@ namespace BLINDRIVER_TEAM4.Controllers
                 @event.EnteredDate = DateTime.Now.Date;
                 FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(Request.Cookies[FormsAuthentication.FormsCookieName].Value);
                 @event.EnteredBy = Convert.ToInt32(ticket.Name.Split('|')[1]);
+                @event.Active = true;
                 @event.NumberInvited = Members.Count();
                 db.Events.Add(@event);
                 db.SaveChanges();
@@ -81,7 +83,7 @@ namespace BLINDRIVER_TEAM4.Controllers
             return View(@event);
         }
 
-        // GET: Events/Edit/5
+        // GET: EventsAdmin/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -93,19 +95,34 @@ namespace BLINDRIVER_TEAM4.Controllers
             {
                 return HttpNotFound();
             }
+            var existedMembers = db.EventMemberStatus.Where(e => e.EventId == id).Select(e => e.MemberId).ToList();
+
+            ViewBag.NotYetInvited = new SelectList(db.Members.Where(x => !existedMembers.Contains(x.Id)).Select(m => new {
+                Id = m.Id,
+                Fullname = m.FirstName + " " + m.LastName + " - " + m.Role.RoleName
+            }), "Id", "Fullname");
+
+            //ViewBag.NotYetInvited = new SelectList(db.Members.OrderByDescending(m => m.RoleId).Select(m => new {
+            //    Id = (int)m.Id,
+            //    Fullname = m.FirstName + " " + m.LastName + " - " + m.Role.RoleName
+            //}).Where(x => !existedMembers.Contains(x.Id)), "Id", "Fullname");
             ViewBag.EnteredBy = new SelectList(db.Members, "Id", "Username", @event.EnteredBy);
             return View(@event);
         }
 
-        // POST: Events/Edit/5
+        // POST: EventsAdmin/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Title,Content,DateTime,NumberInvited,NumberGoing,NumberDeclined,Active,EnteredDate,EnteredBy")] Event @event)
+        public ActionResult Edit([Bind(Include = "Id,Title,Content,DateTime,NumberInvited,Active,Place")] Event @event, int[] Members)
         {
             if (ModelState.IsValid)
             {
+                @event.EnteredDate = DateTime.Now.Date;
+                FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(Request.Cookies[FormsAuthentication.FormsCookieName].Value);
+                @event.EnteredBy = Convert.ToInt32(ticket.Name.Split('|')[1]);
+                @event.NumberInvited += Members.Count();
                 db.Entry(@event).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -114,7 +131,7 @@ namespace BLINDRIVER_TEAM4.Controllers
             return View(@event);
         }
 
-        // GET: Events/Delete/5
+        // GET: EventsAdmin/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -129,12 +146,14 @@ namespace BLINDRIVER_TEAM4.Controllers
             return View(@event);
         }
 
-        // POST: Events/Delete/5
+        // POST: EventsAdmin/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
             Event @event = db.Events.Find(id);
+            // delete all the member status in the table EventMemberStatus before deleting the Event
+            db.EventMemberStatus.RemoveRange(db.EventMemberStatus.Where(e => e.EventId == id));
             db.Events.Remove(@event);
             db.SaveChanges();
             return RedirectToAction("Index");
@@ -147,69 +166,6 @@ namespace BLINDRIVER_TEAM4.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
-        }
-
-        public ActionResult Participate(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(Request.Cookies[FormsAuthentication.FormsCookieName].Value);
-            int userId = Convert.ToInt32(ticket.Name.Split('|')[1]);
-            EventMemberStatu @memberStatus = db.EventMemberStatus.Where(e => e.EventId == id && e.MemberId == userId).Select(e=>e).FirstOrDefault();
-            ViewBag.MemberStatus = @memberStatus;
-            Event @event = db.Events.Find(id);
-            if (@event == null)
-            {
-                return HttpNotFound();
-            }
-            return View(@event);
-        }
-
-        // POST: Events/Participate/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Participate([Bind(Include = "Id,Title,Content,DateTime,NumberInvited,NumberGoing,NumberDeclined,EnteredBy,Place")]Event @event, string MemberStatus, string OldStatus)
-        {
-            if ((MemberStatus == "Going" || MemberStatus == "Decline") && MemberStatus != OldStatus)
-            {
-                if (ModelState.IsValid)
-                {
-                    FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(Request.Cookies[FormsAuthentication.FormsCookieName].Value);
-                    int userId = Convert.ToInt32(ticket.Name.Split('|')[1]);
-
-                    var EventStatus = new EventMemberStatu() { EventId = @event.Id, MemberId = userId, Status = MemberStatus };
-
-                    db.EventMemberStatus.Attach(EventStatus);
-                    db.Entry(EventStatus).Property(x => x.Status).IsModified = true;
-
-                    switch (MemberStatus)
-                    {
-                        case "Going":
-                            @event.NumberGoing += 1;
-                            if (OldStatus != "Invited")
-                                @event.NumberDeclined -= 1;
-                            break;
-                        case "Decline":
-                            @event.NumberDeclined += 1;
-                            if (OldStatus != "Invited")
-                                @event.NumberGoing -= 1;
-                            break;
-                        default:
-                            break;
-                    }
-
-                    db.Entry(@event).State = EntityState.Modified;
-                    db.Entry(@event).Property(x => x.EnteredDate).IsModified = false;                    
-                    db.SaveChanges();
-                    return RedirectToAction("Index");
-                }
-                return View(@event);
-            }           
-            return View(@event);
         }
     }
 }

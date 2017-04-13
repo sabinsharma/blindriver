@@ -1,15 +1,14 @@
 ﻿@model IEnumerable<BLINDRIVER_TEAM4.Models.Event>
 
 @{
-    Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.Title = "Index";
 }
 
-<h2>Your upcoming events in the hospital</h2>
+<h2>Index</h2>
 
-@*<p>
-    @Html.ActionLink("Create New Event", "Create")
-</p>*@
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
 <table class="table">
     <tr>
         <th>
@@ -21,7 +20,7 @@
         <th>
             @Html.DisplayNameFor(model => model.DateTime)
         </th>
-        @*<th>
+        <th>
             @Html.DisplayNameFor(model => model.NumberInvited)
         </th>
         <th>
@@ -29,16 +28,19 @@
         </th>
         <th>
             @Html.DisplayNameFor(model => model.NumberDeclined)
-        </th>*@
+        </th>
         @*<th>
             @Html.DisplayNameFor(model => model.Active)
-        </th>*@
-        @*<th>
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.EnteredDate)
         </th>*@
-        <th>
+        @*<th>
+            @Html.DisplayNameFor(model => model.Place)
+        </th>*@
+        @*<th>
             @Html.DisplayNameFor(model => model.Member.Username)
-        </th>
+        </th>*@
         <th></th>
     </tr>
 
@@ -53,7 +55,7 @@
         <td>
             @Html.DisplayFor(modelItem => item.DateTime)
         </td>
-        @*<td>
+        <td>
             @Html.DisplayFor(modelItem => item.NumberInvited)
         </td>
         <td>
@@ -62,19 +64,22 @@
         <td>
             @Html.DisplayFor(modelItem => item.NumberDeclined)
         </td>
-        <td>
+        @*<td>
             @Html.DisplayFor(modelItem => item.Active)
         </td>*@
         @*<td>
             @Html.DisplayFor(modelItem => item.EnteredDate)
         </td>*@
-        <td>
+        @*<td>
+            @Html.DisplayFor(modelItem => item.Place)
+        </td>*@
+        @*<td>
             @Html.DisplayFor(modelItem => item.Member.Username)
-        </td>
+        </td>*@
         <td>
-            @Html.ActionLink("Participate", "Participate", new { id=item.Id })
-            @*@Html.ActionLink("Details", "Details", new { id=item.Id }) |*@
-            @*@Html.ActionLink("Delete", "Delete", new { id=item.Id })*@
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
         </td>
     </tr>
 }

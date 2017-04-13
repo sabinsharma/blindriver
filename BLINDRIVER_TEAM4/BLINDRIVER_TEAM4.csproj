@@ -152,6 +152,7 @@
     <Compile Include="Controllers\AdminContactsController.cs" />
     <Compile Include="Controllers\ContactsController.cs" />
     <Compile Include="Controllers\CPanelController.cs" />
+    <Compile Include="Controllers\EventsAdminController.cs" />
     <Compile Include="Controllers\EventsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MembersAdminController.cs" />
@@ -267,6 +268,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\form.css" />
+    <Content Include="Content\jquery.datetimepicker.min.css" />
     <Content Include="Content\login.css" />
     <Content Include="Content\style.css" />
     <Content Include="favicon.ico" />
@@ -319,6 +321,7 @@
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.datetimepicker.full.min.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
@@ -379,6 +382,12 @@
     <Content Include="Views\Patients\Edit.cshtml" />
     <Content Include="Views\Patients\Index.cshtml" />
     <Content Include="Views\CPanel\Index.cshtml" />
+    <Content Include="Views\EventsAdmin\Create.cshtml" />
+    <Content Include="Views\EventsAdmin\Delete.cshtml" />
+    <Content Include="Views\EventsAdmin\Details.cshtml" />
+    <Content Include="Views\EventsAdmin\Edit.cshtml" />
+    <Content Include="Views\EventsAdmin\Index.cshtml" />
+    <Content Include="Views\Events\Participate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -12,6 +12,7 @@ namespace BLINDRIVER_TEAM4.Models
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using System.Web.Mvc;
 
     public partial class Event
     {
@@ -28,33 +29,41 @@ namespace BLINDRIVER_TEAM4.Models
 
         [Display(Name = "Event Content")]
         [DataType(DataType.MultilineText)]
-        [Required]
+        [AllowHtml]
+        [Required]        
         public string Content { get; set; }
 
-        [Display(Name = "Event Time")]
+        [Display(Name = "Event Date Time")]
         [DataType(DataType.DateTime)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd hh:mm:ss}", ApplyFormatInEditMode = true)]
+        [Required]
         public System.DateTime DateTime { get; set; }
 
         [Display(Name = "Number of Invited")]
+        //[Required(AllowEmptyStrings = true)]
         public int NumberInvited { get; set; }
 
         [Display(Name = "Number of Going")]
+        //[Required(AllowEmptyStrings = true)]
         public int NumberGoing { get; set; }
 
         [Display(Name = "Number of Declined")]
+        //[Required(AllowEmptyStrings = true)]
         public int NumberDeclined { get; set; }
         public bool Active { get; set; }
 
         [Display(Name = "Created Date")]
+        [Required(AllowEmptyStrings = true)]
         public System.DateTime EnteredDate { get; set; }
 
         [Display(Name = "Created By")]
+        [Required(AllowEmptyStrings = true)]
         public int EnteredBy { get; set; }
 
         [Display(Name = "Event Place")]
         [Required]
         public string Place { get; set; }
-    
+
         public virtual Member Member { get; set; }
         public virtual ICollection<EventMemberStatu> EventMemberStatus { get; set; }
     }
