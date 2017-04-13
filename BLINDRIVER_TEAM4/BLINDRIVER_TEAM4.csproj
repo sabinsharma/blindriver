@@ -276,11 +276,15 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="image\logo.jpg" />
+    <Content Include="image\logo.png" />
+    <Content Include="image\NotLatestlogo.jpg" />
     <Content Include="image\OLDlogo.png" />
+    <Content Include="image\sample-1140x400.png" />
+    <Content Include="image\UserImage\aaa.jpg" />
     <Content Include="image\UserImage\angel.jpg" />
     <Content Include="image\UserImage\duc.jpg" />
     <Content Include="image\UserImage\john.png" />
+    <Content Include="image\UserImage\lee.jpg" />
     <Content Include="image\UserImage\lenoir.jpg" />
     <Content Include="image\UserImage\leonel_messi.jpg" />
     <Content Include="image\UserImage\unavailable.png" />
@@ -331,6 +335,7 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Views\index.html" />
     <Content Include="Views\master.html" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>

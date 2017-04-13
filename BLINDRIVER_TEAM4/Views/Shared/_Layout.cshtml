@@ -3,179 +3,319 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    @*<title>@ViewBag.Title - My ASP.NET Application</title>*@
-    <title>Blind River Hospital</title>
+    <title>Waterway Hospital - Team4 demo</title>
     <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
     <link rel="stylesheet" type="text/css" href="~/Content/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="~/Content/style.css" />
     <link rel="stylesheet" href="~/Content/font-awesome.css" /><!--fontawasome icon-->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:200,400,700" rel="stylesheet"><!--Google font-->
-    @Styles.Render("~/Content/css")
+    @*@Styles.Render("~/Content/css")*@
     @Scripts.Render("~/bundles/modernizr")
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-    <script src="~/Scripts/bootstrap.min.js"></script>
+    @Scripts.Render("~/Scripts/bootstrap.min.js")
+    @Scripts.Render("https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js")
 </head>
 <body>
     <div class="page-wrapper">
+
+        <!--header part start-->
         <header class="container">
             <div class="row">
-                <div id="header_logo" class="col-md-4">
-                    <h1 class="hidden">Blind River Hospital</h1>
-                    <a href="index.html"><img src="~/image/logo.jpg" id="header_logo_img" alt="Blind River logo"></a>
-                </div>
-                <!--END header_logo-->
-                <div id="heder_login-box" class="col-md-offset-5 col-md-3">
-                    @*<a href="#" class="header_btn">Sign up</a>*@
-                    @*<a href="#" class="header_btn">Login</a>*@
-                    @{
-                        HttpCookie authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
-                        if (authCookie == null)
-                        {
-                            @Html.ActionLink("Sign up", "Create", "Members", null, htmlAttributes: new { @class = "header_btn" })
-                            @Html.ActionLink("Login", "Login", "Members", null, htmlAttributes: new { @class = "header_btn" })
-                        }
-                        else
-                        {
-                            FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(authCookie.Value);
-                            @Html.ActionLink("Profile", "Edit", "Members", new  { id = Convert.ToInt32(ticket.Name.Split('|')[1]) }, htmlAttributes: new { @class = "header_btn" })
-                            @Html.ActionLink("Logout", "Logout", "Members", null, htmlAttributes: new { @class = "header_btn" })    
-                            <p>Welcome back <strong>@ticket.Name.Split('|')[0]</strong></p>                       
-                        }
-                    }                  
+                <div class="demo col-xs-12">
+                    <p><i class="fa fa-exclamation-circle" aria-hidden="true"></i> This is a fake hospital website. This site is created by web development couse student in Humber college.</p>
                 </div>
             </div>
-            <!--/.row-->
             <div class="row">
-                <nav id="header_nav" class="col-md-9 navbar navbar-default">
+                <div style="display: flex;">
+                    <div id="header_logo" class="hidden-xs">
+                        <h1 class="hidden">[Demo site] Waterway Hospital</h1>
+                        <a href="index.html"><img src="~/image/logo.png" id="header_logo_img" alt="Waterway Hospital logo"></a>
+                    </div>
+                    <!--#END header_logo-->
+                    @{
+                        HttpCookie authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
+                        if (authCookie != null)
+                        {
+                            FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(authCookie.Value);
+                            @Html.ActionLink("Username: " + @ticket.Name.Split('|')[0], "Edit", "Members", new { id = Convert.ToInt32(ticket.Name.Split('|')[1]) }, htmlAttributes: new { @class = "header_btn", @style = "text-align: right;width: 100%;padding: 15px;" })
+                            @Html.ActionLink("Logout", "Logout", "Members", null, htmlAttributes: new { @class = "header_btn", @style = "margin: 9px 10px;border: 1px solid #c2bdbd;border-radius: 10px;padding: 5px 15px;" })
+                        }
+                    }
+
+                    @*<h4 class="log-in-info" style="text-align: right;width: 100%;padding: 15px;">Username: Lenoir</h4>*@
+                    @*<input type="submit" value="Signout" class="btn" style="margin:5px 5px;" />*@
+                    <!--#END log-in information-->
+                </div>
+                <!--#END header_logo-->
+
+                <nav id="header_nav" class="col-xs-12 navbar navbar-default">
                     <div class="container-fluid">
+
                         <div class="navbar-header">
+                            <!--Responsive menu button **Mobile only -->
                             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header_nav_contents">
                                 <span class="sr-only">Toggle navigation</span>
                                 <span class="icon-bar"></span>
                                 <span class="icon-bar"></span>
                                 <span class="icon-bar"></span>
                             </button>
+                            <!--Responsive header_logo **Mobile only -->
+                            <a class="navbar-brand visible-xs-block" href="index.html">
+                                <img src="~/image/logo.png" id="header_logo_img" alt="Waterway Hospital logo" style="height: 20px;">
+                            </a>
+                            </a>
                         </div>
+                        <!--END .navbar-header Responsive menu part-->
+
                         <div id="header_nav_contents" class="collapse navbar-collapse">
                             <ul id="header_menu" class="nav navbar-nav">
                                 <li class="dropdown">
-                                    <a href="#" data-toggle="dropdown">Patient <span class="caret"></span></a>
+                                    <a data-toggle="dropdown">Patient <span class="caret"></span></a>
                                     <ul class="child dropdown-menu">
-                                        <li><a href="#">aaa</a></li>
-                                        <li><a href="#">bbb</a></li>
-                                        <li><a href="#">bbb</a></li>
+                                        <li><a href="#">Doctor Search</a></li>
+                                        <li><a href="#">Online Payment</a></li>
+                                        <li><a href="#">ER wait time</a></li>
+                                        <li><a href="#">Patient Resieter</a></li>
                                     </ul>
                                 </li>
-                                <li><a href="#">Visitor</a></li>
-                                <li><a href="#">Work with us</a></li>
-                                <li><a href="#">Contact us</a></li>
+                                <li class="dropdown">
+                                    <a data-toggle="dropdown">Visitor <span class="caret"></a>
+                                    <ul class="child dropdown-menu">
+                                        <li><a href="#">Visiting Guide</a></li>
+                                        <li><a href="#">Facilities Info</a></li>
+                                        <li><a href="#">Parking Info</a></li>
+                                        <li><a href="#">Accessibility</a></li>
+                                        <li><a href="#">Self Dignosis</a></li>
+                                    </ul>
+                                </li>
+                                <li class="dropdown">
+                                    <a data-toggle="dropdown">Work with Us <span class="caret"></a>
+                                    <ul class="child dropdown-menu">
+                                        <li><a href="#">Visiting Guide</a></li>
+                                        <li><a href="#">Facilities Info</a></li>
+                                        <li><a href="#">Parking Info</a></li>
+                                        <li><a href="#">Accessibility</a></li>
+                                        <li><a href="#">Self Dignosis</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="#">Contact Us</a></li>
                                 <li><a href="#">LTC</a></li>
+
+                                <!--**Mobile only-->
+                                <li class="visible-xs-block"><a href="#">News release</a></li>
+                                <li class="visible-xs-block"><a href="#">Donation</a></li>
                             </ul>
-                            <form id="header_nav_search" class="navbar-form navbar-right" role="search">
+                            <!--END #header_menu-->
+
+                            <form id="header_nav_search" class="hidden-sm navbar-form navbar-right" role="search">
                                 <div class="form-group">
                                     <input type="text" class="form-control" placeholder="Search...">
                                 </div>
-                                <button type="submit" class="btn btn-default"><i class="fa fa-search" aria-hidden="true"></i></button>
+                                <button type="submit" class="btn btn-seach"><i class="fa fa-search" aria-hidden="true"></i></button>
                             </form>
+                            <!--END #header_nav_search-->
+
                         </div>
+                        <!--END #navbar-header-->
                     </div>
                 </nav>
-                <!--/#header_nav-->
-                <div id="header_donate" class="col-md-3">
-                    <a href="#" class="header_donate_btn">Donate</a>
+                <!--END #header_nav-->
+                <!--#header_phone **Mobile only-->
+                <div id="header_phone" class="col-xs-12 visible-xs-block">
+                    <p><i class="fa fa-phone fa-2x" aria-hidden="true"></i> <span class="number">ER Call (123)456-7890</span></p>
                 </div>
-                <!--/#header_donate-->
+                <!--END #header_phone-->
             </div>
-            <!--/.row-->
+            <!--END .row-->
         </header>
 
+        <!--Main content part start-->
         <main class="container">
-            <div id="main_breadcrumbs">
+            
+            <div id="main_breadcrumbs" class="hidden">
                 <ol class="breadcrumb">
                     <li><a href="#">Home</a></li>
                     <li><a href="#">Visitor</a></li>
                     <li class="active">Somepage</li>
                 </ol>
-                <!--/.breadcrumb-->
             </div>
-            <!--/#main_breadcrumbs-->
+            <!--END #main_breadcrumbs **Don't USE Index page-->
 
             <section id="main_content">
 
                 <!--PUT YOUR CONTENTS HERE!-->
                 @RenderBody()
             </section>
-            <!--/#main_content-->
         </main>
+        <!--END .container-->
+        <!--Footer part start-->
         <footer class="container sticky">
             <div class="row">
-                <div id="footer_nav" class="col-md-9 row">
+                <div id="footer_sns-box" class="col-sm-12 col-md-3 col-md-push-9">
+                    <h4 class="hidden-xs">Follow Us</h4>
+                    <ul class="nav-pills pull-left">
+                        <li><a href="#"><i class="fa fa-facebook-official fa-3x fa-fw" aria-hidden="true"></i></a></li>
+                        <li><a href="#"><i class="fa fa-twitter fa-3x fa-fw" aria-hidden="true"></i></a></li>
+                        <li><a href="#"><i class="fa fa-instagram fa-3x fa-fw" aria-hidden="true"></i></a></li>
+                        <li><a href="#"><i class="fa fa-google-plus-official fa-3x fa-fw" aria-hidden="true"></i></a></li>
+                    </ul>
+                </div>
+                <!--END #footer_sns-box-->
+                <!--footer navigation part **PC/tablet-->
+                <div id="footer_nav" class="hidden-xs col-md-9 col-md-pull-3">
                     <div class="col-sm-3">
                         <h4>Patient</h4>
                         <ul>
-                            <li>Doctor Search</li>
-                            <li>Booking Form</li>
-                            <li>Online Payment</li>
-                            <li>ER wait Time</li>
-                            <li>Patient Resister</li>
-                            <li>Patient Login</li>
+                            <li><a href="#">Doctor Search</a></li>
+                            <li><a href="#">Booking Form</a></li>
+                            <li><a href="#">Online Payment</a></li>
+                            <li><a href="#">ER wait Time</a></li>
+                            <li><a href="#">Patient Resister</a></li>
+                            <li><a href="#">Patient Login</a></li>
                         </ul>
                     </div>
                     <div class="col-sm-3">
                         <h4>Visitors</h4>
                         <ul>
-                            <li>Visiting Guide</li>
-                            <li>Facilities Info</li>
-                            <li>Parking Info</li>
-                            <li>Accessibility</li>
-                            <li>Self Dignosis</li>
+                            <li><a href="#">Visiting Guide</a></li>
+                            <li><a href="#">Facilities Info</a></li>
+                            <li><a href="#">Parking Info</a></li>
+                            <li><a href="#">Accessibility</a></li>
+                            <li><a href="#">Self Dignosis</a></li>
                         </ul>
                     </div>
                     <div class="col-sm-3">
                         <h4>About us</h4>
                         <ul>
-                            <li>Accreditation</li>
-                            <li>Staffs</li>
-                            <li>History</li>
-                            <li>Vision & Mission</li>
-                            <li>Annual Reports</li>
-                            <li>News release</li>
+                            <li><a href="#">Accreditation</a></li>
+                            <li><a href="#">Staffs</a></li>
+                            <li><a href="#">History</a></li>
+                            <li><a href="#">Vision &amp; Mission</a></li>
+                            <li><a href="#">Annual Reports</a></li>
+                            <li><a href="#">News release</a></li>
                         </ul>
                     </div>
                     <div class="col-sm-3">
                         <h4>Work with us</h4>
                         <ul>
-                            <li>Careers</li>
-                            <li>Volunteer</li>
+                            <li><a href="#">Careers</a></li>
+                            <li><a href="#">Volunteer</a></li>
                         </ul>
                         <h4>Features</h4>
                         <ul>
-                            <li>Contact us
-                            <li>
-                            <li>Donate</li>
-                            <li>Long Time Care</li>
-                            <li>Privacy Policy</li>
+                            <li><a href="#">Contact us</a></li>
+                            <li><a href="#">Donate</a></li>
+                            <li><a href="#">Long Time Care</a></li>
+                            <li><a href="#">Privacy Policy</a></li>
                         </ul>
                     </div>
                 </div>
-                <div id="footer_sns-box" class="col-md-3">
-                    <h4>Follow Us</h4>
-                    <ul class="nav-pills pull-left">
-                        <li><a href="#"><i class="fa fa-facebook-official fa-3x fa-fw" aria-hidden="true"></i></a></li>
-                        <li><a href="#"><i class="fa fa-twitter fa-3x fa-fw" aria-hidden="true"></i></a></li>
-                        <li><a href="#"><i class="fa fa-instagram fa-3x fa-fw" aria-hidden="true"></i></a></li>
-                    </ul>
+                <!--END #footer_nav **PC/tablet-->
+                <!--Footer navigation part **mobile-->
+                <div id="footerNavAccordion" class="visible-xs-block col-xs-12">
+                    <h4></h4>
+                    <div class="panel footerNavPanel">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">
+                                <a data-toggle="collapse" href="#footerNavColl1">
+                                    For Patient
+                                </a>
+                            </h3>
+                        </div>
+                        <div id="footerNavColl1" data-parent="#footerNavAccordion" class="panel-collapse collapse">
+                            <ul class="list-group footerNavList">
+                                <li><a href="#">Doctor Search</a></li>
+                                <li><a href="#">Booking Form</a></li>
+                                <li><a href="#">Online Payment</a></li>
+                                <li><a href="#">ER wait Time</a></li>
+                                <li><a href="#">Patient Resister</a></li>
+                                <li><a href="#">Patient Login</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="panel footerNavPanel">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">
+                                <a data-toggle="collapse" href="#footerNavColl2">
+                                    For Visitors
+                                </a>
+                            </h3>
+                        </div>
+                        <div id="footerNavColl2" data-parent="#footerNavAccordion" class="panel-collapse collapse">
+                            <ul class="list-group footerNavList">
+                                <li><a href="# ">Visiting Guide</a></li>
+                                <li><a href="# ">Facilities Info</a></li>
+                                <li><a href="# ">Parking Info</a></li>
+                                <li><a href="# ">Accessibility</a></li>
+                                <li><a href="# ">Self Dignosis</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="panel footerNavPanel">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">
+                                <a data-toggle="collapse" href="#footerNavColl3">
+                                    About us
+                                </a>
+                            </h3>
+                        </div>
+                        <div id="footerNavColl3" data-parent="#footerNavAccordion" class="panel-collapse collapse">
+                            <ul class="list-group footerNavList">
+                                <li><a href="# ">Accreditation</a></li>
+                                <li><a href="# ">Staffs</a></li>
+                                <li><a href="# ">History</a></li>
+                                <li><a href="# ">Vision &amp; Mission</a></li>
+                                <li><a href="# ">Annual Reports</a></li>
+                                <li><a href="# ">News release</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="panel footerNavPanel">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">
+                                <a data-toggle="collapse" href="#footerNavColl4">
+                                    Work with us
+                                </a>
+                            </h3>
+                        </div>
+                        <div id="footerNavColl4" data-parent="#footerNavAccordion" class="panel-collapse collapse">
+                            <ul class="list-group footerNavList">
+                                <li><a href="#">Careers</a></li>
+                                <li><a href="# ">Volunteer</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="panel footerNavPanel">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">
+                                <a data-toggle="collapse" href="#footerNavColl5">
+                                    Features
+                                </a>
+                            </h3>
+                        </div>
+                        <div id="footerNavColl5" data-parent="#footerNavAccordion" class="panel-collapse collapse">
+                            <ul class="list-group footerNavList">
+                                <li><a href="# ">Contact us</a></li>
+                                <li><a href="# ">Donate</a></li>
+                                <li><a href="# ">Long Time Care</a></li>
+                                <li><a href="# ">Privacy Policy</a></li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
-                <!--/#footer_sns-box-->
-                <div id="footer_copy" class="col-xs-12">
-                    <p><small>&copy; 2017 Team 4. Blind River Hospital-demo</small></p>
+                <!--END #footer_nav **mobile-->
+
+
+                <div id="footer_copy" class="col-xs-12 ">
+                    <p><small>&copy; 2017 Team 4. Waterway Hospital</small></p>
                 </div>
 
             </div>
-            <!--/.row-->
+            <!--END .row-->
         </footer>
-        <!--/footer #container-->
+        <!--END footer #container-->
     </div>
+    <!--END .page-wrapper-->
+
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
