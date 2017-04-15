@@ -10,9 +10,11 @@
     <link rel="stylesheet" href="~/Content/font-awesome.css" /><!--fontawasome icon-->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:200,400,700" rel="stylesheet"><!--Google font-->
     @*@Styles.Render("~/Content/css")*@
-    @Scripts.Render("~/bundles/modernizr")
-    @Scripts.Render("~/Scripts/bootstrap.min.js")
     @Scripts.Render("https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js")
+    @*@Scripts.Render("~/Scripts/bootstrap.min.js")*@
+    @Scripts.Render("~/bundles/modernizr")
+    
+    
 </head>
 <body>
     <div class="page-wrapper">
@@ -28,7 +30,7 @@
                 <div style="display: flex;">
                     <div id="header_logo" class="hidden-xs">
                         <h1 class="hidden">[Demo site] Waterway Hospital</h1>
-                        <a href="index.html"><img src="~/image/logo.png" id="header_logo_img" alt="Waterway Hospital logo"></a>
+                        <a href="@Url.Action("Index","Home")"><img src="~/image/logo.png" id="header_logo_img" alt="Waterway Hospital logo"></a>
                     </div>
                     <!--#END header_logo-->
                     @{
