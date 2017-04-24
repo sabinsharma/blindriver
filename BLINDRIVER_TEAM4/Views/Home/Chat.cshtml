@@ -9,7 +9,7 @@
         <span id="spnName"></span>
         <span id="connID"></span>
         <span id="usersCount"></span>
-        <span id="adminID" style="display:none;">@System.Web.HttpContext.Current.Session["sessionAdminId"]</span>
+        <span id="adminID" style="display:none;"></span>
     </h3>
 </div>
 <div style="width: 55%; border: solid 1px Red; height: auto">
@@ -39,8 +39,8 @@
     <script>
 
         $(document).ready(function () {
-            var _name = window.prompt("Please Enter your name");
-            $("#spnName").text(_name);
+            //var _name = window.prompt("Please Enter your name");
+            $("#spnName").text("You");
             $('#txtMsg').val('');
 
             //This will take the user name and display it to the <span id="spnName"></span>.
@@ -61,7 +61,7 @@
 
                     //chatProxy.server.privatemessage($("#spnName").text(), $("#txtMsg").val(), $("#txtTo").val());
                     //9b504eb5-ac21-4434-8ec7-1fbcaaaa6936
-                    chatProxy.server.privatemessage($("#spnName").text(), $("#txtMsg").val(), "9b504eb5-ac21-4434-8ec7-1fbcaaaa6936");
+                    chatProxy.server.privatemessage($("#spnName").text(), $("#txtMsg").val(), $("#adminID").text());
                     $('#txtMsg').val('').focus();
                 })
             })
@@ -71,13 +71,14 @@
             chatProxy.client.receiveMessage = function (msgFrom, msg, senderid) {
                 if (msgFrom == "NewConnection") {
                     //displays new client connected information to other users than connected one
-                    $("#usersCount").text(senderid);
+                    //$("#usersCount").text(senderid);
                     $('#divUsers').append('<li>' + msg + '</li>')
                 }
                 else if (msgFrom == "ChatHub") {
                     //displays the total online user counts and connection id of current user to himself only
-                    $("#usersCount").text(senderid);
+                    //$("#usersCount").text(senderid);
                     $("#connID").text(msg);
+                    $("#adminID").text(senderid);
                 }
                 else if (msgFrom == "RU") {
                     //this will displays the result of record update in database at server side and update the list of online users

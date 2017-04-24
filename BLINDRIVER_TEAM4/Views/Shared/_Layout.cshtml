@@ -38,7 +38,7 @@
                         if (authCookie != null)
                         {
                             FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(authCookie.Value);
-                            @Html.ActionLink("Username: " + @ticket.Name.Split('|')[0], "Edit", "Members", new { id = Convert.ToInt32(ticket.Name.Split('|')[1]) }, htmlAttributes: new { @class = "header_btn", @style = "text-align: right;width: 100%;padding: 15px;" })
+                            @Html.ActionLink("Username: " + @ticket.Name.Split('|')[0], "Edit", "Members", new { id = Convert.ToInt32(ticket.Name.Split('|')[1]) }, htmlAttributes: new { @class = "header_btn", @style = "text-align: right;width: 100%;padding: 15px;", @id = "username" })
                             @Html.ActionLink("Logout", "Logout", "Members", null, htmlAttributes: new { @class = "header_btn", @style = "margin: 9px 10px;border: 1px solid #c2bdbd;border-radius: 10px;padding: 5px 15px;" })
                         }
                     }

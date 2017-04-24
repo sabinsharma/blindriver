@@ -40,7 +40,8 @@
     <script>
 
         $(document).ready(function () {
-            var _name = window.prompt("Please Enter your name");
+            //var _name = window.prompt("Please Enter your name");
+            var _name = $("#username").text().substring(10);
             $("#spnName").text(_name);
             $('#txtMsg').val('');
 
@@ -62,7 +63,7 @@
 
                     //chatProxy.server.privatemessage($("#spnName").text(), $("#txtMsg").val(), $("#txtTo").val());
                     //9b504eb5-ac21-4434-8ec7-1fbcaaaa6936
-                    chatProxy.server.privatemessage($("#spnName").text(), $("#txtMsg").val(), "9b504eb5-ac21-4434-8ec7-1fbcaaaa6936");
+                    chatProxy.server.privatemessage($("#spnName").text(), $("#txtMsg").val(), $("#txtTo").val());
                     $('#txtMsg').val('').focus();
                 })
             })
@@ -72,17 +73,16 @@
             chatProxy.client.receiveMessage = function (msgFrom, msg, senderid) {
                 if (msgFrom == "NewConnection") {
                     //displays new client connected information to other users than connected one
-                    $("#usersCount").text(senderid);
+                    //$("#usersCount").text(senderid);
                     $('#divUsers').append('<li>' + msg + '</li>')
                 }
                 else if (msgFrom == "ChatHub") {
                     //displays the total online user counts and connection id of current user to himself only
-                    $("#usersCount").text(senderid);
+                    //$("#usersCount").text(senderid);
                     $("#connID").text(msg);
                 }
-                else if (msgFrom == "ChatHub") {
-                    //displays the total online user counts and connection id of current user to himself only
-                    $("#usersCount").text(senderid);
+                else if (msgFrom == "AdminOnline") {
+                    //$("#usersCount").text(senderid);
                     $("#connID").text(msg);
                 }
                 else if (msgFrom == "RU") {

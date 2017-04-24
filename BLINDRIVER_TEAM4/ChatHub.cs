@@ -28,7 +28,9 @@ namespace BLINDRIVER_TEAM4
             {
                 count = d.Message;
             }
-            Clients.Caller.receiveMessage("ChatHub", data, count);
+            LiveChat admin = db.LiveChats.FirstOrDefault();
+            string adminId = (admin != null) ? admin.ContextId : "";
+            Clients.Caller.receiveMessage("ChatHub", data, adminId);
             return base.OnConnected();
         }
 
@@ -38,25 +40,27 @@ namespace BLINDRIVER_TEAM4
             string count = "";
             string msg = "";
             string list = "";
-
+            var id = Context.ConnectionId;
             // check if user is admin
-            var admin = db.Members.Where(m => m.Username == username && m.RoleId == 3);
+            Member admin = db.Members.Where(m => m.Username == username && m.RoleId == 3).FirstOrDefault();
             if (admin != null)
             {
                 count = "1";
                 msg = "Welcome back " + username;
                 list = "";
 
-                var id = Context.ConnectionId;
-                HttpCookie CookieAdminId = new HttpCookie("AdminId");
-                CookieAdminId.Expires.AddDays(365);
-                CookieAdminId.Value = id;
+                LiveChat livechat = new LiveChat();
+                livechat.AdminId = admin.Id;
+                livechat.ContextId = userid;
 
+                db.LiveChats.Add(livechat);
+                db.SaveChanges();
 
                 string[] Exceptional = new string[1];
                 Exceptional[0] = id;
                 Clients.Caller.receiveMessage("RU", msg, list);
                 Clients.AllExcept(Exceptional).receiveMessage("AdminOnline", username + " " + id, count);
+
             }
             else
             {
@@ -64,7 +68,6 @@ namespace BLINDRIVER_TEAM4
                 msg = "Welcome to Waterway Hospital Live Chat!";
                 list = "";
 
-                var id = Context.ConnectionId;
                 string[] Exceptional = new string[1];
                 Exceptional[0] = id;
                 Clients.Caller.receiveMessage("RU", msg, list);
@@ -94,6 +97,14 @@ namespace BLINDRIVER_TEAM4
             {
                 msg = "DB Error " + d.Message;
             }
+
+            LiveChat livechat = db.LiveChats.Where(l => l.ContextId == clientId).FirstOrDefault();
+            if (livechat != null)
+            {
+                db.LiveChats.Remove(livechat);
+                db.SaveChanges();
+            }          
+
             string[] Exceptional = new string[1];
             Exceptional[0] = clientId;
             Clients.AllExcept(Exceptional).receiveMessage("NewConnection", clientId + " leave", count);
