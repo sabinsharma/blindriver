@@ -12,16 +12,10 @@ namespace BLINDRIVER_TEAM4.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class VisitingSchedule
+    public partial class LiveChat
     {
         public int Id { get; set; }
-        public int PatientVisitingHourId { get; set; }
-        public int PatientId { get; set; }
-        public System.TimeSpan BookedFrom { get; set; }
-        public System.TimeSpan BookedTo { get; set; }
-        public System.DateTime AppointmentDate { get; set; }
-    
-        public virtual Patient Patient { get; set; }
-        public virtual PatientVisitingHour PatientVisitingHour { get; set; }
+        public int AdminId { get; set; }
+        public string ContextId { get; set; }
     }
 }

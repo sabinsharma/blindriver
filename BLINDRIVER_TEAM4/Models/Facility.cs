@@ -20,7 +20,7 @@ namespace BLINDRIVER_TEAM4.Models
         public string PostalCode { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }
-        public byte[] Photo { get; set; }
+        public string Photo { get; set; }
         public Nullable<int> UnitNumber { get; set; }
         public System.DateTime EnteredDate { get; set; }
         public Nullable<int> EnteredBy { get; set; }

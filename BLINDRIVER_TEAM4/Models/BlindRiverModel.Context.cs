@@ -34,7 +34,6 @@ namespace BLINDRIVER_TEAM4.Models
         public DbSet<DoctorAppointment> DoctorAppointments { get; set; }
         public DbSet<DoctorAvailableDate> DoctorAvailableDates { get; set; }
         public DbSet<DoctorAvailableTime> DoctorAvailableTimes { get; set; }
-        public DbSet<Facility> Facilities { get; set; }
         public DbSet<FAQ> FAQs { get; set; }
         public DbSet<Location> Locations { get; set; }
         public DbSet<Member> Members { get; set; }
@@ -42,15 +41,17 @@ namespace BLINDRIVER_TEAM4.Models
         public DbSet<Service> Services { get; set; }
         public DbSet<Severity> Severities { get; set; }
         public DbSet<VoluteerPost> VoluteerPosts { get; set; }
-        public DbSet<PatientVisitingHour> PatientVisitingHours { get; set; }
         public DbSet<Review> Reviews { get; set; }
         public DbSet<ReviewCategory> ReviewCategories { get; set; }
-        public DbSet<VisitingSchedule> VisitingSchedules { get; set; }
         public DbSet<Event> Events { get; set; }
         public DbSet<EventMemberStatu> EventMemberStatus { get; set; }
         public DbSet<Patient> Patients { get; set; }
         public DbSet<Donation> Donations { get; set; }
         public DbSet<PaymentInfo> PaymentInfoes { get; set; }
         public DbSet<VolunteerInfo> VolunteerInfoes { get; set; }
+        public DbSet<LiveChat> LiveChats { get; set; }
+        public DbSet<VisitingSchedule> VisitingSchedules { get; set; }
+        public DbSet<Facility> Facilities { get; set; }
+        public DbSet<PatientVisitingHour> PatientVisitingHours { get; set; }
     }
 }
