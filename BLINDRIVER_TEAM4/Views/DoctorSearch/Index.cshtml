@@ -4,8 +4,9 @@
 }
 
 <h2>Doctor Search</h2>
-
-using (Html.BeginForm())
+<div class="row">
+    <div class="col-md-6">
+@using (Html.BeginForm())
 {
 @Html.AntiForgeryToken()
 
@@ -30,7 +31,7 @@ using (Html.BeginForm())
     </div>
 
     <div class="form-group">
-        @Html.Label("DepartmentName", htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.Label("Department Name", htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
             @Html.DropDownList("DepartmentName", (SelectList)ViewBag.ddlDepartment, new { htmlAttributes = new { @class = "form-control" } })
             @Html.ValidationMessage("DepartmentName", "", new { @class = "text-danger" })
@@ -60,82 +61,71 @@ using (Html.BeginForm())
     </div>
 </div>
 }
+        </div>
+    <div class="col-md-6">
 
-@{
+        @{
 
-    var doctor = new BLINDRIVER_TEAM4.Models.DoctorSearchViewModel();
-}
-@if (Model.Doctors != null)
-{
-
-    <table class="table">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.FirstName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LastName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Department.DepartmentName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Gender)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Language)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.YearOfExperience)
-
-            <th>
-                @Html.DisplayNameFor(model => model.Text)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Photo)
-            </th>
-
-            <th></th>
-        </tr>
-
-
-        @foreach (var item in Model.Doctors)
+            var doctor = new BLINDRIVER_TEAM4.Models.DoctorSearchViewModel();
+        }
+        @if (Model.Doctors != null)
         {
 
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FirstName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.LastName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Department.DepartmentName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Gender)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Language)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.YearOfExperience)
-                </td>
+            <table class="table">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.LastName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Department.DepartmentName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Gender)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Language)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.YearOfExperience)
+                        </th>
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.Text)
-                </td>
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.Photo)
-                </td>
 
-            </tr>
+                </tr>
+
+
+                @foreach (var item in Model.Doctors)
+                {
+
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FirstName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.LastName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Department.DepartmentName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Gender)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Language)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.YearOfExperience)
+                        </td>
+
+                    </tr>
+                }
+            </table>
         }
-    </table>
-}
-
-
+        </div>
+    </div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
