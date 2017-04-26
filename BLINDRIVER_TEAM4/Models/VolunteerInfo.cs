@@ -15,7 +15,7 @@ namespace BLINDRIVER_TEAM4.Models
     public partial class VolunteerInfo
     {
         public int Id { get; set; }
-        public System.DateTime ApplyDate { get; set; }
+        public System.DateTime ApplyDate { get; set; } = DateTime.Now;
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
         public string LastName { get; set; }

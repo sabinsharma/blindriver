@@ -1,0 +1,60 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDSf_EbpYea-Kat1ceryqlTmWE3lauEADo"></script>
+<script type="text/javascript">
+var markers = [
+
+            {
+            "title": '1st entrance',
+            "lat": '43.7292086',
+            "lng": '-79.6081434',
+            "description": 'This is the hospital main entrance'
+        }
+
+    ,
+    {
+        "title": '2nd entrance',
+        "lat": '43.7282666',
+        "lng": '-79.6086048',
+        "description": 'closed'
+    },
+    {
+        "title": '3rd entrance',
+        "lat": '43.7295686',
+        "lng": '-79.6097259',
+        "description": 'this is for staff only'
+    }
+];
+</script>
+<script type="text/javascript">
+    window.onload = function () {
+        var mapOptions = {
+            center: new google.maps.LatLng(markers[0].lat, markers[0].lng),
+            zoom: 18,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        var infoWindow = new google.maps.InfoWindow();
+        var map = new google.maps.Map(document.getElementById("dvMap"), mapOptions);
+        for (i = 0; i < markers.length; i++) {
+            var data = markers[i]
+            var myLatlng = new google.maps.LatLng(data.lat, data.lng);
+            var marker = new google.maps.Marker({
+                position: myLatlng,
+                map: map,
+                title: data.title
+            });
+            (function (marker, data) {
+                google.maps.event.addListener(marker, "click", function (e) {
+                    infoWindow.setContent(data.description);
+                    infoWindow.open(map, marker);
+                });
+            })(marker, data);
+        }
+    }
+</script>
+<div id="dvMap" style="width: 500px; height: 500px">
+</div>
+

@@ -151,10 +151,17 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AdminContactsController.cs" />
     <Compile Include="Controllers\ContactsController.cs" />
+    <Compile Include="Controllers\DoctorsController.cs" />
+    <Compile Include="Controllers\DoctorSearchController.cs" />
     <Compile Include="Controllers\EventsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LocationController.cs" />
     <Compile Include="Controllers\MembersAdminController.cs" />
     <Compile Include="Controllers\MembersController.cs" />
+    <Compile Include="Controllers\VolApplyFormController.cs" />
+    <Compile Include="Controllers\VolApplyInfoController.cs" />
+    <Compile Include="Controllers\VolunteerViewController.cs" />
+    <Compile Include="Controllers\VoluteerPostsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -200,6 +207,7 @@
     <Compile Include="Models\DoctorAvailableTime.cs">
       <DependentUpon>BlindRiverModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DoctorSearchViewModel.cs" />
     <Compile Include="Models\Donation.cs">
       <DependentUpon>BlindRiverModel.tt</DependentUpon>
     </Compile>
@@ -367,6 +375,26 @@
     <Content Include="Views\Events\Details.cshtml" />
     <Content Include="Views\Events\Edit.cshtml" />
     <Content Include="Views\Events\Index.cshtml" />
+    <Content Include="Views\VoluteerPosts\Create.cshtml" />
+    <Content Include="Views\VoluteerPosts\Delete.cshtml" />
+    <Content Include="Views\VoluteerPosts\Details.cshtml" />
+    <Content Include="Views\VoluteerPosts\Edit.cshtml" />
+    <Content Include="Views\VoluteerPosts\Index.cshtml" />
+    <Content Include="Views\VolunteerView\Index.cshtml" />
+    <Content Include="Views\VolunteerView\Details.cshtml" />
+    <Content Include="Views\VolApplyInfo\Create.cshtml" />
+    <Content Include="Views\VolApplyInfo\Delete.cshtml" />
+    <Content Include="Views\VolApplyInfo\Details.cshtml" />
+    <Content Include="Views\VolApplyInfo\Edit.cshtml" />
+    <Content Include="Views\VolApplyInfo\Index.cshtml" />
+    <Content Include="Views\VolApplyForm\Create.cshtml" />
+    <Content Include="Views\Doctors\Create.cshtml" />
+    <Content Include="Views\Doctors\Delete.cshtml" />
+    <Content Include="Views\Doctors\Details.cshtml" />
+    <Content Include="Views\Doctors\Edit.cshtml" />
+    <Content Include="Views\Doctors\Index.cshtml" />
+    <Content Include="Views\Location\Index.cshtml" />
+    <Content Include="Views\DoctorSearch\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
