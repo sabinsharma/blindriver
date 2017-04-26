@@ -17,37 +17,22 @@ namespace BLINDRIVER_TEAM4
         public override System.Threading.Tasks.Task OnConnected()
         {
             string clientId = Context.ConnectionId;
-            string data = clientId;
-            string count = "";
-            try
-            {
-                //count = GetCount().ToString();
-                count = "1";
-            }
-            catch (Exception d)
-            {
-                count = d.Message;
-            }
-            LiveChat admin = db.LiveChats.FirstOrDefault();
+            LiveChat admin = db.LiveChats.OrderByDescending(l=>l.Id).FirstOrDefault();
             string adminId = (admin != null) ? admin.ContextId : "";
-            Clients.Caller.receiveMessage("ChatHub", data, adminId);
+            Clients.Caller.receiveMessage("ChatHub", clientId, adminId);
             return base.OnConnected();
         }
 
         [HubMethodName("hubconnect")]
         public void Get_Connect(String username, String userid, String connectionid)
         {
-            string count = "";
             string msg = "";
-            string list = "";
             var id = Context.ConnectionId;
             // check if user is admin
             Member admin = db.Members.Where(m => m.Username == username && m.RoleId == 3).FirstOrDefault();
             if (admin != null)
             {
-                count = "1";
-                msg = "Welcome back " + username;
-                list = "";
+                msg = "Admin " + username + " is online";
 
                 LiveChat livechat = new LiveChat();
                 livechat.AdminId = admin.Id;
@@ -58,20 +43,18 @@ namespace BLINDRIVER_TEAM4
 
                 string[] Exceptional = new string[1];
                 Exceptional[0] = id;
-                Clients.Caller.receiveMessage("RU", msg, list);
-                Clients.AllExcept(Exceptional).receiveMessage("AdminOnline", username + " " + id, count);
+                Clients.Caller.receiveMessage("RU", msg, "");
+                Clients.AllExcept(Exceptional).receiveMessage("AdminOnline", username, id);
 
             }
             else
             {
-                count = "1";
                 msg = "Welcome to Waterway Hospital Live Chat!";
-                list = "";
 
                 string[] Exceptional = new string[1];
                 Exceptional[0] = id;
-                Clients.Caller.receiveMessage("RU", msg, list);
-                Clients.AllExcept(Exceptional).receiveMessage("NewConnection", username + " " + id, count);
+                //Clients.Caller.receiveMessage("RU", msg, "");
+                Clients.AllExcept(Exceptional).receiveMessage("NewConnection", username, id);
             }           
         }
 
@@ -85,18 +68,7 @@ namespace BLINDRIVER_TEAM4
 
         public override System.Threading.Tasks.Task OnDisconnected(bool stopCalled)
         {
-            string count = "";
-            string msg = "";
             string clientId = Context.ConnectionId;
-            //DeleteRecord(clientId);
-            try
-            {
-                count = "0";
-            }
-            catch (Exception d)
-            {
-                msg = "DB Error " + d.Message;
-            }
 
             LiveChat livechat = db.LiveChats.Where(l => l.ContextId == clientId).FirstOrDefault();
             if (livechat != null)
@@ -107,7 +79,7 @@ namespace BLINDRIVER_TEAM4
 
             string[] Exceptional = new string[1];
             Exceptional[0] = clientId;
-            Clients.AllExcept(Exceptional).receiveMessage("NewConnection", clientId + " leave", count);
+            Clients.AllExcept(Exceptional).receiveMessage("ConnectionLost", clientId + " leave", clientId);
             return base.OnDisconnected(stopCalled);
         }
     }

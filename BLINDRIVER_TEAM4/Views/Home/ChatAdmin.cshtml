@@ -40,13 +40,19 @@
     <script>
 
         $(document).ready(function () {
+            $("#txtMsg").keyup(function (event) {
+                if (event.keyCode == 13) {
+                    if ($("#txtMsg").val() !== "") {
+                        chatProxy.server.privatemessage($("#spnName").text(), $("#txtMsg").val(), $("#txtTo").val());
+                        $('#txtMsg').val('').focus();
+                    }
+                }
+            });
+
             //var _name = window.prompt("Please Enter your name");
             var _name = $("#username").text().substring(10);
             $("#spnName").text(_name);
             $('#txtMsg').val('');
-
-            //This will take the user name and display it to the <span id="spnName"></span>.
-            //Declare the proxy instance using the auto-generated proxy class
 
             var chatProxy = $.connection.chatHub;
 
@@ -58,31 +64,19 @@
                 } catch (e) { alert(e.message); }
 
                 $("#btnSend").click(function () {
-
-                    // Send private Message to the Hub using the proxy instance
-
-                    //chatProxy.server.privatemessage($("#spnName").text(), $("#txtMsg").val(), $("#txtTo").val());
-                    //9b504eb5-ac21-4434-8ec7-1fbcaaaa6936
                     chatProxy.server.privatemessage($("#spnName").text(), $("#txtMsg").val(), $("#txtTo").val());
                     $('#txtMsg').val('').focus();
                 })
-            })
+            });
 
-            //Callback function which the hub will call when it has finished processing,
-            // is attached to the proxy
             chatProxy.client.receiveMessage = function (msgFrom, msg, senderid) {
                 if (msgFrom == "NewConnection") {
-                    //displays new client connected information to other users than connected one
-                    //$("#usersCount").text(senderid);
                     $('#divUsers').append('<li>' + msg + '</li>')
                 }
                 else if (msgFrom == "ChatHub") {
-                    //displays the total online user counts and connection id of current user to himself only
-                    //$("#usersCount").text(senderid);
                     $("#connID").text(msg);
                 }
                 else if (msgFrom == "AdminOnline") {
-                    //$("#usersCount").text(senderid);
                     $("#connID").text(msg);
                 }
                 else if (msgFrom == "RU") {
@@ -99,7 +93,7 @@
                 else {
                     //it displays the message in message window while connection id of sender in a textbox,
                     $("#txtTo").val(senderid);
-                    $('#divChat').append('<li><strong>' + msgFrom
+                    $('#divChat').append('<li><strong>' + senderid
                         + '</strong>:&nbsp;&nbsp;' + msg + '</li>')
                 }
             }

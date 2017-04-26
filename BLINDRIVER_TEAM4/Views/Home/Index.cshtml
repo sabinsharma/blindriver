@@ -44,7 +44,7 @@
                 </a>
             </div>
             <div class="mainFourbox_box">
-                <a href="#">
+                <a id="livechat">
                     <i class="fa fa-comments fa-5x" aria-hidden="true"></i>
                     <h2>Live Chat</h2>
                     <p class="hidden-xs">Lorem ipsum dolor sit amet, consectetur adipiscing elit,</p>
@@ -155,7 +155,133 @@
     <!--END #mainEasylink mobile-->
 </section>
 
+<div id="chatbox">
+    <div style="width: 100%; border: solid 1px Red; height: 40px; display:none;" >
+        <h3 style="margin: 10px 0px 0px 10px">
+            <span id="spnName" style="display:none;"></span>
+            <span id="connID" style="display:none;"></span>
+            <span id="usersCount" style="display:none;"></span>
+            <span id="adminID" style="display:none;"></span>
+        </h3>
+    </div>
+    <div style="width: 100%; border: solid 1px gray; height: 100%">
+        <div style="height: auto; display:none" id="divUsers"></div>
+        <div style="height: 90%" id="divChat"></div>
+        <div style="border: solid 1px gray;">
+            <div style="float: left; width: 20%; padding: 4px; display:none;">
+                <input type="text" style="width: 100%" id="txtTo" />
+            </div>
+            <div style="float: left; width: 75%; padding: 1px">
+                <input type="text" style="width: 100%" id="txtMsg" />
+            </div>
+            <div style="float: right; width: 25%; padding: 1px">
+                <input type="button" id="btnSend" value="Send" style="width: 70px" />
+            </div>
+        </div>
+    </div>
+</div>
 
+<script>
+    $(document).ready(function () {
+        $("#livechat").click(function () {
+            $("#chatbox").toggle("fast", function () {
+                
+            });
+        });
+    });
+</script>
+
+<style>
+    #chatbox {
+        width: 300px;
+        height: 300px;
+        background: white;
+        border: 1px solid black;
+        position: fixed;
+        bottom: 10px;
+        right: 15px;
+        z-index: 1;
+        display: none;
+        /*overflow-y: scroll;*/
+    }
+    #divChat {
+        overflow-y: scroll;
+    }
+</style>
+
+@section scripts {
+    <!--Add reference to the JQuery file-->
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <!-- Add reference to the minified version of the SignarR client library -->
+    <script src="~/Scripts/jquery.signalR-2.2.1.min.js"></script>
+    <!-- Add reference to the auto-generated proxy file -->
+    <script src="~/signalr/hubs"></script>
+
+    <script>
+
+        $(document).ready(function () {
+            $("#txtMsg").keyup(function (event) {
+                if (event.keyCode == 13) {
+                    if ($("#txtMsg").val() !== "")
+                    {
+                        chatProxy.server.privatemessage($("#spnName").text(), $("#txtMsg").val(), $("#adminID").text());
+                        $('#txtMsg').val('').focus();
+                    }
+                }
+            });
+
+            //var _name = window.prompt("Please Enter your name");
+            $("#spnName").text("You");
+            $('#txtMsg').val('');
+
+            var chatProxy = $.connection.chatHub;
+
+            // Call the hubconnect method which saves user details at server and bind the btnClick event when connection to the hub is started
+
+            $.connection.hub.start().done(function () {
+                try {
+                    chatProxy.server.hubconnect($("#spnName").text(), $("#connID").text(), $("#connID").text());
+                } catch (e) { alert(e.message); }
+
+                $("#btnSend").click(function () {
+                    chatProxy.server.privatemessage($("#spnName").text(), $("#txtMsg").val(), $("#adminID").text());
+                    $('#txtMsg').val('').focus();
+                })
+            })
+
+            chatProxy.client.receiveMessage = function (msgFrom, msg, senderid) {
+                if (msgFrom == "NewConnection") {
+                    $('#divUsers').append('<li>' + msg + '</li>')
+                }
+                else if (msgFrom == "ChatHub") {
+                    $("#connID").text(msg);
+                    $("#adminID").text(senderid);
+                }
+                else if (msgFrom == "AdminOnline") {
+                    //$("#connID").text(msg);
+                    $("#adminID").text(senderid);
+                }
+                else if (msgFrom == "RU") {
+                    //this will displays the result of record update in database at server side and update the list of online users
+                    var online = senderid.split('#');
+                    var length = online.length;
+                    for (var i = 0; i < length; i++) {
+                        $('#divUsers').append('<li>' + online[i] + '</li>')
+                    }
+
+                    $('#divChat').append('<li><strong>' + msgFrom
+                        + '</strong>:&nbsp;&nbsp;' + msg + '</li>')
+                }
+                else {
+                    //it displays the message in message window while connection id of sender in a textbox,
+                    $("#txtTo").val(senderid);
+                    $('#divChat').append('<p style="border:1px solid gray;margin:5px;border-radius: 20px;background-color: floralwhite;padding: 5px;"><strong>' + msgFrom
+                        + '</strong>:&nbsp;&nbsp;' + msg + '</p>')
+                }
+            }
+        });
+    </script>
+}
 
 
 

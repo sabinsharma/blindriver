@@ -80,6 +80,12 @@
                     $("#connID").text(msg);
                     $("#adminID").text(senderid);
                 }
+                else if (msgFrom == "AdminOnline") {
+                    //displays the total online user counts and connection id of current user to himself only
+                    //$("#usersCount").text(senderid);
+                    $("#connID").text(msg);
+                    $("#adminID").text(senderid);
+                }
                 else if (msgFrom == "RU") {
                     //this will displays the result of record update in database at server side and update the list of online users
                     var online = senderid.split('#');
