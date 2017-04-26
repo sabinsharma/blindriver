@@ -14,12 +14,17 @@ namespace BLINDRIVER_TEAM4.Models
     
     public partial class PatientVisitingHour
     {
+        public PatientVisitingHour()
+        {
+            this.VisitingSchedules = new HashSet<VisitingSchedule>();
+        }
+    
         public int Id { get; set; }
         public int PatientId { get; set; }
         public System.DateTime VisitingDateFrom { get; set; }
-        public System.DateTime VisitingDateTo { get; set; }
-        public System.DateTime VisitingHourFrom { get; set; }
-        public System.DateTime VisitingHourTo { get; set; }
+        public Nullable<System.DateTime> VisitingDateTo { get; set; }
+        public Nullable<System.TimeSpan> VisitingHourFrom { get; set; }
+        public Nullable<System.TimeSpan> VisitingHourTo { get; set; }
         public int MaxTimeSpan { get; set; }
         public int TimeSpanBetweenVisit { get; set; }
         public Nullable<System.DateTime> EnteredDate { get; set; }
@@ -28,5 +33,6 @@ namespace BLINDRIVER_TEAM4.Models
     
         public virtual Member Member { get; set; }
         public virtual Patient Patient { get; set; }
+        public virtual ICollection<VisitingSchedule> VisitingSchedules { get; set; }
     }
 }

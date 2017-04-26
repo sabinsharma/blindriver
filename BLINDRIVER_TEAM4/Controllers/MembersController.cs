@@ -12,16 +12,19 @@ using System.Web.Security;
 
 namespace BLINDRIVER_TEAM4.Controllers
 {
+
     public class MembersController : Controller
     {
         private BlindRiverContext db = new BlindRiverContext();
 
-        [HttpGet]
-        [AllowAnonymous]
+        //[HttpGet]
+        //[AllowAnonymous]
+        [Authorize(Roles = "Admin, Staff, Member")]
         // GET: Members
         public ActionResult Index()
         {
-            var members = db.Members.Include(m => m.Role).Where(m => m.RoleId > 0).OrderByDescending(m => m.RoleId);           
+            //var members = db.Members.Include(m => m.Role).Where(m => m.RoleId > 0).OrderByDescending(m => m.RoleId);
+            var members = db.Members.Include(m => m.Role).OrderByDescending(m => m.RoleId);
             return View(members.ToList());
         }
 
@@ -35,7 +38,7 @@ namespace BLINDRIVER_TEAM4.Controllers
                                        || m.Gender.Contains(searchString)
                                        || m.PostalCode.Contains(searchString)
                                        || m.JoinedDay.ToString().Contains(searchString)
-                                       || m.Role.RoleName.Contains(searchString)) && m.RoleId > 0).OrderByDescending(m => m.RoleId).ToList();
+                                       || m.Role.RoleName.Contains(searchString))).OrderByDescending(m => m.RoleId).ToList();
             return PartialView("_AdminPartialView_Index", mem);
         }
 
@@ -49,18 +52,31 @@ namespace BLINDRIVER_TEAM4.Controllers
         [HttpPost]
         public ActionResult Login(Member user)
         {
+            string returnUrl = Request.QueryString["ReturnUrl"];
+            HttpCookie authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
+            if (authCookie != null)
+            {
+                FormsAuthentication.SignOut();
+            }
             // compared user input with db
             // check if username and password exist
-            int count = db.Members.Where(u => u.Username == user.Username && u.Password == user.Password).Count();
-            if (count == 0)
+            var one = db.Members.Where(u => u.Username == user.Username && u.Password == user.Password).FirstOrDefault();
+            if (one == null)
             {
-                ViewBag.Message = "Invalid login";
+                ModelState.AddModelError("", "Invalid Username or Password! Please try again.");
                 return View();
             }
             else
             {
-                FormsAuthentication.SetAuthCookie(user.Username, false);
-                return RedirectToAction("Index", "Members"); // go to the index of the Users Controller when logging successfully
+                FormsAuthentication.SetAuthCookie(one.Username+ "|" + one.Id, false);
+                if (returnUrl == null || returnUrl == "")
+                {
+                    return RedirectToAction("Index", "Home"); // go to the index of the Users Controller when logging successfully
+                }
+                else
+                {
+                    return Redirect(returnUrl);
+                }
             }
         }
 
@@ -73,7 +89,7 @@ namespace BLINDRIVER_TEAM4.Controllers
                 return Redirect(returnUrl);
             }
             ViewBag.Message = "You have been successfully logged out";
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Home");
         }
 
         //[HttpPost]
@@ -82,6 +98,7 @@ namespace BLINDRIVER_TEAM4.Controllers
         //    return Json(!db.Members.Any(x => x.Username == UserName), JsonRequestBehavior.AllowGet);
         //}
 
+        [Authorize(Roles = "Admin, Staff, Member, Visitor")]
         // GET: Members/Details/5
         public ActionResult Details(int? id)
         {
@@ -96,8 +113,7 @@ namespace BLINDRIVER_TEAM4.Controllers
             }
             return View(member);
         }
-
-        [Authorize(Roles = "Admin, Staff")]
+        
         // GET: Members/Create
         public ActionResult Create()
         {
@@ -146,7 +162,7 @@ namespace BLINDRIVER_TEAM4.Controllers
             return View(member);
         }
 
-        [Authorize(Roles = "Admin, Staff")]
+        [Authorize(Roles = "Admin, Staff, Member, Visitor")]
         // GET: Members/Edit/5
         public ActionResult Edit(int? id)
         {

@@ -10,6 +10,7 @@ using BLINDRIVER_TEAM4.Models;
 
 namespace BLINDRIVER_TEAM4.Controllers
 {
+    [Authorize(Roles = "Admin, Staff")]
     public class MembersAdminController : Controller
     {
         private BlindRiverContext db = new BlindRiverContext();
@@ -30,7 +31,7 @@ namespace BLINDRIVER_TEAM4.Controllers
                                        || m.Email.Contains(searchString)
                                        || m.Gender.Contains(searchString)
                                        || m.PostalCode.Contains(searchString)
-                                       || m.Role.RoleName.Contains(searchString)) && m.RoleId > 0).OrderByDescending(m => m.RoleId).ToList();
+                                       || m.Role.RoleName.Contains(searchString))).OrderByDescending(m => m.RoleId).ToList();
             return PartialView("_AdminPartialView_Index", mem);
         }
 

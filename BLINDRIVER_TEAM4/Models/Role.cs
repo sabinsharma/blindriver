@@ -11,7 +11,8 @@ namespace BLINDRIVER_TEAM4.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Role
     {
         public Role()
@@ -20,6 +21,7 @@ namespace BLINDRIVER_TEAM4.Models
         }
     
         public int Id { get; set; }
+        [Display(Name = "Role Name")]
         public string RoleName { get; set; }
     
         public virtual ICollection<Member> Members { get; set; }

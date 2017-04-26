@@ -31,7 +31,7 @@
     function search() {
         var search = $("#admin-search").val();
         $.ajax({
-            url: "@Url.Action("SearchUsers", "Members")",
+            url: "@Url.Action("SearchUsers", "MembersAdmin")",
             type: "GET", //
             data: { searchString: search },
             success: function (result) {
@@ -126,9 +126,18 @@
             @Html.DisplayFor(modelItem => item.Role.RoleName)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+            @if (@HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString().Contains("admin") &&
+                Convert.ToInt32(FormsAuthentication.Decrypt(Request.Cookies[FormsAuthentication.FormsCookieName].Value).Name.Split('|')[1]) == 3)
+            {
+            @Html.ActionLink("Edit | ", "Edit", new { id = item.Id })
+            }
+            @Html.ActionLink("Details", "Details", new { id = item.Id })
+            @if (@HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString().Contains("admin") &&
+                Convert.ToInt32(FormsAuthentication.Decrypt(Request.Cookies[FormsAuthentication.FormsCookieName].Value).Name.Split('|')[1]) == 3)
+            {
+                @Html.ActionLink(" | Delete", "Delete", new { id = item.Id })
+            }
+            
         </td>
     </tr>
 }

@@ -1,0 +1,137 @@
+﻿@model BLINDRIVER_TEAM4.Models.Event
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Details";
+}
+
+<h2>Prticipate</h2>
+@section Scripts {
+    <script src="https://cloud.tinymce.com/stable/tinymce.min.js"></script>
+    <script>
+        tinymce.init({
+            selector: 'textarea',
+            height: 300,
+            toolbar: 'undo redo',
+            menubar: false,
+            readonly: 1,
+            image_advtab: true,
+            content_css: [
+                '//fonts.googleapis.com/css?family=Lato:300,300i,400,400i',
+                '//www.tinymce.com/css/codepen.min.css'
+            ]
+        });
+    </script>
+}
+<div>
+    <h4>You are invited to this event</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Content)
+        </dt>
+
+        <dd>
+            @Html.EditorFor(model => model.Content)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DateTime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateTime)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Place)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Place)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NumberInvited)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NumberInvited)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NumberGoing)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NumberGoing)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NumberDeclined)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NumberDeclined)
+        </dd>  
+
+        <dt>
+            @Html.DisplayName("Created By")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Member.Username)
+        </dd>
+
+    </dl>
+</div>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Please select your option for this event:</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id)
+        @Html.HiddenFor(model => model.Title)
+        @Html.HiddenFor(model => model.Place)
+        @Html.HiddenFor(model => model.Content)
+        @Html.HiddenFor(model => model.Active)
+        @Html.HiddenFor(model => model.DateTime)
+        @Html.HiddenFor(model => model.EnteredBy)
+        @Html.HiddenFor(model => model.EnteredDate)
+        @Html.HiddenFor(model => model.NumberInvited)
+        @Html.HiddenFor(model => model.NumberGoing)
+        @Html.HiddenFor(model => model.NumberDeclined)
+
+        <div class="form-group">
+            @Html.Label("Your option", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="hidden" name="OldStatus" value="@ViewBag.MemberStatus.Status"/>
+                @Html.RadioButton("MemberStatus", "Going", (@ViewBag.MemberStatus.Status == "Going") ? true : false)<span> Going</span>
+                @Html.RadioButton("MemberStatus", "Decline", (@ViewBag.MemberStatus.Status == "Decline") ? true : false)<span> Decline</span>
+                @Html.ValidationMessage("MemberStatus", "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+<p>
+    @Html.ActionLink("Back to List", "Index")
+</p>
+

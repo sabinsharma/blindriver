@@ -7,9 +7,9 @@
 
 <h2>Member List</h2>
 
-<p style="text-align:right;">
+@*<p style="text-align:right;">
     @Html.ActionLink("Register Member", "Create", null, new { @class = "btn btn-default" })
-</p>
+</p>*@
 @*@using (Html.BeginForm())
 {
     <p>
@@ -121,7 +121,7 @@
             @Html.DisplayFor(modelItem => item.Role.RoleName)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @*@Html.ActionLink("Edit", "Edit", new { id=item.Id }) |*@
             @Html.ActionLink("Details", "Details", new { id=item.Id }) 
             @*@Html.ActionLink("Delete", "Delete", new { id=item.Id })*@
         </td>

@@ -1,0 +1,120 @@
+﻿@model BLINDRIVER_TEAM4.Models.Event
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+@section Scripts {
+    <script src="https://cloud.tinymce.com/stable/tinymce.min.js"></script>
+    <script>
+        tinymce.init({
+            selector: 'textarea',
+            height: 300,
+            toolbar: 'undo redo',
+            menubar: false,
+            readonly: 1,
+            image_advtab: true,
+            content_css: [
+                '//fonts.googleapis.com/css?family=Lato:300,300i,400,400i',
+                '//www.tinymce.com/css/codepen.min.css'
+            ]
+        });
+    </script>
+}
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Event</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Content)
+        </dt>
+
+        <dd>
+           @Html.EditorFor(model => model.Content)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DateTime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateTime)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NumberInvited)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NumberInvited)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NumberGoing)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NumberGoing)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NumberDeclined)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NumberDeclined)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Active)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Active)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EnteredDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EnteredDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Place)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Place)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("Created By")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Member.Username)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

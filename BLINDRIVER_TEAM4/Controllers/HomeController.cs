@@ -26,5 +26,16 @@ namespace BLINDRIVER_TEAM4.Controllers
 
             return View();
         }
+
+        public ActionResult Chat()
+        {
+            return View();
+        }
+
+        [Authorize(Roles = "Admin")]
+        public ActionResult ChatAdmin()
+        {
+            return View();
+        }
     }
 }

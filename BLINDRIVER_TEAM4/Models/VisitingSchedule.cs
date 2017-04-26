@@ -15,13 +15,13 @@ namespace BLINDRIVER_TEAM4.Models
     public partial class VisitingSchedule
     {
         public int Id { get; set; }
+        public int PatientVisitingHourId { get; set; }
         public int PatientId { get; set; }
-        public int VisitorId { get; set; }
-        public System.DateTime BookedFrom { get; set; }
-        public System.DateTime BookedTo { get; set; }
+        public System.TimeSpan BookedFrom { get; set; }
+        public System.TimeSpan BookedTo { get; set; }
         public System.DateTime AppointmentDate { get; set; }
     
-        public virtual Member Member { get; set; }
         public virtual Patient Patient { get; set; }
+        public virtual PatientVisitingHour PatientVisitingHour { get; set; }
     }
 }
