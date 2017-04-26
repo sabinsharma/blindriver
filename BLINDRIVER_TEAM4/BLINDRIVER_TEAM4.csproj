@@ -310,6 +310,9 @@
     <Content Include="image\NotLatestlogo.jpg" />
     <Content Include="image\OLDlogo.png" />
     <Content Include="image\sample-1140x400.png" />
+    <Content Include="image\sample1.png" />
+    <Content Include="image\sample2.png" />
+    <Content Include="image\Sample3.png" />
     <Content Include="image\UserImage\aaa.jpg" />
     <Content Include="image\UserImage\angel.jpg" />
     <Content Include="image\UserImage\duc.jpg" />
