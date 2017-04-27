@@ -136,6 +136,16 @@ namespace BLINDRIVER_TEAM4.Controllers
                 {
                     @event.NumberInvited += Members.Count();
                 }
+                else {
+                    foreach (var m in Members)
+                    {
+                        EventMemberStatu evm = new EventMemberStatu();
+                        evm.EventId = @event.Id;
+                        evm.MemberId = m;
+                        evm.Status = "Invited";
+                        db.EventMemberStatus.Add(evm);
+                    }
+                }
                 
                 db.Entry(@event).State = EntityState.Modified;
                 db.SaveChanges();
