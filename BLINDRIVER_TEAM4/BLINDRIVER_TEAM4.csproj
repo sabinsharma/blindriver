@@ -316,10 +316,12 @@
     <Content Include="image\UserImage\aaa.jpg" />
     <Content Include="image\UserImage\angel.jpg" />
     <Content Include="image\UserImage\duc.jpg" />
+    <Content Include="image\UserImage\ironman.jpg" />
     <Content Include="image\UserImage\john.png" />
     <Content Include="image\UserImage\lee.jpg" />
     <Content Include="image\UserImage\lenoir.jpg" />
     <Content Include="image\UserImage\leonel_messi.jpg" />
+    <Content Include="image\UserImage\marksman.jpg" />
     <Content Include="image\UserImage\unavailable.png" />
     <Content Include="Models\BlindRiverModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

@@ -19,7 +19,7 @@ namespace BLINDRIVER_TEAM4.Controllers
 
         //[HttpGet]
         //[AllowAnonymous]
-        [Authorize(Roles = "Admin, Staff, Member")]
+        [Authorize(Roles = "Admin, Staff, Member, Visitor")]
         // GET: Members
         public ActionResult Index()
         {
