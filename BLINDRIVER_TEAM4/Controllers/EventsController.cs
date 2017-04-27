@@ -21,7 +21,7 @@ namespace BLINDRIVER_TEAM4.Controllers
         {
             FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(Request.Cookies[FormsAuthentication.FormsCookieName].Value);
             int id = Convert.ToInt32(ticket.Name.Split('|')[1]);
-            var events = db.Events.Include(e => e.Member).Join(db.EventMemberStatus, e=>e.Id, ems=>ems.EventId, (e,ems) => new { e, ems }).Where(j=>j.ems.MemberId == id).Select(e=>e.e).OrderBy(e=>e.DateTime);
+            var events = db.Events.Include(e => e.Member).Join(db.EventMemberStatus, e=>e.Id, ems=>ems.EventId, (e,ems) => new { e, ems }).Where(j=>j.ems.MemberId == id).Select(e=>e.e).OrderBy(e=>e.DateTime).Where(e=>e.Active);
             //var events = db.Events.Include(e => e.Member);
             return View(events.ToList());
         }
@@ -203,13 +203,15 @@ namespace BLINDRIVER_TEAM4.Controllers
                     }
 
                     db.Entry(@event).State = EntityState.Modified;
-                    db.Entry(@event).Property(x => x.EnteredDate).IsModified = false;                    
+                    db.Entry(@event).Property(x => x.EnteredDate).IsModified = false;
+                    db.Entry(@event).Property(x => x.Active).IsModified = false;
                     db.SaveChanges();
                     return RedirectToAction("Index");
                 }
-                return View(@event);
+                return RedirectToAction("Index");
             }           
-            return View(@event);
+            //return View(@event);
+            return RedirectToAction("Index");
         }
     }
 }

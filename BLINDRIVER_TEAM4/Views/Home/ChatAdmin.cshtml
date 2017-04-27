@@ -13,7 +13,7 @@
         <span id="usersCount"></span>
     </h3>
 </div>
-<div style="width: 55%; border: solid 1px Red; height: auto">
+<div style="width: 55%; border: solid 1px Red; height: auto; max-height:600px;overflow-y: scroll;">
     <div style="height: auto" id="divUsers"></div>
     <div style="height: 70%" id="divChat"></div>
     <div style="border: dashed 1px Black; margin-top:5%;">
@@ -71,7 +71,7 @@
 
             chatProxy.client.receiveMessage = function (msgFrom, msg, senderid) {
                 if (msgFrom == "NewConnection") {
-                    $('#divUsers').append('<li>' + msg + '</li>')
+                    $('#divUsers').append('<li>' + msg + '</li>');
                 }
                 else if (msgFrom == "ChatHub") {
                     $("#connID").text(msg);
@@ -84,17 +84,18 @@
                     var online = senderid.split('#');
                     var length = online.length;
                     for (var i = 0; i < length; i++) {
-                        $('#divUsers').append('<li>' + online[i] + '</li>')
+                        $('#divUsers').append('<li>' + online[i] + '</li>');
                     }
 
                     $('#divChat').append('<li><strong>' + msgFrom
-                        + '</strong>:&nbsp;&nbsp;' + msg + '</li>')
+                        + '</strong>:&nbsp;&nbsp;' + msg + '</li>');
                 }
                 else {
                     //it displays the message in message window while connection id of sender in a textbox,
                     $("#txtTo").val(senderid);
                     $('#divChat').append('<li><strong>' + senderid
-                        + '</strong>:&nbsp;&nbsp;' + msg + '</li>')
+                        + '</strong>:&nbsp;&nbsp;' + msg + '</li>');
+                    $('#divChat').scrollTop($('#divChat')[0].scrollHeight);
                 }
             }
         });

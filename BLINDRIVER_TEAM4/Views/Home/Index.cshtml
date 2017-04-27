@@ -251,7 +251,7 @@
 
             chatProxy.client.receiveMessage = function (msgFrom, msg, senderid) {
                 if (msgFrom == "NewConnection") {
-                    $('#divUsers').append('<li>' + msg + '</li>')
+                    $('#divUsers').append('<li>' + msg + '</li>');
                 }
                 else if (msgFrom == "ChatHub") {
                     $("#connID").text(msg);
@@ -266,17 +266,19 @@
                     var online = senderid.split('#');
                     var length = online.length;
                     for (var i = 0; i < length; i++) {
-                        $('#divUsers').append('<li>' + online[i] + '</li>')
+                        $('#divUsers').append('<li>' + online[i] + '</li>');
                     }
 
                     $('#divChat').append('<li><strong>' + msgFrom
-                        + '</strong>:&nbsp;&nbsp;' + msg + '</li>')
+                        + '</strong>:&nbsp;&nbsp;' + msg + '</li>');
                 }
                 else {
                     //it displays the message in message window while connection id of sender in a textbox,
                     $("#txtTo").val(senderid);
                     $('#divChat').append('<p style="border:1px solid gray;margin:5px;border-radius: 20px;background-color: floralwhite;padding: 5px;"><strong>' + msgFrom
                         + '</strong>:&nbsp;&nbsp;' + msg + '</p>')
+
+                    $('#divChat').scrollTop($('#divChat')[0].scrollHeight);
                 }
             }
         });

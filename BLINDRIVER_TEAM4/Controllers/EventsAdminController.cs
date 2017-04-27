@@ -20,7 +20,8 @@ namespace BLINDRIVER_TEAM4.Controllers
         public ActionResult Index()
         {
             // just show all the active Events
-            var events = db.Events.Include(e => e.Member).Where(e => e.Active).OrderBy(e=>e.DateTime);
+            //var events = db.Events.Include(e => e.Member).Where(e => e.Active).OrderBy(e=>e.DateTime);
+            var events = db.Events.Include(e => e.Member).OrderBy(e => e.DateTime);
             return View(events.ToList());
         }
 
@@ -58,6 +59,15 @@ namespace BLINDRIVER_TEAM4.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (Members == null)
+                {
+                    ModelState.AddModelError("Members", "Please select members invited to the event.");
+                    ViewBag.EnteredBy = new SelectList(db.Members.OrderByDescending(m => m.RoleId).Select(m => new {
+                        Id = m.Id,
+                        Fullname = m.FirstName + " " + m.LastName + " - " + m.Role.RoleName
+                    }), "Id", "Fullname");
+                    return View();
+                }
                 @event.EnteredDate = DateTime.Now.Date;
                 FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(Request.Cookies[FormsAuthentication.FormsCookieName].Value);
                 @event.EnteredBy = Convert.ToInt32(ticket.Name.Split('|')[1]);
@@ -122,7 +132,11 @@ namespace BLINDRIVER_TEAM4.Controllers
                 @event.EnteredDate = DateTime.Now.Date;
                 FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(Request.Cookies[FormsAuthentication.FormsCookieName].Value);
                 @event.EnteredBy = Convert.ToInt32(ticket.Name.Split('|')[1]);
-                @event.NumberInvited += Members.Count();
+                if (Members != null)
+                {
+                    @event.NumberInvited += Members.Count();
+                }
+                
                 db.Entry(@event).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
