@@ -1,0 +1,11 @@
+﻿body {
+}
+
+#feature_title {
+    color: #fff;
+    height: 60px;
+    background-color: #4d0099;
+    font-size: 3em;
+    font-weight: bold;
+    padding-top: 10px;
+}

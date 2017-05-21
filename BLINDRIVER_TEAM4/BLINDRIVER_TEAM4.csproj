@@ -301,6 +301,7 @@
     <Content Include="Content\jquery.datetimepicker.min.css" />
     <Content Include="Content\login.css" />
     <Content Include="Content\style.css" />
+    <Content Include="Content\doctorsearch.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
